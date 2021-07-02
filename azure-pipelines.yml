@@ -1,0 +1,46 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+variables:
+- name: projectName
+  value: Slimes vs. Humans
+  readonly: true
+- name: version
+  value: 0.1f
+
+trigger:
+- develop
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
+
+- script: |
+    echo Add other tasks to build, test, and deploy your project.
+    echo See https://aka.ms/yaml
+  displayName: 'Run a multi-line script'
+
+- task: UnityBuildTask@3
+  inputs:
+    buildTarget: 'Android'
+    outputPath: $(Build.BinariesDirectory)
+    outputFileName: 
+
+- task: AndroidSigning@3
+  inputs:
+    apkFiles: '**/*.apk'
+    apksignerKeystoreFile: 'upload.keystore'
+    apksignerKeystorePassword: '.27!07!2019!Jim.'
+    apksignerKeystoreAlias: 'upload'
+    apksignerKeyPassword: '.27!07!2019!Jim.'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: '$(variables.projectName)_$(variables.version)'
+    publishLocation: 'Container'
+
