@@ -137,3 +137,5 @@ crashlytics-build.properties
 # Compacted files
 *.rar
 *.zip
+
+*.keystore
