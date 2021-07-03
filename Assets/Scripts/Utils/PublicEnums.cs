@@ -18,6 +18,17 @@ public enum Language
     Deutsch
 }
 
+public enum Char_Type
+{
+    Human,
+    Slime,
+}
+public enum Slime_Type
+{
+    Gray,
+    Pink,
+    Blue,
+}
 public static class EnumUtil
 {
     public static IEnumerable<T> GetValues<T>()
