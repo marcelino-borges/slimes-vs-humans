@@ -134,6 +134,9 @@ crashlytics-build.properties
 # Archive with files interesting to the project
 /[Aa]rchives/
 
+#Android Studio Project
+/Android Studio Project/
+
 # Compacted files
 *.rar
 *.zip
