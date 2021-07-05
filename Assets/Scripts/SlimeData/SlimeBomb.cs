@@ -11,5 +11,11 @@ public class SlimeBomb : SlimeBase
         Debug.Log("Click");
         CloneItSelf(this.gameObject, true);
     }
-    
+    private void OnMouseUp()
+    {
+        Debug.Log("Click");
+        CloneItSelf(this.gameObject, true);
+
+    }
+
 }
