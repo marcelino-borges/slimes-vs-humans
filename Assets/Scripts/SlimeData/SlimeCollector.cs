@@ -19,12 +19,15 @@ public class SlimeCollector : SlimeBase
     {
         _navMeshAgent.SetDestination(_target.position);
     }
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.tag == "Humans")
+        if (collision.gameObject.tag == "Human")
         {
             print("human");
-            Explode();
+            CloneItSelf(this.gameObject, true);
+            Destroy(collision.gameObject);
+            Destroy(this.gameObject);
+            
         }
     }
     private void OnMouseDown()

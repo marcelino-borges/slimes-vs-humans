@@ -29,10 +29,12 @@ public abstract class SlimeBase : MonoBehaviour
         Vector3 explosionPos = transform.position;
         Collider[] colliders = Physics.OverlapSphere(explosionPos, _damageRadius);
 
-        foreach(Collider hit in colliders){
+        foreach (Collider hit in colliders)
+        {
             Rigidbody rb = hit.GetComponent<Rigidbody>();
-            if(rb != null){
-                rb.AddExplosionForce(_explosionPower, explosionPos, _damageRadius, _upExplosionPower, ForceMode.Impulse);
+            if (rb != null)
+            {
+                rb.AddExplosionForce(_explosionPower, explosionPos, _damageRadius, _upExplosionPower);
             }
         }
     }
@@ -56,6 +58,10 @@ public abstract class SlimeBase : MonoBehaviour
     {
 
     }
+    public void Launcher(Vector3 direction)
+    {
+
+    }
     private void OnEnable()
     {
 
@@ -64,6 +70,6 @@ public abstract class SlimeBase : MonoBehaviour
     {
 
     }
-
+    public LayerMask TargetToDmg() => _trgLayerToDmg;
 
 }
