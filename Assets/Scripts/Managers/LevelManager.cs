@@ -8,7 +8,6 @@ public class LevelManager : MonoBehaviour
 
     public GameObject gameOverPanel;
     public VictoryMenu victoryMenu;
-    public Player player;
     public bool isGameOver = false;
 
     public int initialObjectivesInLevel = 0;
@@ -24,8 +23,6 @@ public class LevelManager : MonoBehaviour
     {
         if (instance == null)
             instance = this;
-
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
     void Start()

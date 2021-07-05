@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public SoundButton soundButton;
+    public string nextLevelName = "LevelSelection";
 
     private void Start()
     {
@@ -13,7 +14,7 @@ public class MainMenu : MonoBehaviour
     public void Play()
     {
         CommonUI.PlayButtonClickSfx();
-        SceneManager.LoadScene("LevelSelection");
+        SceneManager.LoadScene(nextLevelName);
     }
 
     public void LoadSettingsMenu()

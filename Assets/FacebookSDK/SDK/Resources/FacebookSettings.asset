@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedAppIndex: 0
   clientTokens:
-  - 
+  - fb5ebe8c54797b4108f71506901dfd6b
   appIds:
-  - 
+  - 599635947673671
   appLabels:
-  - 
+  - Slimes vs. Humans
   cookie: 1
   logging: 1
   status: 1
   xfbml: 0
   frictionlessRequests: 1
-  androidKeystorePath: E:\Meus_Projetos_Unity\Ballour-bkp_19-05-2021\upload.keystore
+  androidKeystorePath: E:\Meus_Projetos_Unity\slimes-vs-humans\upload.keystore
   iosURLSuffix: 
   appLinkSchemes:
   - list: []

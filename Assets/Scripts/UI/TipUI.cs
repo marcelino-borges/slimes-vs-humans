@@ -6,7 +6,7 @@ public class TipUI : MonoBehaviour
 {
     private void OnEnable()
     {
-        LevelManager.instance.player.FreezePlayer();
+        //LevelManager.instance.player.FreezePlayer();
     }
 
     public void CloseTip()
@@ -18,7 +18,7 @@ public class TipUI : MonoBehaviour
 
     private void OnDisable()
     {
-        LevelManager.instance.player.UnfreezePlayer();
+        //LevelManager.instance.player.UnfreezePlayer();
     }
 
 }

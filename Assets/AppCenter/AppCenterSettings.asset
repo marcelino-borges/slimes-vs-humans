@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AppCenterSettings
   m_EditorClassIdentifier: 
   iOSAppSecret: 
-  AndroidAppSecret: 
+  AndroidAppSecret: 0e045835-e0d6-40f9-aadf-a72302993bd3
   UWPAppSecret: 
   UseAnalytics: 1
   UseCrashes: 1
@@ -30,7 +30,7 @@ MonoBehaviour:
   AutomaticCheckForUpdate: 1
   InitialLogLevel: 4
   AllowNetworkRequests: 1
-  UpdateTrack: 0
+  UpdateTrack: 1
   CustomLogUrl:
     UrlName: Log
     UseCustomUrl: 0
