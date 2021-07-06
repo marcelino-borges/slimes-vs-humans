@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
     public int starsWonInLevel = 0;
     public GameObject tipCanvas;
     public float delayToShowGameOver = .5f;
+    public Cannon cannonInScene;
 
     private void Awake()
     {

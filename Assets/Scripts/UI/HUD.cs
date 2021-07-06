@@ -7,10 +7,26 @@ using UnityEngine;
 public class HUD : MonoBehaviour
 {
     public static HUD instance;
-    public TextMeshProUGUI healthText;
-    public TextMeshProUGUI scoreText;
-    public GameObject pausePanel;
-    public GameObject damagePanel;
+
+    [SerializeField]
+    private TextMeshProUGUI slimesLeft;
+    [SerializeField]
+    private TextMeshProUGUI slimesTotal;
+    [SerializeField]
+    private TextMeshProUGUI humansHit;
+    [SerializeField]
+    private TextMeshProUGUI humansTotal;
+    [SerializeField]
+    private GameObject pausePanel;
+    [SerializeField]
+    private GameObject damagePanel;
+    [SerializeField]
+    private GameObject slimeTaticPrefab;
+    [SerializeField]
+    private GameObject slimeBombPrefab;
+    [SerializeField]
+    private GameObject slimeCollectorPrefab;
+    public GameObject selectedSlime;
 
     private void Awake()
     { 
@@ -19,16 +35,7 @@ public class HUD : MonoBehaviour
 
     private void Start()
     {
-    }
-
-    public void SetHealth(int health)
-    {
-        healthText.text = health < 10 ? "0" + health : health.ToString();
-    }
-
-    public void SetScore(int score)
-    {
-        scoreText.text = score < 10 ? "0" + score : score.ToString();
+        SelectSlime1();
     }
 
     public void ShowPauseMenu()
@@ -47,5 +54,20 @@ public class HUD : MonoBehaviour
         damagePanel.SetActive(true);
         yield return new WaitForSeconds(.1f);
         damagePanel.SetActive(false);
+    }
+
+    public void SelectSlime1()
+    {
+        selectedSlime = slimeTaticPrefab;
+    }
+
+    public void SelectSlime2()
+    {
+        selectedSlime = slimeCollectorPrefab;
+    }
+
+    public void SelectSlime3()
+    {
+        selectedSlime = slimeBombPrefab;
     }
 }

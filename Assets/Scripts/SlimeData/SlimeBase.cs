@@ -58,7 +58,7 @@ public abstract class SlimeBase : MonoBehaviour
     {
 
     }
-    public void Launcher(Vector3 direction)
+    public void Launch(Vector3 direction)
     {
 
     }
