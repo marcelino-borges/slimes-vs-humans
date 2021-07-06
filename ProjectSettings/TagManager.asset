@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Collectable
+  - Slime
+  - Human
   - Building
   layers:
   - Default
@@ -17,6 +19,8 @@ TagManager:
   - 
   - DestroyableBrick
   - Bomb
+  - Slime
+  - Human
   - Building
   - 
   - 
