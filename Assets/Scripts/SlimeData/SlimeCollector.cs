@@ -14,7 +14,7 @@ public class SlimeCollector : SlimeBase
     private void Start()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
-        _navMeshAgent.speed = Speed;
+        _navMeshAgent.speed = SpeedGround;
     }
     private void Update()
     {

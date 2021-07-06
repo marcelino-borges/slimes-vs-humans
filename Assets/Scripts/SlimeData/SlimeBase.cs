@@ -9,14 +9,15 @@ public abstract class SlimeBase : MonoBehaviour, IDamageable
     [SerializeField] private int _health;
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _hitDamage;
-    [SerializeField] private float _speedMovementInGroud;
+    [SerializeField] private float _speedMovementInGround;
     [SerializeField] private float _speedToLaunch;
-    [SerializeField] private GameObject _slimePrefab;
+    [SerializeField] private GameObject _slimeDecayPrefab;
     [SerializeField] private static int _currentClonesCount;
     [SerializeField] private int _maxCloneCount = 0;
 
-    public float Speed { get => _speedMovementInGroud; }
+    public float SpeedGround { get => _speedMovementInGround; }
     public int HitDamage { get => _hitDamage; }
+    public GameObject SlimeDecayToSpawn{get => _slimeDecayPrefab;}
 
     public void ApplyDamage(int dmg)
     {
@@ -32,13 +33,14 @@ public abstract class SlimeBase : MonoBehaviour, IDamageable
         {
             for (int i = _currentClonesCount; i <= _maxCloneCount - 1; i++)
             {
-                //Instantiate(ObjToClone, transform.position, Quaternion.identity);
+                Instantiate(ObjToClone, transform.position, Quaternion.identity);
             }
         }
     }
     public void Decay()
     {
-
+        Instantiate(_slimeDecayPrefab, transform.position, Quaternion.identity);
+        this.gameObject.SetActive(false);
     }
     public void DecreaseHitPoints()
     {
