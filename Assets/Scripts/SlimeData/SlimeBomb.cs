@@ -7,13 +7,20 @@ public class SlimeBomb : SlimeBase
     [Header("Expecific Attributes")]
     [SerializeField] private string _details;
     [SerializeField] private GameObject spawnObj;
-    private void OnCollisionEnter(Collision collision)
+
+
+    public void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "Collectable")
+        IDamageable damagable = collision.gameObject.GetComponent<IDamageable>();
+        if (damagable != null)
         {
-            Debug.Log(collision);
-            Explode();
+            damagable.ApplyDamage(HitDamage);
         }
+    }
+    private void OnMouseDown()
+    {
+        Vector3 target = Vector3.forward;
+        Launch(target);
     }
 
 }

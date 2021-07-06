@@ -14,6 +14,7 @@ public class SlimeCollector : SlimeBase
     private void Start()
     {
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshAgent.speed = Speed;
     }
     private void Update()
     {
@@ -25,8 +26,6 @@ public class SlimeCollector : SlimeBase
         {
             print("human");
             CloneItSelf(this.gameObject, true);
-            Destroy(collision.gameObject);
-            Destroy(this.gameObject);
             
         }
     }

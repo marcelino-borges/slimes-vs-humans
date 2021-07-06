@@ -2,41 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class SlimeBase : MonoBehaviour
+public abstract class SlimeBase : MonoBehaviour, IDamageable
 {
     [Space(10f)]
     [Header("Basics Attributes")]
     [SerializeField] private int _health;
     [SerializeField] private int _maxHealth;
     [SerializeField] private int _hitDamage;
-    [SerializeField] private float _damageRadius;
-    [SerializeField] private float _explosionPower;
-    [SerializeField] private float _upExplosionPower;
-    [SerializeField] private float _speed;
-    [SerializeField] private LayerMask _trgLayerToDmg;
+    [SerializeField] private float _speedMovementInGroud;
+    [SerializeField] private float _speedToLaunch;
     [SerializeField] private GameObject _slimePrefab;
     [SerializeField] private static int _currentClonesCount;
     [SerializeField] private int _maxCloneCount = 0;
 
+    public float Speed { get => _speedMovementInGroud; }
+    public int HitDamage { get => _hitDamage; }
+
     public void ApplyDamage(int dmg)
     {
-        _health -= dmg;
-        if (_health <= 0)
-            Debug.Log("Die");
-    }
-    public void Explode()
-    {
-        Vector3 explosionPos = transform.position;
-        Collider[] colliders = Physics.OverlapSphere(explosionPos, _damageRadius);
-
-        foreach (Collider hit in colliders)
-        {
-            Rigidbody rb = hit.GetComponent<Rigidbody>();
-            if (rb != null)
-            {
-                rb.AddExplosionForce(_explosionPower, explosionPos, _damageRadius, _upExplosionPower);
-            }
-        }
+        if (_health > 0)
+            _health -= dmg;
+        else
+            this.gameObject.SetActive(false);
     }
 
     public void CloneItSelf(GameObject ObjToClone, bool canClone)
@@ -45,9 +32,8 @@ public abstract class SlimeBase : MonoBehaviour
         {
             for (int i = _currentClonesCount; i <= _maxCloneCount - 1; i++)
             {
-                Instantiate(ObjToClone, transform.position, Quaternion.identity);
+                //Instantiate(ObjToClone, transform.position, Quaternion.identity);
             }
-            Explode();
         }
     }
     public void Decay()
@@ -60,16 +46,23 @@ public abstract class SlimeBase : MonoBehaviour
     }
     public void Launch(Vector3 direction)
     {
+        //var targetDirn = transform.forward;
+        //var elevationAxis = transform.right;
+
+        var releaseAngle = 30f;
+        //var releaseSpeed = 30f;
+
+        var releaseVector = Quaternion.AngleAxis(releaseAngle, transform.right) * direction;
+        this.gameObject.GetComponent<Rigidbody>().velocity = releaseVector * _speedToLaunch;
 
     }
     private void OnEnable()
     {
-
+        _health = _maxHealth;
     }
     private void OnDisable()
     {
-
+        _health = 0;
     }
-    public LayerMask TargetToDmg() => _trgLayerToDmg;
 
 }

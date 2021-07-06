@@ -150,7 +150,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168875408}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.87, y: 7.02, z: 11.3}
+  m_LocalPosition: {x: 13.87, y: 2.03, z: 11.3}
   m_LocalScale: {x: 1.7938, y: 1.7938, z: 1.7938}
   m_Children: []
   m_Father: {fileID: 1823598797}
@@ -10295,7 +10295,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754959763}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.15, y: 10.88, z: 3.88}
+  m_LocalPosition: {x: 13.01, y: 1.4, z: -18.63}
   m_LocalScale: {x: 1.1028641, y: 1.1028641, z: 1.1028641}
   m_Children:
   - {fileID: 953543817}
@@ -10315,15 +10315,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 0
-  _maxHealth: 0
-  _hitDamage: 0
-  _damageRadius: 200
-  _explosionPower: 1000
-  _upExplosionPower: 1
-  _speed: 0
-  _trgLayerToDmg:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  _maxHealth: 3
+  _hitDamage: 1
+  _speedMovementInGroud: 0
+  _speedToLaunch: 0
   _slimePrefab: {fileID: 0}
   _maxCloneCount: 3
   _details: 
@@ -10452,7 +10447,7 @@ GameObject:
   - component: {fileID: 825292550}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
   m_StaticEditorFlags: 8
@@ -15886,15 +15881,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 0
-  _maxHealth: 0
-  _hitDamage: 0
-  _damageRadius: 10
-  _explosionPower: 10
-  _upExplosionPower: 10
-  _speed: 0
-  _trgLayerToDmg:
-    serializedVersion: 2
-    m_Bits: 0
+  _maxHealth: 2
+  _hitDamage: 1
+  _speedMovementInGroud: 0
+  _speedToLaunch: 0
   _slimePrefab: {fileID: 0}
   _maxCloneCount: 10
   _details: 
@@ -16050,13 +16040,8 @@ MonoBehaviour:
   _health: 0
   _maxHealth: 0
   _hitDamage: 0
-  _damageRadius: 0
-  _explosionPower: 0
-  _upExplosionPower: 0
-  _speed: 0
-  _trgLayerToDmg:
-    serializedVersion: 2
-    m_Bits: 0
+  _speedMovementInGroud: 0
+  _speedToLaunch: 0
   _slimePrefab: {fileID: 0}
   _maxCloneCount: 0
   _details: 
