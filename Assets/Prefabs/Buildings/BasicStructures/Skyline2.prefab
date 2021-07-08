@@ -27,8 +27,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.09, y: 0.04, z: 0.03}
-  m_Center: {x: -0.01, y: 0, z: 0.015}
+  m_Size: {x: 0.10261212, y: 0.060577657, z: 0.057107594}
+  m_Center: {x: 0.00057690346, y: -0.003811836, z: 0.02855388}
 --- !u!1001 &132522642743162717
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -110,17 +110,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 79b2fa790e489a044911dae3089442fd, type: 2}
+      objectReference: {fileID: 2100000, guid: 5ee96807329157c409c0c42e1b4b10b4, type: 2}
     - target: {fileID: -5754084199372789682, guid: 79549dce9e3c3bb4783729d19ceb3281,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 9070519247674168921, guid: e5f606145cac9eb47acdbb9ee8ef2908,
+      objectReference: {fileID: 3016340305738478550, guid: cd66ff8e84c327a4fa04c288272612ae,
         type: 3}
     - target: {fileID: 919132149155446097, guid: 79549dce9e3c3bb4783729d19ceb3281,
         type: 3}
       propertyPath: m_Name
-      value: House3
+      value: Skyline2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79549dce9e3c3bb4783729d19ceb3281, type: 3}
