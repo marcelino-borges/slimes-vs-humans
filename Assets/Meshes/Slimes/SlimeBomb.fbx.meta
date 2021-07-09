@@ -10,6 +10,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Dynamite
+    second: {fileID: 2100000, guid: 11c6901c85e49be41866ddfd4a2520c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Eyes
     second: {fileID: 2100000, guid: 35d2c9e607e158547afb924229da862e, type: 2}
   - first:
@@ -17,6 +22,16 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Materiais
     second: {fileID: 2100000, guid: 52ab03d0ca525264f8d0fe5a4933b944, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: corpo
+    second: {fileID: 2100000, guid: 59c743c277b3bc44882939d75cb22d3c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: olhos
+    second: {fileID: 2100000, guid: 35d2c9e607e158547afb924229da862e, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
