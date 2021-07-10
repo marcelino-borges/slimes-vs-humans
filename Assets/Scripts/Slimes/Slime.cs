@@ -6,17 +6,17 @@ public abstract class Slime : MonoBehaviour, IDamageable
 {
     [Space(10f)]
     [Header("SLIMEBASE ATTRIBUTES")]
-    [SerializeField] private int _health;
-    [SerializeField] private int _maxHealth;
-    [SerializeField] private int _damage;
-    [SerializeField] private float _lifeSpan = 2f;
-    [SerializeField] private float _groundSpeed;
-    [SerializeField] private float _launchForce;
-    [SerializeField] private float _launchInclinationAngle;
-    [SerializeField] private GameObject _slimeDecayPrefab;
-    [SerializeField] private static int _currentClonesCount;
-    [SerializeField] private int _maxCloneCount = 0;
-    [SerializeField] private Rigidbody _rb;
+    [SerializeField] protected int _health;
+    [SerializeField] protected int _maxHealth;
+    [SerializeField] protected int _damage;
+    [SerializeField] protected float _lifeSpan = 2f;
+    [SerializeField] protected float _groundSpeed;
+    [SerializeField] protected float _launchForce;
+    [SerializeField] protected float _launchInclinationAngle;
+    [SerializeField] protected GameObject _slimeDecayPrefab;
+    [SerializeField] protected static int _currentClonesCount;
+    [SerializeField] protected int _maxCloneCount = 0;
+    [SerializeField] protected Rigidbody _rb;
 
     public float GroundSpeed { get => _groundSpeed; }
     public int Damage { get => _damage; }
@@ -57,7 +57,7 @@ public abstract class Slime : MonoBehaviour, IDamageable
         gameObject.SetActive(false);
     }
 
-    public virtual void Launch(Vector3 direction, float force = 50f)
+    public virtual void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f, float radianAngle = 0)
     {
         print("force of launch = " + force);
 #if UNITY_EDITOR

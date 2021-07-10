@@ -41,6 +41,21 @@ public class Utils : MonoBehaviour
             GetRandomFloatBetween(zBounds.x, zBounds.y)
         );
     }
+
+    public static float GetVelocityNeededToReachDistance(float targetDistance, float gravity, float radianAngle)
+    {
+        return Mathf.Sqrt((targetDistance * gravity) / Mathf.Sin(2 * radianAngle));
+    }
+
+    public static float GetZMaxDistance(float velocity, float radianAngle, float gravity)
+    {
+        return (Mathf.Pow(velocity, 2) * Mathf.Sin(2 * radianAngle)) / gravity;
+    }
+
+    public static float GetYWhenAtZPosition(float zPosition, float velocity, float radianAngle, float gravity, float y0 = 0)
+    {
+        return y0 + (zPosition * Mathf.Tan(radianAngle)) - ((gravity * Mathf.Pow(zPosition, 2)) / (2 * (Mathf.Pow((velocity * Mathf.Cos(radianAngle)), 2))));
+    }
 }
 
 public static class ExtensionMethods

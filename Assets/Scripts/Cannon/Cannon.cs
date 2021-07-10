@@ -10,10 +10,12 @@ public class Cannon : MonoBehaviour
     private bool _countingLaunchForce;
     private bool _countingLaunchForceUp = true;
     [MinMaxSlider(0f, 1000f)]
-    public Vector2 cannonLaunchForceLimits = new Vector2(50f,1000f);
+    public Vector2 cannonLaunchForceLimits = new Vector2(50f, 1000f);
     private float _currentLaunchForce;
     [SerializeField] private float _launchForceProgressBarVelocity = 2f;
     [SerializeField] private LaunchTrajectory _launchTrajectory;
+    [SerializeField] private Vector3 crossMarkOriginalPosition = new Vector3(-200f, 1.75f, -200f);
+    [SerializeField] private Transform crossMarkInLevel;
 
     protected void Awake()
     {
@@ -66,8 +68,6 @@ public class Cannon : MonoBehaviour
             // Show the launch force bar
             //if(HUD.instance.HasSlimeSelected())
             //    HUD.instance.SetLaunchBarVisible(true);
-
-            //_launchTrajectory.SetLineRendererSettings(launchPoint.position.y, 45f, _currentLaunchForce, touchLength);
         }
 #else
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
@@ -75,13 +75,12 @@ public class Cannon : MonoBehaviour
             touchPosition = Input.GetTouch(0).position;
             hasStartedToAim = true;
             hasTouchedLevel = true;
-            _countingLaunchForce = true;
-
-            if(HUD.instance.HasSlimeSelected())
-                HUD.instance.SetLaunchBarVisible(true);
+            //_countingLaunchForce = true;
+            //if(HUD.instance.HasSlimeSelected())
+            //    HUD.instance.SetLaunchBarVisible(true);
         }      
 #endif
-        if (hasTouchedLevel)
+        if (hasTouchedLevel && HUD.instance.HasSlimeSelected())
         {
             Ray ray = Camera.main.ScreenPointToRay(touchPosition);
 
@@ -90,12 +89,10 @@ public class Cannon : MonoBehaviour
             if (Physics.Raycast(ray,out hitInfo))
             {
                 pointToRay = new Vector3(hitInfo.point.x, launchPoint.position.y, hitInfo.point.z);
+                CalculateVelocityToReachTouchedPoint(pointToRay);
 
-                float touchDistance = Mathf.Abs(pointToRay.z - launchPoint.position.z);
-                float velocityNeededToReachThisDistance = _launchTrajectory.GetVelocityFromTargetDistance(touchDistance);
-                print("velocityNeededToReachThisDistance = " + velocityNeededToReachThisDistance);
+                SetCrossMarkPosition(pointToRay);
 
-                SetLaunchForce(velocityNeededToReachThisDistance);
                 SetLaunchTrajectorySettings();
                 transform.LookAt(pointToRay);
             }
@@ -105,10 +102,12 @@ public class Cannon : MonoBehaviour
         {
             Vector3 from = new Vector3(launchPoint.position.x, launchPoint.position.y, launchPoint.position.z);
             Vector3 to = new Vector3(pointToRay.x, launchPoint.position.y, pointToRay.z);
-            InstantiateSlime(Vector3.Normalize(to - from));
+            if(HUD.instance.HasSlimeSelected())
+                InstantiateSlime(Vector3.Normalize(to - from));
             //Launch Progress bar
             //_countingLaunchForce = false;
             //HUD.instance.SetLaunchBarVisible(false);
+            ResetSetCrossMarkPosition();
             _launchTrajectory.ClearLineRendererPoints();
         }
 #else
@@ -124,12 +123,17 @@ public class Cannon : MonoBehaviour
 #endif
     }
 
+    private void CalculateVelocityToReachTouchedPoint(Vector3 point)
+    {
+        float touchDistance = Mathf.Abs(point.z - launchPoint.position.z);
+        float velocityNeededToReachThisDistance = _launchTrajectory.GetVelocityNeededToReachDistance(touchDistance);
+        SetLaunchForce(velocityNeededToReachThisDistance);
+    }
+
     private void SetLaunchTrajectorySettings()
     {
+        _launchTrajectory.SetMotionParameters(launchPoint.position, pointToRay, _currentLaunchForce);
         _launchTrajectory.MaxXDistance = pointToRay.x;
-        _launchTrajectory.X0 = launchPoint.position.x;
-        _launchTrajectory.Y0 = launchPoint.position.y;
-        _launchTrajectory.Z0 = launchPoint.position.z;
         _launchTrajectory.SetLineRendererSettings();
     }
 
@@ -142,16 +146,30 @@ public class Cannon : MonoBehaviour
 
     private void InstantiateSlime(Vector3 direction)
     {
-        if (HUD.instance.selectedSlime == null) return;
-
         Slime slimeInstantiated = Instantiate(HUD.instance.selectedSlime, launchPoint.position, Quaternion.identity).GetComponent<Slime>();
 
         if(slimeInstantiated != null)
         {
-            slimeInstantiated.Launch(direction, _currentLaunchForce);
+            slimeInstantiated.Launch(direction, pointToRay, _currentLaunchForce, LaunchTrajectory.degreeAngle * Mathf.Deg2Rad);
         }
 
         HUD.instance.ClearSelectedSlime();
+    }
+
+    private void SetCrossMarkPosition(Vector3 position)
+    {
+        //keeping Y position (Terrain fixed position)
+        if (crossMarkInLevel != null)
+        {
+            crossMarkInLevel.gameObject.SetActive(true);
+            crossMarkInLevel.position = new Vector3(position.x, crossMarkInLevel.position.y, position.z);            
+        }
+    }
+
+    private void ResetSetCrossMarkPosition()
+    {
+        if (crossMarkInLevel != null)
+            crossMarkInLevel.gameObject.SetActive(false);
     }
 
 #if UNITY_EDITOR

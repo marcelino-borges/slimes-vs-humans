@@ -6,25 +6,31 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class LaunchTrajectory : MonoBehaviour
 {
-    [SerializeField] private float degreeAngle = 45;
+    public static float degreeAngle = 45;
+    public float DegreeAngle { get => degreeAngle; set => degreeAngle = value; }
     [SerializeField] private float velocity = 10f;
     public int lineResolution = 15; 
 
     LineRenderer line;
-    float x0;
-    float y0;
-    float z0;
     float maxXDistance;
-    float maxZDistance;
+
+    private Vector3 startPosition;
+    public Vector3 StartPosition
+    {
+        get { return startPosition; }
+        set { startPosition = value; }
+    }
+
+    private Vector3 endPosition;
+    public Vector3 EndPosition
+    {
+        get { return endPosition; }
+        set { endPosition = value; }
+    }
 
     float g;
     float radianAngle;
-
-    public float Y0 { get => y0; set => y0 = value; }
-    public float Z0 { get => z0; set => z0 = value; }
-    public float X0 { get => x0; set => x0 = value; }
     public float MaxXDistance { get => maxXDistance; set => maxXDistance = value; }
-    public float MaxZDistance { get => maxZDistance; set => maxZDistance = value; }
     public float Velocity { get => velocity; set => velocity = value; }
 
     protected void Awake()
@@ -42,13 +48,13 @@ public class LaunchTrajectory : MonoBehaviour
         line.SetPositions(CalculateLineRendererPoints());
     }
 
-    private void SetMotionParameters(float y0, float degreeAngle, float velocity, float maxHorizontalDistance, int lineResolution = 15)
+    public void SetMotionParameters(Vector3 startPosition, Vector3 endPosition, float velocity, int lineResolution = 15)
     {
-        this.degreeAngle = degreeAngle;
-        this.Velocity = velocity;
+        radianAngle = degreeAngle * Mathf.Deg2Rad;
+        Velocity = velocity;
         this.lineResolution = lineResolution;
-        this.Y0 = y0;
-        this.MaxZDistance = maxHorizontalDistance;
+        StartPosition = startPosition;
+        EndPosition = endPosition;
     }
 
     private Vector3[] CalculateLineRendererPoints()
@@ -75,17 +81,17 @@ public class LaunchTrajectory : MonoBehaviour
 
     public float GetYWhenAtZPosition(float z)
     {
-        return (z * Mathf.Tan(radianAngle)) - ((g * Mathf.Pow(z, 2)) / (2 * (Mathf.Pow((Velocity * Mathf.Cos(radianAngle)), 2))));
+        return Utils.GetYWhenAtZPosition(z, Velocity, radianAngle, g);
     }
 
     public float GetZMaxDistance()
     {
-        return (Mathf.Pow(Velocity, 2) * Mathf.Sin(2 * radianAngle)) / g;
+        return Utils.GetZMaxDistance(Velocity, radianAngle, g);
     }
 
-    public float GetVelocityFromTargetDistance(float distance)
+    public float GetVelocityNeededToReachDistance(float distance)
     {
-        return Mathf.Sqrt((distance * g) / Mathf.Sin(2 * radianAngle));
+        return Utils.GetVelocityNeededToReachDistance(distance, g, radianAngle);
     }
 
     public void ClearLineRendererPoints()
