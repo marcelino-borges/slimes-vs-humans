@@ -403,6 +403,7 @@ GameObject:
   - component: {fileID: 1087820576}
   - component: {fileID: 2018171680075373904}
   - component: {fileID: 3599508317146566847}
+  - component: {fileID: 7422803559545362263}
   m_Layer: 0
   m_Name: SlimeBomb
   m_TagString: Untagged
@@ -410,29 +411,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< HEAD
---- !u!4 &7139087931584535696
-=======
 --- !u!4 &5636635035163672971
->>>>>>> 1b4caf3d71cc6a12a77d78fab873c42617909f99
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 6462821665093689358}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.16, z: -15.58}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_Children:
-  - {fileID: 6286904090768798804}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &7728762197846672115
-SphereCollider:
-=======
   m_GameObject: {fileID: 5004212905919617841}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -448,22 +432,10 @@ SphereCollider:
 --- !u!95 &1404943966265424990
 Animator:
   serializedVersion: 3
->>>>>>> 1b4caf3d71cc6a12a77d78fab873c42617909f99
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 6462821665093689358}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.1
-  m_Center: {x: 0, y: 0.68, z: 0.11}
---- !u!114 &6260658533789970132
-MonoBehaviour:
-=======
   m_GameObject: {fileID: 5004212905919617841}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
@@ -478,31 +450,10 @@ MonoBehaviour:
   m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!135 &1087820575
 SphereCollider:
->>>>>>> 1b4caf3d71cc6a12a77d78fab873c42617909f99
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 6462821665093689358}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0c663d414bdad146b46e99a79da6a75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _health: 1
-  _maxHealth: 1
-  _damage: 0
-  _lifeSpan: 10
-  _groundSpeed: 0
-  _launchForce: 0
-  _launchInclinationAngle: -45
-  _slimeDecayPrefab: {fileID: 0}
-  _maxCloneCount: 0
-  _rb: {fileID: 0}
-  _launchHeightOffset: 1
---- !u!54 &8188813161514198872
-=======
   m_GameObject: {fileID: 5004212905919617841}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -511,120 +462,18 @@ SphereCollider:
   m_Radius: 1.1
   m_Center: {x: 0, y: 0.6, z: 0.1}
 --- !u!54 &1087820576
->>>>>>> 1b4caf3d71cc6a12a77d78fab873c42617909f99
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 6462821665093689358}
-=======
   m_GameObject: {fileID: 5004212905919617841}
->>>>>>> 1b4caf3d71cc6a12a77d78fab873c42617909f99
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-<<<<<<< HEAD
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 32
-  m_CollisionDetection: 0
---- !u!1001 &5815599073256018879
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 7139087931584535696}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -1546629152283800067, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: aa42a9818b7f7d641b48b2de2f931038, type: 2}
-    - target: {fileID: 919132149155446097, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_Name
-      value: Slime_Bomb_Mesh
-      objectReference: {fileID: 0}
-    - target: {fileID: 2321523695958950486, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: f2c04926539431e4e8730954cace0d3e, type: 2}
-    - target: {fileID: 6442393259705042354, guid: 6098bc4a514c8724b985821062ea3143,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 5a5207b3d4ae2b74f913d114495a602f, type: 2}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 6098bc4a514c8724b985821062ea3143, type: 3}
---- !u!4 &6286904090768798804 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6098bc4a514c8724b985821062ea3143,
-    type: 3}
-  m_PrefabInstance: {fileID: 5815599073256018879}
-  m_PrefabAsset: {fileID: 0}
-=======
-  m_UseGravity: 1
-  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -5407,6 +5256,29 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &7422803559545362263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5004212905919617841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0c663d414bdad146b46e99a79da6a75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: 0
+  _maxHealth: 1
+  _damage: 1
+  _lifeSpan: 5
+  _groundSpeed: 0
+  _launchForce: 0
+  _launchInclinationAngle: 0
+  _slimeDecayPrefab: {fileID: 0}
+  _maxCloneCount: 0
+  _rb: {fileID: 0}
+  _launchHeightOffset: 10
 --- !u!1 &5494557068483241311
 GameObject:
   m_ObjectHideFlags: 0
@@ -5763,4 +5635,3 @@ Transform:
   m_Father: {fileID: 1028017047513897695}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -84.90553, y: 168.99796, z: 160.95007}
->>>>>>> 1b4caf3d71cc6a12a77d78fab873c42617909f99

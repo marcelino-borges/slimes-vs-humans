@@ -1537,6 +1537,12 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4071235670792410267, guid: 93956b8c122c6d74ba7d9ecacb2727f2,
+        type: 3}
+      propertyPath: slimeBombPrefab
+      value: 
+      objectReference: {fileID: 5004212905919617841, guid: 059e41a88a4fcd541a7e1c2bda990968,
+        type: 3}
     - target: {fileID: 4611784214419593347, guid: 93956b8c122c6d74ba7d9ecacb2727f2,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -4461,11 +4467,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7540540523349244321, guid: 83ecef0627696094989706c38799386a,
-        type: 3}
-      propertyPath: m_Parameters.textureMode
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 83ecef0627696094989706c38799386a, type: 3}
