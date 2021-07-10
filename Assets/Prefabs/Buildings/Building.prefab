@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1545173933762009863}
   - component: {fileID: 1545173933762009857}
   - component: {fileID: 1545173933762009862}
-  m_Layer: 10
+  m_Layer: 12
   m_Name: Building
   m_TagString: Building
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 1.01
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -142,18 +142,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnRandomBuilding: 1
-  explosionForce: {x: 782.38, y: 3000}
-  explosionRadius: 4.24
-  explosionUpwardsModifier: 100000
-  explosionForceMode: 0
-  explosionParticles: {fileID: 9126094835676282991}
-  explosionPossiblePositionsVolumeSize: 4.76
-  buildingsPrefabs:
-  - {fileID: 943426562633222668, guid: 6c54be6a64cbb884c85b47c910d0930c, type: 3}
+  _explosionForce: {x: 200, y: 600}
+  _explosionAngularRotation: {x: -500, y: 700}
+  _lifeSpanAfterExplosion: {x: 0.5, y: 3}
+  _explosionRadius: 3
+  _explosionUpwardsModifier: 1
+  _explosionForceMode: 1
+  _explosionParticles: {fileID: 9126094835676282991}
+  _explosionPossiblePositionsVolumeSize: 0.5
+  _buildingsPrefabs:
+  - {fileID: 943426562633222668, guid: 8b1f3b4c271a0ca42930f2ee7401a074, type: 3}
+  - {fileID: 943426562633222668, guid: 02fbfa7262825e747a23ea2a833db8c8, type: 3}
   - {fileID: 943426562633222668, guid: 1fded4370cb67524eb255e5a004c4ace, type: 3}
   - {fileID: 943426562633222668, guid: 27fe55175f7fc9f4eb80e1736eeb7371, type: 3}
   - {fileID: 943426562633222668, guid: 7e7bf6bd69973b94aa819ace778dc789, type: 3}
-  explosionSfx: []
+  - {fileID: 943426562633222668, guid: cd86d7724d264ca49aafb8c4438f6974, type: 3}
+  - {fileID: 943426562633222668, guid: 14668fee046d219448ba02d10188e865, type: 3}
+  _explosionSfx: []
 --- !u!1001 &8682440460692196938
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlimeTatic : SlimeBase
+public class SlimeTatic : Slime
 {
     [Space(10f)]
     [Header("Expecific Attributes")]

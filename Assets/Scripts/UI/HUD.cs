@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
     public static HUD instance;
 
+    [Header("UI TEXTS")]
     [SerializeField]
     private TextMeshProUGUI slimesLeft;
     [SerializeField]
@@ -16,10 +18,14 @@ public class HUD : MonoBehaviour
     private TextMeshProUGUI humansHit;
     [SerializeField]
     private TextMeshProUGUI humansTotal;
+    [Space(20)]
+    [Header("UI PANELS")]
     [SerializeField]
     private GameObject pausePanel;
     [SerializeField]
     private GameObject damagePanel;
+    [Space(20)]
+    [Header("SLIMES")]
     [SerializeField]
     private GameObject slimeTaticPrefab;
     [SerializeField]
@@ -27,6 +33,7 @@ public class HUD : MonoBehaviour
     [SerializeField]
     private GameObject slimeCollectorPrefab;
     public GameObject selectedSlime;
+    public Slider launchProgressBar;
 
     private void Awake()
     { 
@@ -35,7 +42,7 @@ public class HUD : MonoBehaviour
 
     private void Start()
     {
-        SelectSlime1();
+        SelectSlimeTatic();
     }
 
     public void ShowPauseMenu()
@@ -56,18 +63,53 @@ public class HUD : MonoBehaviour
         damagePanel.SetActive(false);
     }
 
-    public void SelectSlime1()
+    public void SelectSlimeTatic()
     {
-        selectedSlime = slimeTaticPrefab;
+        SelectSlime(slimeTaticPrefab);
     }
 
-    public void SelectSlime2()
+    public void SelectSlimeCollector()
     {
-        selectedSlime = slimeCollectorPrefab;
+        SelectSlime(slimeCollectorPrefab);
     }
 
-    public void SelectSlime3()
+    public void SelectSlimeBomb()
     {
-        selectedSlime = slimeBombPrefab;
+        SelectSlime(slimeBombPrefab);
+    }
+
+    private void SelectSlime(GameObject slimePrefab)
+    {
+        if (slimePrefab != null)
+        {
+            selectedSlime = slimePrefab;
+        }
+    }
+
+    public void ClearSelectedSlime()
+    {
+        selectedSlime = null;
+    }
+
+    public void SetLaunchBarVisible(bool visible)
+    {
+        if(launchProgressBar.gameObject.activeSelf != visible)
+            launchProgressBar.gameObject.SetActive(visible);
+    }
+
+    public void SetLaunchBarValue(float value)
+    {
+        launchProgressBar.value = value;
+    }
+
+    public void SetLaunchBarLimits(Vector2 limits)
+    {
+        launchProgressBar.minValue = limits.x;
+        launchProgressBar.maxValue = limits.y;
+    }
+
+    public bool HasSlimeSelected()
+    {
+        return selectedSlime != null;
     }
 }

@@ -8,34 +8,35 @@ public class Building : MonoBehaviour
     public bool spawnRandomBuilding = false;
 
     [Header("EXPLOSION DETAILS")]
-    [MinMaxSlider(600f,3000f)]
-    public Vector2 explosionForce = Vector2.one;
-    public float explosionRadius = 1f;
-    public float explosionUpwardsModifier = 1f;
-    public ForceMode explosionForceMode;
-    public ParticleSystem explosionParticles;
-    public float explosionPossiblePositionsVolumeSize = 2f;
-    private Vector3 explosionPosition;
-
+    [MinMaxSlider(1f,3000f)]
+    [SerializeField] private Vector2 _explosionForce = Vector2.one;
+    [Tooltip("Angular velocity after the explosion (rad/s).")]
+    [MinMaxSlider(-3000f, 3000f)]
+    [SerializeField] private Vector2 _explosionAngularRotation = Vector2.one;
+    [MinMaxSlider(0.5f, 3)]
+    [SerializeField] private Vector2 _lifeSpanAfterExplosion = new Vector2(0.5f, 3f);
+    [SerializeField] private float _explosionRadius = 1f;
+    [SerializeField] private float _explosionUpwardsModifier = 1f;
+    [SerializeField] private ForceMode _explosionForceMode;
+    [SerializeField] private ParticleSystem _explosionParticles;
+    [SerializeField] private float _explosionPossiblePositionsVolumeSize = 2f;
     [Header("EXTERNAL REFERENCES")]
     [Tooltip("Se spawnRandomBuilding estiver como false, será instanciado o primeito prefab do array, se estiver como true, instanciará um prefab aleatório do array.")]
-    public GameObject[] buildingsPrefabs;
-
+    [SerializeField] private GameObject[] _buildingsPrefabs;
     [Header("SOUND EFFECTS")]
-    public AudioClip[] explosionSfx;
-
-    private AudioSource audioSource;
-    private GameObject buildingObject;
-    private Rigidbody rb;
+    [SerializeField] private AudioClip[] _explosionSfx;
+    private AudioSource _audioSource;
+    private GameObject _buildingObject;
+    private Rigidbody _rb;
 
     void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
     {
-        audioSource.volume = SoundManager.instance.CurrentVolume;
+        _audioSource.volume = SoundManager.instance.CurrentVolume;
         InstantiateRandomBuilding();
     }
 
@@ -43,19 +44,19 @@ public class Building : MonoBehaviour
     {
         GameObject prefabToInstantiate = null;
 
-        if (buildingsPrefabs != null && buildingsPrefabs.Length > 0)
+        if (_buildingsPrefabs != null && _buildingsPrefabs.Length > 0)
         {
             if (spawnRandomBuilding)
-                prefabToInstantiate = buildingsPrefabs[Random.Range(0, buildingsPrefabs.Length)];
+                prefabToInstantiate = _buildingsPrefabs[Random.Range(0, _buildingsPrefabs.Length)];
             else
-                prefabToInstantiate = buildingsPrefabs[0];
+                prefabToInstantiate = _buildingsPrefabs[0];
         }
 
         if (prefabToInstantiate != null)
-            buildingObject = Instantiate(prefabToInstantiate, transform.position, prefabToInstantiate.transform.rotation, transform);
+            _buildingObject = Instantiate(prefabToInstantiate, transform.position, prefabToInstantiate.transform.rotation, transform);
 
-        if (buildingObject != null)
-            rb = buildingObject.GetComponent<Rigidbody>();
+        if (_buildingObject != null)
+            _rb = _buildingObject.GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -76,16 +77,17 @@ public class Building : MonoBehaviour
     private IEnumerator ExplodeCo(float delay)
     {
         yield return new WaitForSeconds(delay);
-        explosionPosition = new Vector3(
-            Utils.GetRandomFloatBetween(-explosionPossiblePositionsVolumeSize/2, explosionPossiblePositionsVolumeSize / 2),
+        print("aaaa");
+        Vector3 explosionPosition = new Vector3(
+            Utils.GetRandomFloatBetween(-_explosionPossiblePositionsVolumeSize/2, _explosionPossiblePositionsVolumeSize / 2),
             transform.position.y,
-            Utils.GetRandomFloatBetween(-explosionPossiblePositionsVolumeSize / 2, explosionPossiblePositionsVolumeSize / 2)
+            Utils.GetRandomFloatBetween(-_explosionPossiblePositionsVolumeSize / 2, _explosionPossiblePositionsVolumeSize / 2)
         );
-        rb.AddExplosionForce(Utils.GetRandomFloatFromVector(explosionForce), transform.position + explosionPosition, explosionRadius, explosionUpwardsModifier, explosionForceMode);
-
+        _rb.AddExplosionForce(Utils.GetRandomFloatFromVector(_explosionForce), transform.position + explosionPosition, _explosionRadius, _explosionUpwardsModifier, _explosionForceMode);
+        _rb.angularVelocity = Utils.GetRandomVectorFromBounds(_explosionAngularRotation);
         PlayExplosionParticles();
 
-        if (explosionSfx != null && explosionSfx.Length > 0)
+        if (_explosionSfx != null && _explosionSfx.Length > 0)
             PlaySfx(GetRandomExplosionClip());
 
         Destroy(gameObject, 2f);
@@ -93,20 +95,20 @@ public class Building : MonoBehaviour
 
     private void PlaySfx(AudioClip clip)
     {
-        audioSource.PlayOneShot(clip);
+        _audioSource.PlayOneShot(clip);
     }
 
     private AudioClip GetRandomExplosionClip()
     {        
-        return explosionSfx[Random.Range(0, explosionSfx.Length)];
+        return _explosionSfx[Random.Range(0, _explosionSfx.Length)];
     }
 
     private void PlayExplosionParticles()
     {
-        if (explosionParticles != null)
+        if (_explosionParticles != null)
         {
-            explosionParticles.Play();
-            Destroy(explosionParticles.gameObject);
+            _explosionParticles.Play();
+            Destroy(_explosionParticles.gameObject);
         }
     }
 
@@ -114,9 +116,9 @@ public class Building : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(transform.position, new Vector3(explosionPossiblePositionsVolumeSize, 0f, explosionPossiblePositionsVolumeSize));
+        Gizmos.DrawWireCube(transform.position, new Vector3(_explosionPossiblePositionsVolumeSize, 0f, _explosionPossiblePositionsVolumeSize));
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, explosionRadius);
+        Gizmos.DrawWireSphere(transform.position, _explosionRadius);
     }
 #endif
 }
