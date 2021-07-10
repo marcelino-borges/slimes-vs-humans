@@ -31,6 +31,9 @@ public class LevelManager : MonoBehaviour
         if (tipCanvas != null)
             tipCanvas.SetActive(true);
 
+        if (cannonInScene == null)
+            throw new MissingReferenceException("Reference the cannon of the scene");
+
         // Analytics Start Level
         GameAnalyticsManager.instance.LogStartLevelEvent();
     }
