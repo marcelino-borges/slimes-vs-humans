@@ -77,7 +77,8 @@ public class Building : MonoBehaviour
     private IEnumerator ExplodeCo(float delay)
     {
         yield return new WaitForSeconds(delay);
-        print("aaaa");
+        gameObject.isStatic = false;
+        _rb.isKinematic = false;
         Vector3 explosionPosition = new Vector3(
             Utils.GetRandomFloatBetween(-_explosionPossiblePositionsVolumeSize/2, _explosionPossiblePositionsVolumeSize / 2),
             transform.position.y,
@@ -90,7 +91,7 @@ public class Building : MonoBehaviour
         if (_explosionSfx != null && _explosionSfx.Length > 0)
             PlaySfx(GetRandomExplosionClip());
 
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 1f);
     }
 
     private void PlaySfx(AudioClip clip)

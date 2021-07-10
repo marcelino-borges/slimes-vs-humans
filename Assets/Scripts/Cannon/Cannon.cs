@@ -63,11 +63,7 @@ public class Cannon : MonoBehaviour
             //  && EventSystem.current.currentSelectedGameObject == null      --->     No UI element clicked
             touchPosition = Input.mousePosition;
             hasTouchedLevel = true;
-            // Start varying force (show in the progress bar)
-            //_countingLaunchForce = true;
-            // Show the launch force bar
-            //if(HUD.instance.HasSlimeSelected())
-            //    HUD.instance.SetLaunchBarVisible(true);
+            //ShowLaunchBar(true);
         }
 #else
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
@@ -75,9 +71,7 @@ public class Cannon : MonoBehaviour
             touchPosition = Input.GetTouch(0).position;
             hasStartedToAim = true;
             hasTouchedLevel = true;
-            //_countingLaunchForce = true;
-            //if(HUD.instance.HasSlimeSelected())
-            //    HUD.instance.SetLaunchBarVisible(true);
+            //ShowLaunchBar(true);
         }      
 #endif
         if (hasTouchedLevel && HUD.instance.HasSlimeSelected())
@@ -102,25 +96,36 @@ public class Cannon : MonoBehaviour
         {
             Vector3 from = new Vector3(launchPoint.position.x, launchPoint.position.y, launchPoint.position.z);
             Vector3 to = new Vector3(pointToRay.x, launchPoint.position.y, pointToRay.z);
+
             if(HUD.instance.HasSlimeSelected())
                 InstantiateSlime(Vector3.Normalize(to - from));
-            //Launch Progress bar
-            //_countingLaunchForce = false;
-            //HUD.instance.SetLaunchBarVisible(false);
+
+            //ShowLaunchBar(false);
             ResetSetCrossMarkPosition();
             _launchTrajectory.ClearLineRendererPoints();
         }
 #else
         if (hasStartedToAim && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
-            hasStartedToAim = false;
             Vector3 from = new Vector3(launchPoint.position.x, launchPoint.position.y, launchPoint.position.z);
             Vector3 to = new Vector3(pointToRay.x, launchPoint.position.y, pointToRay.z);
-            InstantiateSlime(to - from);
-            _countingLaunchForce = false;
-            HUD.instance.SetLaunchBarVisible(false);
+
+            if(HUD.instance.HasSlimeSelected())
+                InstantiateSlime(Vector3.Normalize(to - from));
+
+            //ShowLaunchBar(false);
+            ResetSetCrossMarkPosition();
+            _launchTrajectory.ClearLineRendererPoints();
         }  
 #endif
+    }
+
+    private void ShowLaunchBar(bool visible)
+    {
+        _countingLaunchForce = visible;
+        
+        if (HUD.instance.HasSlimeSelected())
+            HUD.instance.SetLaunchBarVisible(visible);
     }
 
     private void CalculateVelocityToReachTouchedPoint(Vector3 point)
