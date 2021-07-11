@@ -72,7 +72,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - Alpha: 0.35
-    - Smothness: 0.85
+    - Smothness: 0.6
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
