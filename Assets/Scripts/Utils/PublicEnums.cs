@@ -18,6 +18,13 @@ public enum Language
     Deutsch
 }
 
+public enum SlimeType
+{
+    TACTIC,
+    COLLECT,
+    BOMB
+}
+
 public static class EnumUtil
 {
     public static IEnumerable<T> GetValues<T>()

@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class SlimeCollector : Slime
+public class SlimeTactical : Slime, IPoolableObject
 {
     Vector3 velocity;
-    
+
+    public void OnSpawnedFromPool()
+    {
+        
+    }
+
     public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f, float radianAngle = 0)
     {
 #if UNITY_EDITOR
@@ -21,7 +25,7 @@ public class SlimeCollector : Slime
     protected override void SetVelocity(Vector3 velocity)
     {
         this.velocity = velocity;
-        base.SetVelocity(velocity);        
+        base.SetVelocity(velocity);
     }
 
     protected override void OnCollisionEnter(Collision collision)
@@ -32,9 +36,11 @@ public class SlimeCollector : Slime
         {
             CountDetectCollisionCooldown();
 
-            if (collision.gameObject.CompareTag("Building"))
+            if (collision.gameObject.CompareTag("Building") && _collisionReflectionsCount <= _maxCollisionReflections)
             {
                 PlayCollisionParticles();
+
+                _collisionReflectionsCount++;
 
                 foreach (ContactPoint contact in collision.contacts)
                 {
@@ -57,7 +63,7 @@ public class SlimeCollector : Slime
                 if (building != null)
                 {
                     building.Explode();
-                }          
+                }
             }
 
             if (collision.gameObject.CompareTag("Human"))
@@ -67,6 +73,14 @@ public class SlimeCollector : Slime
                 Human human = collision.gameObject.GetComponent<Human>();
                 if (human != null)
                     human.GetScared();
+            }
+
+            if (collision.gameObject.CompareTag("Obstacle"))
+            {
+                PlayCollisionParticles();
+
+                Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
+                obstacle.Explode();
             }
         }
     }

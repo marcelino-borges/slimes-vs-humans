@@ -42,7 +42,7 @@ public class SlimeBomb : Slime
     public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f, float radianAngle = 0)
     {
         _positionOnLaunch = transform.position;
-        this._targetPosition = targetPosition;  
+        _targetPosition = targetPosition;  
         _launchForce = force;
         _moving = true;
 #if UNITY_EDITOR
@@ -52,11 +52,11 @@ public class SlimeBomb : Slime
 #endif      
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected override void OnCollisionEnter(Collision collision)
     {
-        if (collision != null)
+        if (collision != null && !collision.gameObject.CompareTag("Cannon"))
         {
-            if (!collision.gameObject.CompareTag("Cannon") && collision.gameObject.CompareTag("Building"))
+            if (collision.gameObject.CompareTag("Building"))
             {
                 Building building = collision.gameObject.transform.parent.gameObject.GetComponent<Building>(); //Gets Building script in parent GameObject
 
