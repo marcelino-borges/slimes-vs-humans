@@ -20,8 +20,9 @@ public enum Language
 
 public enum SlimeType
 {
-    TACTIC,
-    COLLECT,
+    NONE,
+    TACTICAL,
+    COLLECTOR,
     BOMB
 }
 

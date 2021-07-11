@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SlimeCollector : Slime
+public class SlimeCollector : Slime, IPoolableObject
 {
-    Vector3 velocity;
-    
+    public void OnSpawnedFromPool()
+    {
+
+    }
+
     public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f, float radianAngle = 0)
     {
 #if UNITY_EDITOR
@@ -38,26 +41,22 @@ public class SlimeCollector : Slime
 
                 foreach (ContactPoint contact in collision.contacts)
                 {
-                    print("contact.normal = " + contact.normal);
+                    print("BEFORE REFLECTION:" +
+                            "\n\n1) contact.normal = " + contact.normal +
+                            "\n2) _rb.velocity = " + _rb.velocity +
+                            "\n3) velocity = " + velocity);
 
                     Vector3 reflectedVelocity = velocity;
-                    reflectedVelocity.x *= contact.normal.x != 0 ? -1 : 1;
+                    reflectedVelocity.x *= contact.normal.x != 0f ? -1 : 1;
                     reflectedVelocity.y *= 0;
-                    reflectedVelocity.z *= contact.normal.z != 0 ? -1 : 1;
-
-                    print(" BEFORE: _rb.velocity = " + _rb.velocity);
-                    print(" reflectedVelocity = " + reflectedVelocity);
+                    reflectedVelocity.z *= contact.normal.z != 0f ? -1 : 1;
 
                     SetVelocity(reflectedVelocity);
-                    print(" AFTER: _rb.velocity = " + _rb.velocity);
-                }
 
-                Building building = collision.gameObject.transform.parent.gameObject.GetComponent<Building>(); //Gets Building script in parent GameObject
-
-                if (building != null)
-                {
-                    building.Explode();
-                }          
+                    print("AFTER REFLECTION:" +
+                        "\n\n1) reflectedVelocity = " + reflectedVelocity +
+                        "\n2) _rb.velocity = " + _rb.velocity);
+                }        
             }
 
             if (collision.gameObject.CompareTag("Human"))

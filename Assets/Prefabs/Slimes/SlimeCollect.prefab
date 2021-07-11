@@ -149,12 +149,13 @@ MonoBehaviour:
   _detectCollisionCooldown: 0.5
   _decayRadius: 2
   _cloneCooldown: 0.15
-  _slimeDecayTag: 
+  _slimeDecayType: 0
   _maxCloneCount: 10
   _maxCollisionReflections: 3
   _collisionReflectionsCount: 0
   _explosionParticlesPrefab: {fileID: 4444830596019118216, guid: ea907563f3edb5145b25fc588e2ef845,
     type: 3}
+  _collisionParticlesPrefab: {fileID: 0}
   _poolObjectOnDeath: 0
 --- !u!135 &4665625166310349135
 SphereCollider:
@@ -167,7 +168,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 1
   m_Center: {x: 0, y: 0.4, z: 0}
 --- !u!54 &858185352681866115
 Rigidbody:

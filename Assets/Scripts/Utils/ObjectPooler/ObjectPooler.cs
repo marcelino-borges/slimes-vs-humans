@@ -26,6 +26,14 @@ public class ObjectPooler : MonoBehaviour
         InitializePoolOfObjects();
     }
 
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Spawn(SlimeType.COLLECTOR.ToString(), transform.position, Quaternion.identity);
+        }
+    }
+
     private void InitializePoolOfObjects()
     {
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
@@ -44,9 +52,19 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
+    public GameObject Spawn(SlimeType slimeType, Vector3 position, Quaternion rotation)
+    {
+        return GetObjectFromPool(slimeType.ToString().ToLower(), position, rotation);
+    }
+
     public GameObject Spawn(string tag, Vector3 position, Quaternion rotation)
     {
-        if(!poolDictionary.ContainsKey(tag.ToLower()))
+        return GetObjectFromPool(tag, position, rotation);
+    }
+
+    private GameObject GetObjectFromPool(string tag, Vector3 position, Quaternion rotation)
+    {
+        if (!poolDictionary.ContainsKey(tag.ToLower()))
         {
             Debug.LogError("Pool de slimes com tag " + tag.ToLower() + " não foi localizado!");
             return null;
@@ -54,7 +72,7 @@ public class ObjectPooler : MonoBehaviour
 
         GameObject objectToSpawn = poolDictionary[tag.ToLower()].Dequeue();
 
-        if(objectToSpawn == null)
+        if (objectToSpawn == null)
         {
             Debug.LogError("Não há um objeto válido na pool de slimes com tag " + tag.ToLower());
             return null;

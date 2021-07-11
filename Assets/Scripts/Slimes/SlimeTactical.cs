@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SlimeTactical : Slime, IPoolableObject
 {
-    Vector3 velocity;
-
     public void OnSpawnedFromPool()
     {
         
@@ -36,33 +34,35 @@ public class SlimeTactical : Slime, IPoolableObject
         {
             CountDetectCollisionCooldown();
 
-            if (collision.gameObject.CompareTag("Building") && _collisionReflectionsCount <= _maxCollisionReflections)
+            if (collision.gameObject.CompareTag("Building"))
             {
-                PlayCollisionParticles();
-
-                _collisionReflectionsCount++;
-
-                foreach (ContactPoint contact in collision.contacts)
+                if (_collisionReflectionsCount <= _maxCollisionReflections)
                 {
-                    print("contact.normal = " + contact.normal);
+                    PlayCollisionParticles();
 
-                    Vector3 reflectedVelocity = velocity;
-                    reflectedVelocity.x *= contact.normal.x != 0 ? -1 : 1;
-                    reflectedVelocity.y *= 0;
-                    reflectedVelocity.z *= contact.normal.z != 0 ? -1 : 1;
+                    _collisionReflectionsCount++;
 
-                    print(" BEFORE: _rb.velocity = " + _rb.velocity);
-                    print(" reflectedVelocity = " + reflectedVelocity);
+                    foreach (ContactPoint contact in collision.contacts)
+                    {
+                        print("BEFORE REFLECTION:" +
+                            "\n\n1) contact.normal = " + contact.normal + 
+                            "\n2) _rb.velocity = " + _rb.velocity + 
+                            "\n3) velocity = " + velocity);
 
-                    SetVelocity(reflectedVelocity);
-                    print(" AFTER: _rb.velocity = " + _rb.velocity);
-                }
+                        Vector3 reflectedVelocity = velocity;
+                        reflectedVelocity.x *= contact.normal.x != 0f ? -1 : 1;
+                        reflectedVelocity.y *= 0;
+                        reflectedVelocity.z *= contact.normal.z != 0f ? -1 : 1;
 
-                Building building = collision.gameObject.transform.parent.gameObject.GetComponent<Building>(); //Gets Building script in parent GameObject
+                        SetVelocity(reflectedVelocity);
 
-                if (building != null)
+                        print("AFTER REFLECTION:" +
+                            "\n\n1) reflectedVelocity = " + reflectedVelocity +
+                            "\n2) _rb.velocity = " + _rb.velocity);
+                    }
+                } else
                 {
-                    building.Explode();
+                    Die();
                 }
             }
 
@@ -81,6 +81,8 @@ public class SlimeTactical : Slime, IPoolableObject
 
                 Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
                 obstacle.Explode();
+                SetVelocity(Vector3.zero);
+                Die();
             }
         }
     }

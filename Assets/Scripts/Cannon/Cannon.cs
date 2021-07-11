@@ -12,10 +12,13 @@ public class Cannon : MonoBehaviour
     [MinMaxSlider(0f, 1000f)]
     public Vector2 cannonLaunchForceLimits = new Vector2(50f, 1000f);
     private float _currentLaunchForce;
-    [SerializeField] private float _launchForceProgressBarVelocity = 2f;
-    [SerializeField] private LaunchTrajectory _launchTrajectory;
-    [SerializeField] private Vector3 crossMarkOriginalPosition = new Vector3(-200f, 1.75f, -200f);
-    [SerializeField] private Transform crossMarkInLevel;
+    [SerializeField] 
+    private float _launchForceProgressBarVelocity = 2f;
+    private LaunchTrajectory _launchTrajectory;
+    [SerializeField] 
+    private Vector3 crossMarkOriginalPosition = new Vector3(-200f, 1.75f, -200f);
+    [SerializeField] 
+    private Transform crossMarkInLevel;
 
     protected void Awake()
     {

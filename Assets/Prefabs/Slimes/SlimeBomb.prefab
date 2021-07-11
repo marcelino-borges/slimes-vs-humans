@@ -447,9 +447,9 @@ MonoBehaviour:
   _lifeSpan: 5
   _launchForce: 100
   _detectCollisionCooldown: 0.5
-  _decayRadius: 0.5
+  _decayRadius: 3
   _cloneCooldown: 0.15
-  _slimeDecayTag: 
+  _slimeDecayType: 0
   _maxCloneCount: 0
   _maxCollisionReflections: 3
   _collisionReflectionsCount: 0

@@ -21,12 +21,12 @@ public abstract class Slime : MonoBehaviour, IDamageable
     [SerializeField] 
     protected float _detectCollisionCooldown = .5f;
     [SerializeField]
-    protected float _decayRadius = .5f;
+    protected float _decayRadius = 2f;
     [SerializeField]
     protected float _cloneCooldown = .15f;
     [Tooltip("Leave empty if you don't want the slime to decay when dying")]
     [SerializeField] 
-    protected string _slimeDecayTag;
+    protected SlimeType _slimeDecayType;
     protected static int _currentClonesCount;
     [Tooltip("Amount of times the slime can clone itself when Clone method is called")]
     [SerializeField] 
@@ -43,12 +43,14 @@ public abstract class Slime : MonoBehaviour, IDamageable
     [Tooltip("Whether the slime will be pooled when Die method is called")]
     [SerializeField]
     protected bool _poolObjectOnDeath = false;    
-    protected Rigidbody _rb;
     protected bool _canDetectCollision = true;
     protected bool _canCloneItself = true;
+    protected bool _isDead = false;
+    protected Vector3 velocity;
+    protected Rigidbody _rb;
 
     public int Damage { get => _damage; }
-    public string SlimeDecayToSpawn{ get => _slimeDecayTag; }
+    public SlimeType SlimeDecayToSpawn { get => _slimeDecayType; }
 
     protected virtual void Awake()
     {
@@ -88,12 +90,21 @@ public abstract class Slime : MonoBehaviour, IDamageable
         _health = _maxHealth;
     }
 
-    public void Die()
+    private void OnDestroy()
     {
+        //Security call (see slime bomb calling Invoke)
+        //CancelInvoke();
+    }
+
+    public virtual void Die()
+    {
+        if (_isDead) return;
+
+        _isDead = true;
+
         _health = 0;
-        PlayExplosionParticles();
         
-        if (_slimeDecayTag != null && _slimeDecayTag.Length > 0)
+        if (_slimeDecayType != SlimeType.NONE)
             Decay();
 
         PlayExplosionParticles();
@@ -106,11 +117,27 @@ public abstract class Slime : MonoBehaviour, IDamageable
 
     public void Decay()
     {
-        Vector3 position = new Vector3(
-            Random.Range(-_decayRadius, _decayRadius),
-            Random.Range(-_decayRadius, _decayRadius)
-        );
-        ObjectPooler.instance.Spawn(_slimeDecayTag, position, Quaternion.identity);
+        //Vector3 position = new Vector3(
+        //    transform.position.x + Random.Range(-_decayRadius, _decayRadius),
+        //    1.72f,
+        //    transform.position.z + Random.Range(-_decayRadius, _decayRadius)
+        //);
+
+        GameObject[] slimes = new GameObject[_maxCloneCount];
+
+        for (int i = 1; i <= _maxCloneCount; i++)
+        {
+            ObjectPooler.instance.Spawn(_slimeDecayType, transform.position, Quaternion.identity);
+        }
+
+        foreach (GameObject slime in slimes)
+        {
+            Rigidbody body = slime.GetComponent<Rigidbody>();
+            body.useGravity = true;
+            body.constraints = RigidbodyConstraints.None;
+            body.AddExplosionForce(1f, transform.position, 4f, 1f, ForceMode.Impulse);
+        }
+        
     }
 
     public void Disable()
@@ -135,7 +162,7 @@ public abstract class Slime : MonoBehaviour, IDamageable
                     Random.Range(-_decayRadius, _decayRadius),
                     Random.Range(-_decayRadius, _decayRadius)
                 );
-                ObjectPooler.instance.Spawn(_slimeDecayTag, position, Quaternion.identity);
+                ObjectPooler.instance.Spawn(_slimeDecayType, position, Quaternion.identity);
             }
         }
         yield return new WaitForSeconds(_cloneCooldown);
@@ -217,3 +244,4 @@ public abstract class Slime : MonoBehaviour, IDamageable
 #endif
 
 }
+
