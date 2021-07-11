@@ -56,6 +56,16 @@ public class Utils : MonoBehaviour
     {
         return y0 + (zPosition * Mathf.Tan(radianAngle)) - ((gravity * Mathf.Pow(zPosition, 2)) / (2 * (Mathf.Pow((velocity * Mathf.Cos(radianAngle)), 2))));
     }
+
+    public static T GetRandomArrayElement<T>(T[] array)
+    {
+        return array[Random.Range(0, array.Length)];
+    }
+
+    public static bool IsArrayValid<T>(T[] array)
+    {
+        return array != null && array.Length > 0;
+    }
 }
 
 public static class ExtensionMethods

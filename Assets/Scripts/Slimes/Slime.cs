@@ -10,15 +10,12 @@ public abstract class Slime : MonoBehaviour, IDamageable
     [SerializeField] protected int _maxHealth;
     [SerializeField] protected int _damage;
     [SerializeField] protected float _lifeSpan = 5f;
-    [SerializeField] protected float _groundSpeed;
-    [SerializeField] protected float _launchInclinationAngle;
     [SerializeField] protected GameObject _slimeDecayPrefab;
     [SerializeField] protected static int _currentClonesCount;
     [SerializeField] protected int _maxCloneCount = 0;
-    [SerializeField] protected Rigidbody _rb;
+    protected Rigidbody _rb;
 
     protected float _launchForce = 10f;
-    public float GroundSpeed { get => _groundSpeed; }
     public int Damage { get => _damage; }
     public GameObject SlimeDecayToSpawn{ get => _slimeDecayPrefab; }
 
@@ -67,9 +64,9 @@ public abstract class Slime : MonoBehaviour, IDamageable
         SetVelocity(direction * force);
     }
 
-    protected void SetVelocity(Vector3 direction)
+    protected virtual void SetVelocity(Vector3 velocity)
     {
-        _rb.velocity = direction;
+        _rb.velocity = velocity;
     }
 
     private void OnEnable()

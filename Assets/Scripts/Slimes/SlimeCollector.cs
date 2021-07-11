@@ -5,30 +5,43 @@ using UnityEngine.AI;
 
 public class SlimeCollector : Slime
 {
-    [Space(10f)]
-    [Header("Expecific Attributes")]
-    [SerializeField] private string _details;
-    [SerializeField] private Transform _target;
-    [SerializeField] private NavMeshAgent _navMeshAgent;
-
-    protected override void Start()
+    Vector3 velocity;
+    
+    public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f, float radianAngle = 0)
     {
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        _navMeshAgent.speed = GroundSpeed;
+#if UNITY_EDITOR
+        //Debug only
+        destinyPoint = transform.position + direction;
+        originPoint = transform.position;
+#endif
+        print("direction collector: " + direction);
+        velocity = direction * force * 1.5f;
+        SetVelocity(velocity);
     }
 
-    private void Update()
+    protected override void SetVelocity(Vector3 velocity)
     {
-        _navMeshAgent.SetDestination(_target.position);
+        this.velocity = velocity;
+        base.SetVelocity(velocity);        
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Human")
+        if (collision.gameObject.CompareTag("Building"))
         {
-            print("human");
-            CloneItSelf(this.gameObject, true);
-            
+            foreach(ContactPoint contact in collision.contacts)
+            {
+                //Find the BOUNCE of the object
+                velocity = 2 * (Vector3.Dot(velocity, Vector3.Normalize(contact.normal))) * Vector3.Normalize(contact.normal) - velocity; //Following formula  v' = 2 * (v . n) * n - v
+            }            
+            //CloneItSelf(gameObject, true);            
+        }
+
+        if(collision.gameObject.CompareTag("Human"))
+        {
+            Human human = collision.gameObject.GetComponent<Human>();
+            if(human != null)
+                human.GetScared();
         }
     }
 }

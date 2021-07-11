@@ -9,6 +9,7 @@ TagManager:
   - Human
   - Building
   - Cannon
+  - Obstacle
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Human
   - Building
   - Cannon
-  - 
+  - Obstacle
   - 
   - 
   - 

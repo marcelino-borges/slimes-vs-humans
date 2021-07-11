@@ -75,13 +75,15 @@ public class LaunchTrajectory : MonoBehaviour
     {
         float x = t * MaxXDistance;
         float z = t * maxZDistance;
-        float y = GetYWhenAtZPosition(z, StartPosition.y);
+        float y = HUD.instance.selectedSlime.GetComponent<Slime>() is SlimeBomb 
+            ? GetYWhenAtZPosition(z, StartPosition.y)
+            : startPosition.y;
         return new Vector3(x, y, z);
     }
 
-    public float GetYWhenAtZPosition(float z, float y0)
+    public float GetYWhenAtZPosition(float z, float y0 = 0)
     {
-        return Utils.GetYWhenAtZPosition(z, Velocity, radianAngle, g);
+        return Utils.GetYWhenAtZPosition(z, Velocity, radianAngle, g, y0);
     }
 
     public float GetZMaxDistance()
