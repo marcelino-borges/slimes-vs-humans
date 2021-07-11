@@ -8,6 +8,7 @@ TagManager:
   - Slime
   - Human
   - Building
+  - Cannon
   layers:
   - Default
   - TransparentFX
@@ -22,9 +23,7 @@ TagManager:
   - Slime
   - Human
   - Building
-  - 
-  - 
-  - 
+  - Cannon
   - 
   - 
   - 

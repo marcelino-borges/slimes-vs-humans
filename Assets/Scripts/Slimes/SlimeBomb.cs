@@ -10,6 +10,16 @@ public class SlimeBomb : Slime
 
     float time = 0;
 
+    protected override void Awake()
+    {
+        base.Awake();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+    }
+
     protected void FixedUpdate()
     {
         if(_moving)
@@ -46,35 +56,18 @@ public class SlimeBomb : Slime
     {
         if (collision != null)
         {
-            if (collision.gameObject.CompareTag("Building"))
+            if (!collision.gameObject.CompareTag("Cannon") && collision.gameObject.CompareTag("Building"))
             {
-                print("acertou predio");
                 Building building = collision.gameObject.transform.parent.gameObject.GetComponent<Building>(); //Gets Building script in parent GameObject
 
                 if (building != null)
                 {
                     building.Explode();
                 }
-            }
-            Destroy(gameObject);
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other != null)
-        {
-            if (other.gameObject.CompareTag("Building"))
-            {
-                print("acertou predio");
-                Building building = other.gameObject.transform.parent.gameObject.GetComponent<Building>(); //Gets Building script in parent GameObject
-
-                if (building != null)
-                {
-                    building.Explode();
-                }
-            }
-            Destroy(gameObject);
+                Destroy(gameObject);
+            }            
+            _rb.useGravity = true;
+            _moving = false;
         }
     }
 

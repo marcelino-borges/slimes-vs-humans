@@ -9,7 +9,7 @@ public abstract class Slime : MonoBehaviour, IDamageable
     [SerializeField] protected int _health;
     [SerializeField] protected int _maxHealth;
     [SerializeField] protected int _damage;
-    [SerializeField] protected float _lifeSpan = 2f;
+    [SerializeField] protected float _lifeSpan = 5f;
     [SerializeField] protected float _groundSpeed;
     [SerializeField] protected float _launchInclinationAngle;
     [SerializeField] protected GameObject _slimeDecayPrefab;
@@ -59,7 +59,6 @@ public abstract class Slime : MonoBehaviour, IDamageable
 
     public virtual void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f, float radianAngle = 0)
     {
-        print("force of launch = " + force);
 #if UNITY_EDITOR
         //Debug only
         destinyPoint = transform.position + direction;
