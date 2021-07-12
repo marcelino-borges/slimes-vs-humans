@@ -1,40 +1,98 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 [RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(NavMeshAgent))]
 public class Human : MonoBehaviour
 {
-    protected bool isScared;
-    protected float currentMoveSpeed;
-    protected float walkSpeed;
-    protected float runSpeed;
-    protected AudioClip[] screamSfx;
-    protected AudioSource audioSource;
+    protected bool _isScared;
+    protected float _currentSpeed;
+    [SerializeField]
+    protected float _walkSpeed = 4f;
+    [SerializeField]
+    protected float _runSpeed = 10f;
+    [SerializeField]
+    protected AudioClip[] _screamSfx;
+    protected AudioSource _audioSource;
+    protected NavMeshAgent _navMesh;
     public static bool canScream;
+    public Vector3 currentDestination;
+    protected bool _goingToDestination = false;
+    [SerializeField]
+    protected float _minDistanceWhenDestinationReached = 1f;
+    [SerializeField]
+    protected float _checkingPeriod = .5f;
+    float _checkingTimeCounter = 0f;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        //_audioSource.volume = SoundManager.instance.CurrentVolume;
+
+        _navMesh = GetComponent<NavMeshAgent>();
+        _currentSpeed = _walkSpeed;
+    }
 
     protected virtual void Start()
     {
-        audioSource.volume = SoundManager.instance.CurrentVolume;
+        _audioSource.volume = SoundManager.instance.CurrentVolume;
+        _currentSpeed = _walkSpeed;
+
+        WalkRandomly();
     }
 
     protected virtual void Update()
     {
-        
+        _checkingTimeCounter += Time.deltaTime;
+
+        if (_goingToDestination)
+        {
+            _navMesh.SetDestination(currentDestination);
+        }
+
+        if (_checkingTimeCounter >= _checkingPeriod)
+        {
+            //Reached time
+            _checkingTimeCounter = 0f;
+
+            if (_goingToDestination && Vector3.Distance(transform.position, currentDestination) <= _minDistanceWhenDestinationReached)
+            {
+                WalkRandomly();
+            }
+        }
     }
 
-    public virtual void GetScared()
+    public void GoToDestination(Vector3 destination)
     {
-        isScared = true;
+        currentDestination = destination;
+        _goingToDestination = true;
+    }
+
+    public void SetCurrentSpeed(float speed)
+    {
+        _currentSpeed = speed;
+        _navMesh.speed = _currentSpeed;
+    }
+
+    public virtual void Scare()
+    {
+        _isScared = true;
         SetPainted();
-        Vector3 postionToRun = GetPositionToRunTo();
-        RunToPosition(postionToRun);
-        Die();
+        PlayScreamSfx();
+        Vector3 positionToRun = new Vector3(
+            LevelManager.instance.GetLevelMaxX(),
+            1.72f,
+            LevelManager.instance.GetLevelMaxZ()
+        );
+
+        StopAndRunToDestination(positionToRun);
     }
 
     public virtual bool IsScared()
     {
-        return isScared;
+        return _isScared;
     }
 
     public virtual void SetPainted()
@@ -42,41 +100,62 @@ public class Human : MonoBehaviour
 
     }
 
-    public virtual Vector3 GetPositionToRunTo()
+    private void PlayScreamSfx()
     {
-        return Vector3.zero;
+        if (Utils.IsArrayValid(_screamSfx))
+            _audioSource.PlayOneShot(Utils.GetRandomArrayElement(_screamSfx));
     }
 
-    public virtual void PlayScreamSfx()
-    {
-        if (Utils.IsArrayValid(screamSfx))
-            audioSource.PlayOneShot(Utils.GetRandomArrayElement(screamSfx));
-    }
-
-    public virtual IEnumerator CountScreamCooldown(float time = 3f)
+    private IEnumerator CountScreamCooldown(float time = 3f)
     {
         yield return new WaitForSeconds(time);
     }
 
     public virtual void Stop()
     {
-        currentMoveSpeed = 0;
+        _goingToDestination = false;
+        SetCurrentSpeed(0);
     }
 
     public virtual void WalkRandomly()
     {
-        currentMoveSpeed = walkSpeed;
+        print("WalkRandomly");
+        _goingToDestination = false;
+        SetCurrentSpeed(_walkSpeed);
+        GoToDestination(GetRandomDestination());
     }
 
-    public virtual void RunToPosition(Vector3 targetPostion)
+    private Vector3 GetRandomDestination()
     {
-        StartCoroutine(RunToPositionCo(targetPostion));
+        currentDestination = new Vector3(
+            Utils.GetRandomFloatFromBounds(LevelManager.instance.GetLevelXBounds()),
+            1.72f,
+            Utils.GetRandomFloatFromBounds(LevelManager.instance.GetLevelZBounds())
+        );
+        return currentDestination;
     }
 
-    public virtual IEnumerator RunToPositionCo(Vector3 targetPostion, float delay = 0)
+    public virtual void RunToPosition(Vector3 targetPosition, float delay = 0)
+    {
+        StartCoroutine(RunToPositionCo(targetPosition));
+    }
+
+    private IEnumerator RunToPositionCo(Vector3 targetPosition, float delay = 0)
     {
         yield return new WaitForSeconds(delay);
-        currentMoveSpeed = runSpeed;
+        SetCurrentSpeed(_runSpeed);
+        GoToDestination(targetPosition);
+    }
+
+    public void StopAndRunToDestination(Vector3 targetPosition, float stopDuration = 0)
+    {
+        StartCoroutine(StopAndRunToDestinationCo(targetPosition, stopDuration));
+    }
+
+    private IEnumerator StopAndRunToDestinationCo(Vector3 targetPosition, float stopDuration = 0)
+    {
+        yield return new WaitForSeconds(stopDuration);
+        RunToPosition(targetPosition);
     }
 
     public virtual void Die()

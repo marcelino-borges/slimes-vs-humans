@@ -18,12 +18,20 @@ public class LevelManager : MonoBehaviour
     public int starsWonInLevel = 0;
     public GameObject tipCanvas;
     public float delayToShowGameOver = .5f;
-    public Cannon cannonInScene;
+    public Cannon cannonInScene;    
+    public MeshRenderer terrainInLevel;
 
     private void Awake()
     {
         if (instance == null)
             instance = this;
+
+        terrainInLevel = GameObject.FindGameObjectWithTag("Terrain").GetComponent<MeshRenderer>();
+
+        if(terrainInLevel == null)
+        {
+            Debug.LogError("Terrain not found in the scene. Have you assigned a 'Terrain' to your terrain?");
+        }
     }
 
     void Start()
@@ -36,6 +44,79 @@ public class LevelManager : MonoBehaviour
 
         // Analytics Start Level
         GameAnalyticsManager.instance.LogStartLevelEvent();
+    }
+
+    /// <summary>
+    /// Gets the min and max X of the terrain
+    /// Based in the size of the GameObject/mesh tagged with "Terrain" placed in the scene.
+    /// </summary>
+    public Vector2 GetLevelXBounds()
+    {
+        return new Vector2(GetLevelMinX(), GetLevelMaxX());
+    }
+
+    /// <summary>
+    /// Gets the min and max Z of the terrain
+    /// Based in the size of the GameObject/mesh tagged with "Terrain" placed in the scene.
+    /// </summary>
+    public Vector2 GetLevelZBounds()
+    {
+        return new Vector2(GetLevelMinZ(), GetLevelMaxZ());
+    }
+
+    /// <summary>
+    /// Gets a point where both X and Z are the minimum positions of the terrain
+    /// Based in the size of the GameObject/mesh tagged with "Terrain" placed in the scene.
+    /// </summary>
+    public Vector2 GetLevelMinPoint()
+    {
+        return new Vector2(GetLevelMinX(), GetLevelMinZ());
+    }
+
+    /// <summary>
+    /// Gets the minimum value in X the terrain occupies
+    /// </summary>
+    /// <returns>X value</returns>
+    public float GetLevelMinX()
+    {
+        return terrainInLevel.bounds.center.x - (terrainInLevel.bounds.size.x / 2);
+    }
+
+    /// <summary>
+    /// Gets the maximum value in X the terrain occupies
+    /// </summary>
+    /// <returns>X value</returns>
+    public float GetLevelMaxX()
+    {
+        return terrainInLevel.bounds.center.x + (terrainInLevel.bounds.size.x / 2);
+    }
+
+    /// <summary>
+    /// Gets a point where both X and Z are the maximum positions of the terrain
+    /// Based in the size of the GameObject/mesh tagged with "Terrain" placed in the scene.
+    /// </summary>
+    /// <returns>Vector2</returns>
+    public Vector2 GetLevelMaxPoint()
+    {
+        return new Vector2(GetLevelMaxX(), GetLevelMaxZ());
+    }
+
+    /// <summary>
+    /// Gets the minimum value in Z the terrain occupies
+    /// </summary>
+    /// <returns>Z value</returns>
+    public float GetLevelMinZ()
+    {
+        return terrainInLevel.bounds.center.z - (terrainInLevel.bounds.size.z / 2);
+    }
+
+    /// <summary>
+    /// Gets the maximum value in Z the terrain occupies
+    /// </summary>
+    /// <returns>Z value</returns>
+    public float GetLevelMaxZ()
+    {
+        return terrainInLevel.bounds.center.z + (terrainInLevel.bounds.size.z / 2);
     }
 
     public void SetGameOver()
@@ -106,3 +187,4 @@ public class LevelManager : MonoBehaviour
         totalObjectivesToDestroyInLevel--;
     }
 }
+

@@ -39,7 +39,7 @@ public class SlimeBomb : Slime
         }
     }
 
-    public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f, float radianAngle = 0)
+    public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f)
     {
         _positionOnLaunch = transform.position;
         _targetPosition = targetPosition;  

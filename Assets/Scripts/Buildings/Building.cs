@@ -84,7 +84,7 @@ public class Building : MonoBehaviour
             transform.position.y,
             Utils.GetRandomFloatBetween(-_explosionPossiblePositionsVolumeSize / 2, _explosionPossiblePositionsVolumeSize / 2)
         );
-        _rb.AddExplosionForce(Utils.GetRandomFloatFromVector(_explosionForce), transform.position + explosionPosition, _explosionRadius, _explosionUpwardsModifier, _explosionForceMode);
+        _rb.AddExplosionForce(Utils.GetRandomFloatFromBounds(_explosionForce), transform.position + explosionPosition, _explosionRadius, _explosionUpwardsModifier, _explosionForceMode);
         _rb.angularVelocity = Utils.GetRandomVectorFromBounds(_explosionAngularRotation);
         PlayExplosionParticles();
 

@@ -9,7 +9,7 @@ public class SlimeTactical : Slime, IPoolableObject
         
     }
 
-    public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f, float radianAngle = 0)
+    public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f)
     {
 #if UNITY_EDITOR
         //Debug only
@@ -44,10 +44,10 @@ public class SlimeTactical : Slime, IPoolableObject
 
                     foreach (ContactPoint contact in collision.contacts)
                     {
-                        print("BEFORE REFLECTION:" +
-                            "\n\n1) contact.normal = " + contact.normal + 
-                            "\n2) _rb.velocity = " + _rb.velocity + 
-                            "\n3) velocity = " + velocity);
+                        //print("BEFORE REFLECTION:" +
+                        //    "\n\n1) contact.normal = " + contact.normal + 
+                        //    "\n2) _rb.velocity = " + _rb.velocity + 
+                        //    "\n3) velocity = " + velocity);
 
                         Vector3 reflectedVelocity = velocity;
                         reflectedVelocity.x *= contact.normal.x != 0f ? -1 : 1;
@@ -56,9 +56,9 @@ public class SlimeTactical : Slime, IPoolableObject
 
                         SetVelocity(reflectedVelocity);
 
-                        print("AFTER REFLECTION:" +
-                            "\n\n1) reflectedVelocity = " + reflectedVelocity +
-                            "\n2) _rb.velocity = " + _rb.velocity);
+                        //print("AFTER REFLECTION:" +
+                        //    "\n\n1) reflectedVelocity = " + reflectedVelocity +
+                        //    "\n2) _rb.velocity = " + _rb.velocity);
                     }
                 } else
                 {
@@ -72,7 +72,7 @@ public class SlimeTactical : Slime, IPoolableObject
 
                 Human human = collision.gameObject.GetComponent<Human>();
                 if (human != null)
-                    human.GetScared();
+                    human.Scare();
             }
 
             if (collision.gameObject.CompareTag("Obstacle"))

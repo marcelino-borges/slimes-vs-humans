@@ -7,11 +7,9 @@ public class Cannon : MonoBehaviour
 {
     public Vector3 pointToRay;
     public Transform launchPoint;
-    private bool _countingLaunchForce;
-    private bool _countingLaunchForceUp = true;
-    [MinMaxSlider(0f, 1000f)]
-    public Vector2 cannonLaunchForceLimits = new Vector2(50f, 1000f);
-    private float _currentLaunchForce;
+    //private bool _countingLaunchForce;
+    //private bool _countingLaunchForceUp = true;
+    private float _currentLaunchForce = 25f;
     [SerializeField] 
     private float _launchForceProgressBarVelocity = 2f;
     private LaunchTrajectory _launchTrajectory;
@@ -28,8 +26,8 @@ public class Cannon : MonoBehaviour
     protected void Start()
     {
         // Start current force as the minimum value
-        SetLaunchForce(cannonLaunchForceLimits.x);
-        HUD.instance.SetLaunchBarLimits(cannonLaunchForceLimits);
+        SetLaunchForce(_currentLaunchForce);
+        //HUD.instance.SetLaunchBarLimits(cannonLaunchForceLimits);
     }
 
     protected void Update()
@@ -123,13 +121,13 @@ public class Cannon : MonoBehaviour
 #endif
     }
 
-    private void ShowLaunchBar(bool visible)
-    {
-        _countingLaunchForce = visible;
+    //private void ShowLaunchBar(bool visible)
+    //{
+    //    _countingLaunchForce = visible;
         
-        if (HUD.instance.HasSlimeSelected())
-            HUD.instance.SetLaunchBarVisible(visible);
-    }
+    //    if (HUD.instance.HasSlimeSelected())
+    //        HUD.instance.SetLaunchBarVisible(visible);
+    //}
 
     private void CalculateVelocityToReachTouchedPoint(Vector3 point)
     {
@@ -158,7 +156,7 @@ public class Cannon : MonoBehaviour
 
         if(slimeInstantiated != null)
         {
-            slimeInstantiated.Launch(direction, pointToRay, _currentLaunchForce, LaunchTrajectory.degreeAngle * Mathf.Deg2Rad);
+            slimeInstantiated.Launch(direction, pointToRay, _currentLaunchForce);
         }
 
         HUD.instance.ClearSelectedSlime();

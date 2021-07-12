@@ -15,7 +15,8 @@ public abstract class Slime : MonoBehaviour, IDamageable
     protected int _damage;
     [SerializeField] 
     protected float _lifeSpan = 5f;
-    [SerializeField] 
+    [SerializeField]
+    [Tooltip("Not applicable to Slime Bomb")]
     protected float _launchForce = 100f;
     [Tooltip("Cooldown to forbid a bunch of collision detection in a single hit")]
     [SerializeField] 
@@ -70,7 +71,7 @@ public abstract class Slime : MonoBehaviour, IDamageable
             gameObject.SetActive(false);
     }
 
-    public virtual void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f, float radianAngle = 0)
+    public virtual void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f)
     {
 #if UNITY_EDITOR
         //Debug only

@@ -19,7 +19,7 @@ public class Utils : MonoBehaviour
         return Random.Range(minInclusive, maxInclusive);
     }
 
-    public static float GetRandomFloatFromVector(Vector2 bounds)
+    public static float GetRandomFloatFromBounds(Vector2 bounds)
     {
         return GetRandomFloatBetween(bounds.x, bounds.y);
     }
