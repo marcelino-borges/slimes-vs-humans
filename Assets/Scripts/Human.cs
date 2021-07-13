@@ -23,12 +23,14 @@ public class Human : MonoBehaviour
     [SerializeField]
     protected float _minDistanceWhenDestinationReached = 1f;
     [SerializeField]
+    protected Animator _animator;
+    [SerializeField]
     protected float _checkingPeriod = .5f;
     float _checkingTimeCounter = 0f;
 
     private void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();        
         //_audioSource.volume = SoundManager.instance.CurrentVolume;
 
         _navMesh = GetComponent<NavMeshAgent>();
@@ -41,6 +43,11 @@ public class Human : MonoBehaviour
         _currentSpeed = _walkSpeed;
 
         WalkRandomly();
+
+        if (_animator == null)
+            throw new UnassignedReferenceException("Referencie o animator dentro do game object do humano (dentro do obj da mesh?).");
+
+        SetAnimationByName("Walking");
     }
 
     protected virtual void Update()
@@ -77,7 +84,9 @@ public class Human : MonoBehaviour
     }
 
     public virtual void Scare()
-    {
+    {        
+        SetAnimationByName(Random.Range(0,2) == 0 ? "Running" : "Goofy Running");
+
         _isScared = true;
         SetPainted();
         PlayScreamSfx();
@@ -108,18 +117,20 @@ public class Human : MonoBehaviour
 
     private IEnumerator CountScreamCooldown(float time = 3f)
     {
-        yield return new WaitForSeconds(time);
+        canScream = false;
+        yield return new WaitForSeconds(time); 
+        canScream = true;
     }
 
     public virtual void Stop()
     {
         _goingToDestination = false;
         SetCurrentSpeed(0);
+        SetAnimationByName("Idle");
     }
 
     public virtual void WalkRandomly()
     {
-        print("WalkRandomly");
         _goingToDestination = false;
         SetCurrentSpeed(_walkSpeed);
         GoToDestination(GetRandomDestination());
@@ -156,6 +167,11 @@ public class Human : MonoBehaviour
     {
         yield return new WaitForSeconds(stopDuration);
         RunToPosition(targetPosition);
+    }
+
+    private void SetAnimationByName(string name)
+    {
+        _animator.Play(name);
     }
 
     public virtual void Die()

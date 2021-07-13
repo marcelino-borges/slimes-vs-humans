@@ -32,6 +32,9 @@ public class SlimeCollector : Slime, IPoolableObject
         {
             CountDetectCollisionCooldown();
 
+            _rb.drag = 2;
+            _rb.angularDrag = 2;
+
             if (collision.gameObject.CompareTag("Building"))
             {
                 PlayCollisionParticles();

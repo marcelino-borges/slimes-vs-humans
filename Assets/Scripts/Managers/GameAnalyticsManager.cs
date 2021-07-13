@@ -6,7 +6,7 @@ public class GameAnalyticsManager : MonoBehaviour
 {
     public static GameAnalyticsManager instance;
 
-    void Start()
+    void Awake()
     {
         if (instance == null)
         {

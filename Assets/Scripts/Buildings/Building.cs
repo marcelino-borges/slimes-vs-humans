@@ -5,8 +5,20 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Building : MonoBehaviour
 {
-    public bool spawnRandomBuilding = false;
+    enum BuildingType {
+        None,
+        Random,
+        House1,
+        House2,
+        House3,
+        House4,
+        Skyline1,
+        Skyline2, 
+        CityHall
+    }
 
+    [Tooltip("If set to \"None\", no building is spawned. If \"Random\", a random building is spawned.")]
+    [SerializeField] private BuildingType _type = BuildingType.Random;
     [Header("EXPLOSION DETAILS")]
     [MinMaxSlider(1f,3000f)]
     [SerializeField] private Vector2 _explosionForce = Vector2.one;
@@ -20,7 +32,6 @@ public class Building : MonoBehaviour
     [SerializeField] private ForceMode _explosionForceMode;
     [SerializeField] private ParticleSystem _explosionParticles;
     [SerializeField] private float _explosionPossiblePositionsVolumeSize = 2f;
-    [Header("EXTERNAL REFERENCES")]
     [Tooltip("Se spawnRandomBuilding estiver como false, será instanciado o primeito prefab do array, se estiver como true, instanciará um prefab aleatório do array.")]
     [SerializeField] private GameObject[] _buildingsPrefabs;
     [Header("SOUND EFFECTS")]
@@ -37,26 +48,47 @@ public class Building : MonoBehaviour
     void Start()
     {
         _audioSource.volume = SoundManager.instance.CurrentVolume;
-        InstantiateRandomBuilding();
+        InstantiateBuilding();
     }
 
-    private void InstantiateRandomBuilding()
+    private void InstantiateBuilding()
     {
         GameObject prefabToInstantiate = null;
 
         if (_buildingsPrefabs != null && _buildingsPrefabs.Length > 0)
         {
-            if (spawnRandomBuilding)
-                prefabToInstantiate = _buildingsPrefabs[Random.Range(0, _buildingsPrefabs.Length)];
-            else
-                prefabToInstantiate = _buildingsPrefabs[0];
+            prefabToInstantiate = GetBuildingByName(_type);
         }
 
         if (prefabToInstantiate != null)
+        {
             _buildingObject = Instantiate(prefabToInstantiate, transform.position, prefabToInstantiate.transform.rotation, transform);
 
-        if (_buildingObject != null)
-            _rb = _buildingObject.GetComponent<Rigidbody>();
+            if (_buildingObject != null)
+                _rb = _buildingObject.GetComponent<Rigidbody>();
+        }
+    }
+
+    GameObject GetBuildingByName(BuildingType type)
+    {
+        GameObject buildingToSpawn = null;
+
+        if (type != BuildingType.None)
+        {
+            if (type != BuildingType.Random)
+            {
+                foreach (GameObject building in _buildingsPrefabs)
+                {
+                    if (building.name.ToLower().Contains(type.ToString().ToLower()))
+                        buildingToSpawn = building;
+                }
+            }
+            else
+            {
+                buildingToSpawn = Utils.GetRandomArrayElement(_buildingsPrefabs);
+            }
+        }
+        return buildingToSpawn;
     }
 
     private void Update()
