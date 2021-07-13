@@ -30,7 +30,7 @@ Transform:
   - {fileID: 5331080518013897057}
   m_Father: {fileID: 7855756479540044572}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -88.934654, y: -50.394722, z: -50.394722}
 --- !u!1 &666912529594856378
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,7 +61,7 @@ Transform:
   - {fileID: 9188173802399293450}
   m_Father: {fileID: 7855756479540044572}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 20.249735, z: 0}
 --- !u!1 &2182227008749517194
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,7 +92,7 @@ Transform:
   - {fileID: 2979486291409363915}
   m_Father: {fileID: 7855756479540044572}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: -29.877111, z: 0}
 --- !u!1 &2752695480552661746
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: -2700178461373425614}
   - component: {fileID: 4665625166310349135}
   - component: {fileID: 858185352681866115}
+  - component: {fileID: 133736175913089683}
   m_Layer: 10
   m_Name: SlimeCollect
   m_TagString: Slime
@@ -128,7 +129,7 @@ Transform:
   - {fileID: 9065410140409800515}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 76.85333}
 --- !u!114 &-2700178461373425614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,7 +146,7 @@ MonoBehaviour:
   _maxHealth: 1
   _damage: 1
   _lifeSpan: 5
-  _launchForce: 100
+  _launchForce: 25
   _detectCollisionCooldown: 0.5
   _decayRadius: 2
   _cloneCooldown: 0.15
@@ -186,6 +187,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!95 &133736175913089683
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2752695480552661746}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: de1fd7e905011144ab5af6c73af4373e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3387153740294757532
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +240,7 @@ Transform:
   - {fileID: 2824619177423936924}
   m_Father: {fileID: 8179523963495197481}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 88.646164, y: 180, z: 180}
 --- !u!1 &3513729251273855527
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +331,7 @@ Transform:
   - {fileID: 7855756479540044572}
   m_Father: {fileID: 3276466963934246984}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -89.98021, y: 0, z: 0}
 --- !u!1 &5970793442148250035
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +362,7 @@ Transform:
   - {fileID: 2358785336828180461}
   m_Father: {fileID: 7855756479540044572}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -77.66647, y: 180, z: 180}
 --- !u!1 &6444437358134460639
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,7 +423,7 @@ Transform:
   - {fileID: 2039023666579676584}
   m_Father: {fileID: 7855756479540044572}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 12.0458975, y: -0.00001323983, z: -0.00000025262835}
 --- !u!1 &7506099569908005471
 GameObject:
   m_ObjectHideFlags: 0
