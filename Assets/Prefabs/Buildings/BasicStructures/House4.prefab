@@ -45,6 +45,29 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0.91400003}
   m_TimeToStationary: 0.5
+--- !u!114 &-2444502378463791891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943426562633222668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9300dae5e00ea8a4ab9d15c3aaab94b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splatsDecal:
+  - {fileID: 864082597302198367, guid: 9c1e2ec9a991e11499020b646eeda312, type: 3}
+  - {fileID: 864082597302198367, guid: fc8c0ae96731ef84d96df3959009eb66, type: 3}
+  - {fileID: 864082597302198367, guid: bf07411e93cdba8438fc8196813b2aa1, type: 3}
+  splatColor:
+  - {r: 1, g: 0.13725491, b: 0.32941177, a: 0}
+  - {r: 0.18431373, g: 0.6039216, b: 0.9921569, a: 0}
+  - {r: 0.26666668, g: 1, b: 0.13725491, a: 0}
+  layersToCheck:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!1001 &132522642743162717
 PrefabInstance:
   m_ObjectHideFlags: 0
