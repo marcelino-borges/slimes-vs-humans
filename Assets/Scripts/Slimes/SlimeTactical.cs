@@ -42,15 +42,13 @@ public class SlimeTactical : Slime, IPoolableObject
             CountDetectCollisionCooldown();
             PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
 
-            _rb.drag = 2;
-            _rb.angularDrag = 2;
+            rb.drag = 2;
+            rb.angularDrag = 2;
 
             if (collision.gameObject.CompareTag("Building"))
             {
                 if (_collisionReflectionsCount <= _maxCollisionReflections)
                 {
-                    PlayCollisionParticles();
-
                     _collisionReflectionsCount++;
 
                     foreach (ContactPoint contact in collision.contacts)
@@ -69,17 +67,15 @@ public class SlimeTactical : Slime, IPoolableObject
             }
             if (collision.gameObject.CompareTag("Human"))
             {
-                PlayCollisionParticles();
-
                 Human human = collision.gameObject.GetComponent<Human>();
                 if (human != null)
                     human.Scare();
+                CloneItSelf();
+                Die();
             }
 
             if (collision.gameObject.CompareTag("Obstacle"))
             {
-                PlayCollisionParticles();
-
                 Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
                 obstacle.Explode();
                 SetVelocity(Vector3.zero);
