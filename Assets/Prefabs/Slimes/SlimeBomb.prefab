@@ -444,13 +444,13 @@ MonoBehaviour:
   _health: 0
   _maxHealth: 1
   _damage: 1
-  _lifeSpan: 5
   _launchForce: 100
   _detectCollisionCooldown: 0.5
   _decayRadius: 3
   _cloneCooldown: 0.15
   _slimeDecayType: 0
   _maxCloneCount: 0
+  _currentCloneCount: 0
   _maxCollisionReflections: 3
   _collisionReflectionsCount: 0
   _explosionParticlesPrefab: {fileID: 4994032310133080301, guid: d75d9711fa2e93644aee947ff1a15575,
@@ -458,6 +458,13 @@ MonoBehaviour:
   _collisionParticlesPrefab: {fileID: 4994032310133080301, guid: 07f6c92404ed5bc4e871ac74897cb615,
     type: 3}
   _poolObjectOnDeath: 0
+  _collisionSfx:
+  - {fileID: 8300000, guid: a51b15db19767bb4d9a31e22d87c01ae, type: 3}
+  - {fileID: 8300000, guid: a77ecaa0e5fdae24ebeab8ded94c72a3, type: 3}
+  - {fileID: 8300000, guid: e6b9b88a806e55c44858295c76bb847f, type: 3}
+  _deathSfx: {fileID: 8300000, guid: 78789f6a8d60bec4e9dfdb62a70d46db, type: 3}
+  _decaySfx: {fileID: 8300000, guid: e8b2ac4ae706a9441a6e3aae4625a2d1, type: 3}
+  isClone: 0
 --- !u!95 &1404943966265424990
 Animator:
   serializedVersion: 3

@@ -73,8 +73,8 @@ public class LaunchTrajectory : MonoBehaviour
 
     private Vector3 CalculateLinePosition(float t, float maxZDistance)
     {
-        float x = t * MaxXDistance;
-        float z = t * maxZDistance;
+        float x = startPosition.x + t * MaxXDistance;
+        float z = startPosition.z + t * maxZDistance;
         float y = HUD.instance.selectedSlime.GetComponent<Slime>() is SlimeBomb 
             ? GetYWhenAtZPosition(z, StartPosition.y)
             : startPosition.y;
@@ -83,7 +83,7 @@ public class LaunchTrajectory : MonoBehaviour
 
     public float GetYWhenAtZPosition(float z, float y0 = 0)
     {
-        return Utils.GetYWhenAtZPosition(z, Velocity, radianAngle, g, y0);
+        return Utils.GetYWhenAtZPosition(z, Velocity, radianAngle, g, startPosition.y);
     }
 
     public float GetZMaxDistance()

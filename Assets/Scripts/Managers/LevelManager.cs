@@ -10,10 +10,11 @@ public class LevelManager : MonoBehaviour
     public VictoryMenu victoryMenu;
     public bool isGameOver = false;
 
-    public int initialObjectivesInLevel = 0;
-    public int totalObjectivesToDestroyInLevel = 0;
-    public int objectivesDestroyed = 0;
-    public int collectablesInLevel = 0;
+    public int totalHumansToScareInLevel = 0;
+    public int humansScared = 0;
+    public int maxSlimesOfLevel = 20;
+    public int slimesLaunched = 0;
+
     public float delayToShowUI = .5f;
     public int starsWonInLevel = 0;
     public GameObject tipCanvas;
@@ -36,6 +37,8 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
+        InitializeHUD();
+
         if (tipCanvas != null)
             tipCanvas.SetActive(true);
 
@@ -44,6 +47,14 @@ public class LevelManager : MonoBehaviour
 
         // Analytics Start Level
         GameAnalyticsManager.instance.LogStartLevelEvent();
+    }
+
+    private void InitializeHUD()
+    {
+        HUD.instance.SetMaxSlimesOfLevel(maxSlimesOfLevel);
+        HUD.instance.SetTotalHumans(totalHumansToScareInLevel);
+        HUD.instance.SetCurrentHumansScared(0);
+        HUD.instance.SetSlimesLaunched(0);
     }
 
     /// <summary>
@@ -136,7 +147,7 @@ public class LevelManager : MonoBehaviour
 
     public void SetVictory()
     {
-        starsWonInLevel = CalculateStarsWon(objectivesDestroyed, initialObjectivesInLevel);
+        //starsWonInLevel = CalculateStarsWon(humansScared, initialObjectivesInLevel);
         StartCoroutine(SetVictoryCo());
     }
 
@@ -168,23 +179,30 @@ public class LevelManager : MonoBehaviour
         ui.SetActive(true);
     }
 
-    public void CountDestroyedObjective()
+    public void IncrementHumansScared()
     {
-        objectivesDestroyed++;
+        humansScared++;
 
-        if (objectivesDestroyed >= totalObjectivesToDestroyInLevel)
+        if (humansScared >= totalHumansToScareInLevel)
             SetVictory();
+
+        HUD.instance.SetCurrentHumansScared(humansScared);
+    }
+
+    public void IncrementSlimeLaunched()
+    {
+        slimesLaunched++;
+
+        if (slimesLaunched >= maxSlimesOfLevel)
+            SetGameOver();
+
+        HUD.instance.SetSlimesLaunched(slimesLaunched);
     }
 
     public void SaveLevelData()
     {
         LevelData currentLevel = new LevelData(SceneManager.GetActiveScene().buildIndex, starsWonInLevel);
         PlayerPersistence.TryToSaveCurrentLevel(currentLevel);
-    }
-
-    public void DecreaseTotalObjectivesToDestroy(int amount)
-    {
-        totalObjectivesToDestroyInLevel--;
     }
 }
 

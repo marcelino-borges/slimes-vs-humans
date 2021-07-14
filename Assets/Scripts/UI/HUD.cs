@@ -112,4 +112,25 @@ public class HUD : MonoBehaviour
     {
         return selectedSlime != null;
     }
+
+    public void SetTotalHumans(int total)
+    {
+        humansTotal.text = total < 10 ? "0" + total : total.ToString();
+    }
+
+    public void SetMaxSlimesOfLevel(int total)
+    {
+        slimesTotal.text = total < 10 ? "0" + total : total.ToString();
+    }
+
+    public void SetCurrentHumansScared(int number)
+    {
+        humansHit.text = number < 10 ? "0" + number : number.ToString();
+    }
+
+    public void SetSlimesLaunched(int number)
+    {
+        slimesLeft.text = number < 10 ? "0" + number : number.ToString();
+    }
 }
+

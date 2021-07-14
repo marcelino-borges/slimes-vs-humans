@@ -66,7 +66,7 @@ public class ObjectPooler : MonoBehaviour
     {
         if (!poolDictionary.ContainsKey(tag.ToLower()))
         {
-            Debug.LogError("Pool de slimes com tag " + tag.ToLower() + " não foi localizado!");
+            Debug.LogError("Pool de slimes com tag " + tag.ToUpper() + " não foi localizado!");
             return null;
         }
 

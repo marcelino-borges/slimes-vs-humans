@@ -27,34 +27,16 @@ public class Cannon : MonoBehaviour
     {
         // Start current force as the minimum value
         SetLaunchForce(_currentLaunchForce);
-        //HUD.instance.SetLaunchBarLimits(cannonLaunchForceLimits);
     }
 
     protected void Update()
     {
-        //if (_countingLaunchForce)
-        //{
-        //    if(_countingLaunchForceUp)
-        //    {
-        //        SetLaunchForce(_currentLaunchForce + (Time.deltaTime * _launchForceProgressBarVelocity));
-
-        //        if (_currentLaunchForce >= cannonLaunchForceLimits.y)
-        //        {
-        //            SetLaunchForce(cannonLaunchForceLimits.y);
-        //            _countingLaunchForceUp = false;
-        //        }
-        //    } else
-        //    {
-        //        SetLaunchForce(_currentLaunchForce - (Time.deltaTime * _launchForceProgressBarVelocity));
-
-        //        if (_currentLaunchForce <= cannonLaunchForceLimits.x)
-        //        {
-        //            SetLaunchForce(cannonLaunchForceLimits.x);
-        //            _countingLaunchForceUp = true;
-        //        }
-        //    }
-        //}
-
+#if UNITY_EDITOR
+        if(Input.GetKeyDown(KeyCode.Backspace))
+        {
+            print("_currentGlobalClonesCount = " + Slime._currentGlobalClonesCount);
+        }
+#endif
         bool hasTouchedLevel = false;
         Vector3 touchPosition = Vector3.zero;
 
@@ -70,7 +52,6 @@ public class Cannon : MonoBehaviour
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
         {
             touchPosition = Input.GetTouch(0).position;
-            hasStartedToAim = true;
             hasTouchedLevel = true;
             //ShowLaunchBar(true);
         }      
@@ -106,7 +87,7 @@ public class Cannon : MonoBehaviour
             _launchTrajectory.ClearLineRendererPoints();
         }
 #else
-        if (hasStartedToAim && Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
         {
             Vector3 from = new Vector3(launchPoint.position.x, launchPoint.position.y, launchPoint.position.z);
             Vector3 to = new Vector3(pointToRay.x, launchPoint.position.y, pointToRay.z);
@@ -120,14 +101,6 @@ public class Cannon : MonoBehaviour
         }  
 #endif
     }
-
-    //private void ShowLaunchBar(bool visible)
-    //{
-    //    _countingLaunchForce = visible;
-        
-    //    if (HUD.instance.HasSlimeSelected())
-    //        HUD.instance.SetLaunchBarVisible(visible);
-    //}
 
     private void CalculateVelocityToReachTouchedPoint(Vector3 point)
     {
@@ -157,6 +130,7 @@ public class Cannon : MonoBehaviour
         if(slimeInstantiated != null)
         {
             slimeInstantiated.Launch(direction, pointToRay, _currentLaunchForce);
+            LevelManager.instance.IncrementSlimeLaunched();
         }
 
         HUD.instance.ClearSelectedSlime();

@@ -9,10 +9,11 @@ public class SlimeBomb : Slime
     Vector3 _targetPosition = Vector3.zero;
 
     float time = 0;
-
     protected override void Awake()
     {
         base.Awake();
+
+        _slimeCloneType = SlimeType.BOMB;
     }
 
     protected override void Start()
@@ -62,6 +63,7 @@ public class SlimeBomb : Slime
     {
         if (collision != null && !collision.gameObject.CompareTag("Cannon"))
         {
+            PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
             if (collision.gameObject.CompareTag("Building"))
             {
                 Building building = collision.gameObject.transform.parent.gameObject.GetComponent<Building>(); //Gets Building script in parent GameObject
