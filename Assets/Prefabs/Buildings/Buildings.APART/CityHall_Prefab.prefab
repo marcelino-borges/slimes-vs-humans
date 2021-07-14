@@ -178,9 +178,9 @@ MonoBehaviour:
   - {fileID: 864082597302198367, guid: fc8c0ae96731ef84d96df3959009eb66, type: 3}
   - {fileID: 864082597302198367, guid: bf07411e93cdba8438fc8196813b2aa1, type: 3}
   splatColor:
-  - {r: 1, g: 0.13725491, b: 0.32941177, a: 0}
-  - {r: 0.18431373, g: 0.6039216, b: 0.9921569, a: 0}
-  - {r: 0.26666668, g: 1, b: 0.13725491, a: 0}
+  - {r: 1, g: 0.13725491, b: 0.32941177, a: 1}
+  - {r: 0.18431373, g: 0.6039216, b: 0.9921569, a: 1}
+  - {r: 0.26666668, g: 1, b: 0.13725491, a: 1}
   layersToCheck:
     serializedVersion: 2
     m_Bits: 1024
@@ -4948,6 +4948,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 458357644086448310, guid: 8b1f3b4c271a0ca42930f2ee7401a074,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 458357644086448310, guid: 8b1f3b4c271a0ca42930f2ee7401a074,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 458357644086448310, guid: 8b1f3b4c271a0ca42930f2ee7401a074,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 458357644086448310, guid: 8b1f3b4c271a0ca42930f2ee7401a074,
         type: 3}
