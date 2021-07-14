@@ -59,7 +59,7 @@ public abstract class Slime : MonoBehaviour, IDamageable
     protected bool _canCloneItself = true;
     protected bool _isDead = false;
     protected Vector3 velocity;
-    protected Rigidbody _rb;
+    public Rigidbody rb;
     protected bool canPlayCloneSfx = true;
     protected float cloneSfxCooldown = .25f;
 
@@ -70,7 +70,7 @@ public abstract class Slime : MonoBehaviour, IDamageable
 
     protected virtual void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
     }
 
@@ -100,7 +100,7 @@ public abstract class Slime : MonoBehaviour, IDamageable
 
     protected virtual void SetVelocity(Vector3 velocity)
     {
-        _rb.velocity = velocity;
+        rb.velocity = velocity;
     }
 
     private void OnEnable()
@@ -139,25 +139,30 @@ public abstract class Slime : MonoBehaviour, IDamageable
 
     public void Decay()
     {
+        StartCoroutine(DecayCo());
+    }
+
+    protected IEnumerator DecayCo()
+    {
         PlaySfx(_decaySfx);
-        GameObject[] slimes = new GameObject[_maxCloneCount];
 
         for (int i = 1; i <= _maxCloneCount; i++)
-        {
-            Slime slime = ObjectPooler.instance.Spawn(_slimeDecayType, GetPositionInRadius(), Quaternion.identity).GetComponent<Slime>();
-            slime.isClone = true;
-            slime._poolObjectOnDeath = true;
+        {            
+            GameObject gameObject = ObjectPooler.instance.Spawn(_slimeDecayType, GetPositionInRadius(), Quaternion.identity);
 
-        }
+            if (gameObject != null)
+            {
+                Slime slime = gameObject.GetComponent<Slime>();
 
-        if (slimes == null || slimes.Length == 0) return;
-
-        foreach (GameObject slime in slimes)
-        {
-            Rigidbody body = slime.GetComponent<Rigidbody>();
-            body.useGravity = true;
-            body.constraints = RigidbodyConstraints.None;
-            //body.AddExplosionForce(1f, transform.position, 4f, 1f, ForceMode.Impulse);
+                if (slime != null)
+                {
+                    slime.rb.useGravity = true;
+                    slime.rb.constraints = RigidbodyConstraints.None;
+                    slime.isClone = true;
+                    slime._poolObjectOnDeath = true;
+                }
+            }
+            yield return new WaitForSeconds(_cloneCooldown);
         }
         Die();
     }
@@ -184,18 +189,24 @@ public abstract class Slime : MonoBehaviour, IDamageable
 
             for (int i = 1; i <= _maxCloneCount - 1; i++)
             {
-                Vector3 position = GetPositionInRadius();
-
-                Slime slime = ObjectPooler.instance.Spawn(_slimeCloneType, position, Quaternion.identity).GetComponent<Slime>();
-                if (slime != null)
+                if (_currentGlobalClonesCount < _maxGlobalClonesCount)
                 {
-                    slime.isClone = true;
-                    slime._poolObjectOnDeath = true;
+                    Vector3 position = GetPositionInRadius();
+
+                    Slime slime = ObjectPooler.instance.Spawn(_slimeCloneType, position, Quaternion.identity).GetComponent<Slime>();
+                    if (slime != null)
+                    {
+                        slime.isClone = true;
+                        slime._poolObjectOnDeath = true;
+                    }
+                    yield return new WaitForSeconds(_cloneCooldown);
+                } else
+                {
+                    break;
                 }
             }
         }
-        Destroy(gameObject);
-        yield return new WaitForSeconds(_cloneCooldown);
+        //yield return new WaitForSeconds(_cloneCooldown);
         //_canCloneItself = true;
     }
 
@@ -263,10 +274,11 @@ public abstract class Slime : MonoBehaviour, IDamageable
         {
             if (_canDetectCollision)
             {
+                PlayExplosionParticles();
+                PlayCollisionParticles();
+
                 if (collision.gameObject.CompareTag("Slime"))
                 {
-                    PlayExplosionParticles();
-                    PlayCollisionParticles();
                     CloneItSelf();
                 }
             }

@@ -36,7 +36,7 @@ public class SlimeBomb : Slime
                 _positionOnLaunch.y
             );
             Vector3 nextPosition = new Vector3(x, y, z);
-            _rb.MovePosition(nextPosition);
+            rb.MovePosition(nextPosition);
         }
     }
 
@@ -117,9 +117,9 @@ public class SlimeBomb : Slime
 
     private void SetOnGroundMode()
     {
-        _rb.useGravity = true;
+        rb.useGravity = true;
         _moving = false;
-        _rb.AddForce(velocity);
+        rb.AddForce(velocity);
     }
 
 #if UNITY_EDITOR

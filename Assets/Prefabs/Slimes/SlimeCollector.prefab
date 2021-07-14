@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 4665625166310349135}
   - component: {fileID: 858185352681866115}
   - component: {fileID: 133736175913089683}
-  - component: {fileID: 4236805983023931253}
+  - component: {fileID: 5596606843588932153}
   m_Layer: 10
   m_Name: SlimeCollector
   m_TagString: Slime
@@ -149,7 +149,7 @@ MonoBehaviour:
   _launchForce: 25
   _detectCollisionCooldown: 0.5
   _decayRadius: 2
-  _cloneCooldown: 0.15
+  _cloneCooldown: 0.3
   _slimeDecayType: 0
   _maxCloneCount: 10
   _currentCloneCount: 0
@@ -165,6 +165,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e6b9b88a806e55c44858295c76bb847f, type: 3}
   _deathSfx: {fileID: 8300000, guid: 2d9fa6de52eef42469755b35696a80c1, type: 3}
   _decaySfx: {fileID: 8300000, guid: e8b2ac4ae706a9441a6e3aae4625a2d1, type: 3}
+  rb: {fileID: 0}
   isClone: 0
 --- !u!135 &4665625166310349135
 SphereCollider:
@@ -214,7 +215,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!82 &4236805983023931253
+--- !u!82 &5596606843588932153
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
