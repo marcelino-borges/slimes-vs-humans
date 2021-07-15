@@ -37,7 +37,7 @@ public class SlimeTactical : Slime, IPoolableObject
     {
         base.OnCollisionEnter(collision);
 
-        if (_canDetectCollision)
+        if (CanDetectCollision())
         {
             CountDetectCollisionCooldown();
             PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
@@ -45,42 +45,9 @@ public class SlimeTactical : Slime, IPoolableObject
             rb.drag = 2;
             rb.angularDrag = 2;
 
-            if (collision.gameObject.CompareTag("Building"))
-            {
-                if (_collisionReflectionsCount <= _maxCollisionReflections)
-                {
-                    _collisionReflectionsCount++;
-
-                    foreach (ContactPoint contact in collision.contacts)
-                    {
-                        Vector3 reflectedVelocity = velocity;
-                        reflectedVelocity.x *= contact.normal.x != 0f ? -1 : 1;
-                        reflectedVelocity.y *= 0;
-                        reflectedVelocity.z *= contact.normal.z != 0f ? -1 : 1;
-
-                        SetVelocity(reflectedVelocity);
-                    }
-                } else
-                {
-                    Die();
-                }
-            }
-            if (collision.gameObject.CompareTag("Human"))
-            {
-                Human human = collision.gameObject.GetComponent<Human>();
-                if (human != null)
-                    human.Scare();
-                CloneItSelf();
-                Die();
-            }
-
-            if (collision.gameObject.CompareTag("Obstacle"))
-            {
-                Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
-                obstacle.Explode();
-                SetVelocity(Vector3.zero);
-                Die();
-            }
+            TestCollisionAgainstBuildings(collision);
+            TestCollisionAgainstHumans(collision);
+            TestCollisionAgainstObstacles(collision);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using MilkShake;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,16 +8,12 @@ public class Cannon : MonoBehaviour
 {
     public Vector3 pointToRay;
     public Transform launchPoint;
-    //private bool _countingLaunchForce;
-    //private bool _countingLaunchForceUp = true;
     private float _currentLaunchForce = 25f;
-    [SerializeField] 
-    private float _launchForceProgressBarVelocity = 2f;
     private LaunchTrajectory _launchTrajectory;
     [SerializeField] 
-    private Vector3 crossMarkOriginalPosition = new Vector3(-200f, 1.75f, -200f);
-    [SerializeField] 
     private Transform crossMarkInLevel;
+
+    public ShakePreset shakePreset;
 
     protected void Awake()
     {
@@ -32,7 +29,7 @@ public class Cannon : MonoBehaviour
     protected void Update()
     {
 #if UNITY_EDITOR
-        if(Input.GetKeyDown(KeyCode.Backspace))
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
             print("_currentGlobalClonesCount = " + Slime._currentGlobalClonesCount);
         }

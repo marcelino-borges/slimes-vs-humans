@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SlimeBomb : Slime
@@ -64,16 +63,9 @@ public class SlimeBomb : Slime
         if (collision != null && !collision.gameObject.CompareTag("Cannon"))
         {
             PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
-            if (collision.gameObject.CompareTag("Building"))
-            {
-                Building building = collision.gameObject.transform.parent.gameObject.GetComponent<Building>(); //Gets Building script in parent GameObject
 
-                if (building != null)
-                {
-                    building.Explode();
-                    Die();                    
-                }
-            }
+            TestCollisionAgainstBuildings(collision);
+
             StartCoroutine(DamageArea(2f));
             SetOnGroundMode();
         }
@@ -103,6 +95,20 @@ public class SlimeBomb : Slime
         Die();
     }
 
+    protected override void TestCollisionAgainstBuildings(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Building"))
+        {
+            Building building = collision.gameObject.transform.parent.gameObject.GetComponent<Building>(); //Gets Building script in parent GameObject
+
+            if (building != null)
+            {
+                building.Explode();
+                Die();
+            }
+        }
+    }
+
     public override void Die()
     {
         if (_isDead) return;
@@ -111,15 +117,17 @@ public class SlimeBomb : Slime
 
         _health = 0;
         PlayExplosionParticles();
+        SoundManager.instance.PlaySound2D(_deathSfx);
 
         Destroy(gameObject);
     }
 
-    private void SetOnGroundMode()
+    protected override void SetOnGroundMode()
     {
         rb.useGravity = true;
         _moving = false;
         rb.AddForce(velocity);
+        isGroundMode = true;
     }
 
 #if UNITY_EDITOR

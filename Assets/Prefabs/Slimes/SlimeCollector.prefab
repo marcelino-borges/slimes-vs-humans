@@ -149,7 +149,9 @@ MonoBehaviour:
   _launchForce: 25
   _detectCollisionCooldown: 0.5
   _decayRadius: 2
-  _cloneCooldown: 0.3
+  _cloneCooldown: 0.5
+  _canCloneCooldown: 1
+  _canDecayCooldown: 1
   _slimeDecayType: 0
   _maxCloneCount: 10
   _currentCloneCount: 0
@@ -158,15 +160,18 @@ MonoBehaviour:
   _explosionParticlesPrefab: {fileID: 4444830596019118216, guid: ea907563f3edb5145b25fc588e2ef845,
     type: 3}
   _collisionParticlesPrefab: {fileID: 0}
-  _poolObjectOnDeath: 0
   _collisionSfx:
   - {fileID: 8300000, guid: a51b15db19767bb4d9a31e22d87c01ae, type: 3}
   - {fileID: 8300000, guid: a77ecaa0e5fdae24ebeab8ded94c72a3, type: 3}
   - {fileID: 8300000, guid: e6b9b88a806e55c44858295c76bb847f, type: 3}
   _deathSfx: {fileID: 8300000, guid: 2d9fa6de52eef42469755b35696a80c1, type: 3}
   _decaySfx: {fileID: 8300000, guid: e8b2ac4ae706a9441a6e3aae4625a2d1, type: 3}
+  _poolObjectOnDeath: 0
   rb: {fileID: 0}
+  isGroundMode: 0
   isClone: 0
+  isVibrating: 0
+  shakePreset: {fileID: 11400000, guid: 74d16472849c6374db2c71cddbe17811, type: 2}
 --- !u!135 &4665625166310349135
 SphereCollider:
   m_ObjectHideFlags: 0

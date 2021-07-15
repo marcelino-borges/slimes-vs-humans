@@ -1,8 +1,10 @@
+using MilkShake;
 using System;
 using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[RequireComponent(typeof(AudioSource))]
 public abstract class Slime : MonoBehaviour, IDamageable
 {
     [Space(10f)]
@@ -25,12 +27,15 @@ public abstract class Slime : MonoBehaviour, IDamageable
     protected float _decayRadius = 2f;
     [SerializeField]
     protected float _cloneCooldown = .15f;
+    [SerializeField]
+    protected float _canCloneCooldown = 1f;
+    [SerializeField]
+    protected float _canDecayCooldown = 1f;
+    protected float _cloneSfxCooldown = .25f;
     [Tooltip("Leave empty if you don't want the slime to decay when dying")]
     [SerializeField]
     protected SlimeType _slimeDecayType = SlimeType.NONE;
     protected SlimeType _slimeCloneType = SlimeType.NONE;
-    public static int _currentGlobalClonesCount = 0;
-    public static int _maxGlobalClonesCount = 200;
     [Tooltip("Amount of times the slime can clone itself when Clone method is called")]
     [SerializeField] 
     protected int _maxCloneCount = 2;
@@ -45,9 +50,6 @@ public abstract class Slime : MonoBehaviour, IDamageable
     protected GameObject _explosionParticlesPrefab;
     [SerializeField]
     protected GameObject _collisionParticlesPrefab;
-    [Tooltip("Whether the slime will be pooled when Die method is called")]
-    [SerializeField]
-    protected bool _poolObjectOnDeath = false;
     protected AudioSource _audioSource;
     [SerializeField]
     protected AudioClip[] _collisionSfx;
@@ -55,15 +57,24 @@ public abstract class Slime : MonoBehaviour, IDamageable
     protected AudioClip _deathSfx;
     [SerializeField]
     protected AudioClip _decaySfx;
+    [Tooltip("Whether the slime will be pooled when Die method is called")]
+    [SerializeField]
+    protected bool _poolObjectOnDeath = false;
     protected bool _canDetectCollision = true;
     protected bool _canCloneItself = true;
     protected bool _isDead = false;
-    protected Vector3 velocity;
-    public Rigidbody rb;
     protected bool canPlayCloneSfx = true;
-    protected float cloneSfxCooldown = .25f;
+    protected Vector3 velocity;
 
+    public static int _currentGlobalClonesCount = 0;
+    public static int _maxGlobalClonesCount = 200;
+    public Rigidbody rb;
+    public bool isGroundMode;
     public bool isClone = false;
+    public bool isVibrating;
+    public ShakePreset shakePreset;
+
+    private bool _canDecay = true;
 
     public int Damage { get => _damage; }
     public SlimeType SlimeDecayToSpawn { get => _slimeDecayType; }
@@ -112,8 +123,6 @@ public abstract class Slime : MonoBehaviour, IDamageable
     {
         if (isClone && _currentGlobalClonesCount > 0)
             _currentGlobalClonesCount--;
-        //Security call (see slime bomb calling Invoke)
-        //CancelInvoke();
     }
 
     public virtual void Die()
@@ -129,12 +138,15 @@ public abstract class Slime : MonoBehaviour, IDamageable
 
         PlayExplosionParticles();
 
+        PlaySfx(_deathSfx);
+
+        ShakeCamera();
+        Vibrate();
+
         if (!_poolObjectOnDeath)
             Destroy(gameObject);
         else
             Disable();
-
-        PlaySfx(_deathSfx);
     }
 
     public void Decay()
@@ -144,27 +156,29 @@ public abstract class Slime : MonoBehaviour, IDamageable
 
     protected IEnumerator DecayCo()
     {
-        PlaySfx(_decaySfx);
+        if (_canDecay && !isGroundMode)
+        {
+            PlaySfx(_decaySfx);
 
-        for (int i = 1; i <= _maxCloneCount; i++)
-        {            
-            GameObject gameObject = ObjectPooler.instance.Spawn(_slimeDecayType, GetPositionInRadius(), Quaternion.identity);
-
-            if (gameObject != null)
+            for (int i = 1; i <= _maxCloneCount; i++)
             {
-                Slime slime = gameObject.GetComponent<Slime>();
+                GameObject obj = ObjectPooler.instance.Spawn(_slimeDecayType, GetPositionInRadius(), Quaternion.identity);
 
-                if (slime != null)
+                if (obj != null)
                 {
-                    slime.rb.useGravity = true;
-                    slime.rb.constraints = RigidbodyConstraints.None;
-                    slime.isClone = true;
-                    slime._poolObjectOnDeath = true;
+                    Slime slime = obj.GetComponent<Slime>();
+
+                    if (slime != null)
+                    {
+                        slime.SetOnGroundMode();
+                        slime.isClone = true;
+                        slime._poolObjectOnDeath = true;
+                    }
                 }
+                yield return new WaitForSeconds(_cloneCooldown);
             }
-            yield return new WaitForSeconds(_cloneCooldown);
+            Die();
         }
-        Die();
     }
 
     public void Disable()
@@ -181,9 +195,9 @@ public abstract class Slime : MonoBehaviour, IDamageable
 
     protected virtual IEnumerator CloneItselfCo()
     {
-        if (_canCloneItself && _currentGlobalClonesCount < _maxGlobalClonesCount && _currentCloneCount < _maxCloneCount)
+        if (_canCloneItself && !isGroundMode && _currentGlobalClonesCount < _maxGlobalClonesCount && _currentCloneCount < _maxCloneCount)
         {
-            //_canCloneItself = false;
+            StartCoroutine(CountCanCloneCooldown());
             _currentGlobalClonesCount++;
             _currentCloneCount++;
 
@@ -206,8 +220,20 @@ public abstract class Slime : MonoBehaviour, IDamageable
                 }
             }
         }
-        //yield return new WaitForSeconds(_cloneCooldown);
-        //_canCloneItself = true;
+    }
+
+    private IEnumerator CountCanCloneCooldown()
+    {
+        _canCloneItself = false;
+        yield return new WaitForSeconds(_canCloneCooldown);
+        _canCloneItself = true;
+    }
+
+    private IEnumerator CountCanDecayCooldown()
+    {
+        _canDecay = false;
+        yield return new WaitForSeconds(_canDecayCooldown);
+        _canDecay = true;
     }
 
     protected Vector3 GetPositionInRadius()
@@ -272,20 +298,17 @@ public abstract class Slime : MonoBehaviour, IDamageable
     {
         if(collision != null)
         {
-            if (_canDetectCollision)
+            if (CanDetectCollision())
             {
                 PlayExplosionParticles();
                 PlayCollisionParticles();
 
-                if (collision.gameObject.CompareTag("Slime"))
-                {
-                    CloneItSelf();
-                }
+                TestCollisionAgainstSlimes(collision);
             }
         }
     }
 
-    protected void PlaySfx(AudioClip clip)
+    protected virtual void PlaySfx(AudioClip clip)
     {
         if(_audioSource != null && clip != null)
         {
@@ -293,9 +316,95 @@ public abstract class Slime : MonoBehaviour, IDamageable
         }
     }
 
+    protected virtual void TestCollisionAgainstBuildings(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Building"))
+        {
+            foreach (ContactPoint contact in collision.contacts)
+            {
+                Vector3 reflectedVelocity = velocity;
+                reflectedVelocity.x *= contact.normal.x != 0f ? -1 : 1;
+                reflectedVelocity.y *= 0;
+                reflectedVelocity.z *= contact.normal.z != 0f ? -1 : 1;
+
+                SetVelocity(reflectedVelocity);
+                ShakeCamera();
+                Vibrate();
+            }
+        }
+    }
+
+    protected virtual void TestCollisionAgainstHumans(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Human"))
+        {
+            Human human = collision.gameObject.GetComponent<Human>();
+            if (human != null)
+                human.Scare();
+            CloneItSelf();
+            Die();
+        }
+    }
+
+    protected virtual void TestCollisionAgainstObstacles(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
+            obstacle.Explode();
+            SetVelocity(Vector3.zero);
+            Die();
+        }
+    }
+
+    protected virtual void TestCollisionAgainstSlimes(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Slime"))
+        {
+            CloneItSelf();
+            Die();
+        }
+    }
+
+    protected bool CanDetectCollision()
+    {
+        return _canDetectCollision;
+    }
+
+    protected virtual void SetOnGroundMode()
+    {
+        rb.useGravity = true;
+        rb.useGravity = true;
+        rb.constraints = RigidbodyConstraints.None;
+        isGroundMode = true;
+    }
+
+    protected virtual void ShakeCamera()
+    {
+        if(shakePreset != null)
+            Shaker.ShakeAll(shakePreset);
+    }
+
+    protected void Vibrate()
+    {
+        StartCoroutine(VibrateCo());
+    }
+
+    private IEnumerator VibrateCo()
+    {
+        if (!isVibrating)
+        {
+            Handheld.Vibrate();
+            isVibrating = true;
+            yield return new WaitForSeconds(.5f);
+            isVibrating = false;
+        }
+    }
+
 #if UNITY_EDITOR
     protected Vector3 destinyPoint = Vector3.zero;
     protected Vector3 originPoint = Vector3.zero;
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;

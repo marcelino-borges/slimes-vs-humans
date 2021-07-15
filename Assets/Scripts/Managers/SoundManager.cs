@@ -39,6 +39,13 @@ public class SoundManager : MonoBehaviour
         audioSource.PlayOneShot(audio, CurrentVolume);
     }
 
+    public void PlaySoundAtPosition(AudioClip audio, Vector3 position, float volume = -1f)
+    {
+        float vol = CurrentVolume;
+        if (volume >= 0) vol = volume;        
+        AudioSource.PlayClipAtPoint(audio, position, vol);
+    }
+
     public void PlayButtonSfx()    
     {
         if(buttonClickSfx != null)

@@ -35,35 +35,15 @@ public class SlimeCollector : Slime, IPoolableObject
     {
         base.OnCollisionEnter(collision);
 
-        if (_canDetectCollision)
+        if (CanDetectCollision())
         {
             CountDetectCollisionCooldown();
             PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
 
             rb.drag = 2;
             rb.angularDrag = 2;
-
-            if (collision.gameObject.CompareTag("Building"))
-            {
-                foreach (ContactPoint contact in collision.contacts)
-                {
-                    Vector3 reflectedVelocity = velocity;
-                    reflectedVelocity.x *= contact.normal.x != 0f ? -1 : 1;
-                    reflectedVelocity.y *= 0;
-                    reflectedVelocity.z *= contact.normal.z != 0f ? -1 : 1;
-
-                    SetVelocity(reflectedVelocity);
-                }        
-            }
-
-            if (collision.gameObject.CompareTag("Human"))
-            {
-                Human human = collision.gameObject.GetComponent<Human>();
-                if (human != null)
-                    human.Scare();
-                CloneItSelf();
-                Die();
-            }
+            TestCollisionAgainstBuildings(collision);
+            TestCollisionAgainstHumans(collision);
         }
     }
 }
