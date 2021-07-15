@@ -38,7 +38,7 @@ public class Building : MonoBehaviour
     [SerializeField] private AudioClip[] _explosionSfx;
     private AudioSource _audioSource;
     private GameObject _buildingObject;
-    private Rigidbody _rb;
+    [SerializeField] private Rigidbody _rb; //Serializado
 
     void Awake()
     {

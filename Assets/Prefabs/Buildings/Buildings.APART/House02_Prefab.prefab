@@ -161,6 +161,8 @@ MonoBehaviour:
   - {fileID: 943426562633222668, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
   - {fileID: 943426562633222668, guid: c8f303d875fcc654ca4e72625e0ddfa3, type: 3}
   _explosionSfx: []
+  _buildingObject: {fileID: 7723083082475178392}
+  _rb: {fileID: 7366303840671960294}
 --- !u!114 &-2078899110109690683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5021,9 +5023,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fded4370cb67524eb255e5a004c4ace, type: 3}
+--- !u!1 &7723083082475178392 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 943426562633222668, guid: 1fded4370cb67524eb255e5a004c4ace,
+    type: 3}
+  m_PrefabInstance: {fileID: 7366303841507656596}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6946300539222315810 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 458357644086448310, guid: 1fded4370cb67524eb255e5a004c4ace,
+    type: 3}
+  m_PrefabInstance: {fileID: 7366303841507656596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &7366303840671960294 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 1450299250, guid: 1fded4370cb67524eb255e5a004c4ace,
     type: 3}
   m_PrefabInstance: {fileID: 7366303841507656596}
   m_PrefabAsset: {fileID: 0}

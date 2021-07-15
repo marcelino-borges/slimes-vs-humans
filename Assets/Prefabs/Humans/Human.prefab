@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2460422401463443218}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.86, y: 3.019, z: 10.52}
+  m_LocalPosition: {x: 3.86, y: 0, z: 10.52}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
   m_Children:
   - {fileID: 6657068049660362791}
@@ -70,7 +70,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2.45
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 7
   m_ObstacleAvoidanceType: 4
 --- !u!82 &2460422401463443221
 AudioSource:
