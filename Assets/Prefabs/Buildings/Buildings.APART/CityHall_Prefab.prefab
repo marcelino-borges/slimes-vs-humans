@@ -161,6 +161,7 @@ MonoBehaviour:
   - {fileID: 943426562633222668, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
   - {fileID: 943426562633222668, guid: c8f303d875fcc654ca4e72625e0ddfa3, type: 3}
   _explosionSfx: []
+  _rb: {fileID: 5068755538776519438}
 --- !u!114 &8475424399147329212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5024,6 +5025,12 @@ PrefabInstance:
 --- !u!4 &4614992900642254026 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 458357644086448310, guid: 8b1f3b4c271a0ca42930f2ee7401a074,
+    type: 3}
+  m_PrefabInstance: {fileID: 5068755539486358652}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &5068755538776519438 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 1450299250, guid: 8b1f3b4c271a0ca42930f2ee7401a074,
     type: 3}
   m_PrefabInstance: {fileID: 5068755539486358652}
   m_PrefabAsset: {fileID: 0}

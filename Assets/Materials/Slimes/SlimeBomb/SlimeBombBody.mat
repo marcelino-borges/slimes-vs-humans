@@ -45,7 +45,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Alpha: 0.35
+    - Alpha: 0.2
     - Smothness: 0.6
     - Vector1_A71525FF: 0
     - Vector1_C92ECE56: 0.75

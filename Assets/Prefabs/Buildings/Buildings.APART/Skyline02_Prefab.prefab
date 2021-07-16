@@ -161,6 +161,7 @@ MonoBehaviour:
   - {fileID: 943426562633222668, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
   - {fileID: 943426562633222668, guid: c8f303d875fcc654ca4e72625e0ddfa3, type: 3}
   _explosionSfx: []
+  _rb: {fileID: 6266741115409474717}
 --- !u!114 &67981734490695173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4944,6 +4945,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1545173933762009863}
     m_Modifications:
+    - target: {fileID: 1450299253, guid: c8f303d875fcc654ca4e72625e0ddfa3, type: 3}
+      propertyPath: m_Size.y
+      value: 2.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: c8f303d875fcc654ca4e72625e0ddfa3, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: c8f303d875fcc654ca4e72625e0ddfa3, type: 3}
+      propertyPath: m_Center.z
+      value: 1.41
+      objectReference: {fileID: 0}
     - target: {fileID: 458357644086448310, guid: c8f303d875fcc654ca4e72625e0ddfa3,
         type: 3}
       propertyPath: m_RootOrder
@@ -5024,6 +5037,12 @@ PrefabInstance:
 --- !u!4 &5812887141406702425 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 458357644086448310, guid: c8f303d875fcc654ca4e72625e0ddfa3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6266741116782046191}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &6266741115409474717 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 1450299250, guid: c8f303d875fcc654ca4e72625e0ddfa3,
     type: 3}
   m_PrefabInstance: {fileID: 6266741116782046191}
   m_PrefabAsset: {fileID: 0}
