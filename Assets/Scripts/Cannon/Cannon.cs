@@ -6,13 +6,14 @@ using UnityEngine.EventSystems;
 
 public class Cannon : MonoBehaviour
 {
-    public Vector3 pointToRay;
-    public Transform launchPoint;
-    private float _currentLaunchForce = 25f;
-    private LaunchTrajectory _launchTrajectory;
     [SerializeField] 
     private Transform crossMarkInLevel;
+    private float _currentLaunchForce = 25f;
+    private LaunchTrajectory _launchTrajectory;
+    private Slime _slimeInstantiated;
 
+    public Vector3 pointToRay;
+    public Transform launchPoint;
     public ShakePreset shakePreset;
 
     protected void Awake()
@@ -40,26 +41,25 @@ public class Cannon : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetMouseButton(0) && EventSystem.current.currentSelectedGameObject == null)
         {
-            //  && EventSystem.current.currentSelectedGameObject == null      --->     No UI element clicked
+            //&& EventSystem.current.currentSelectedGameObject == null      --->     No UI element clicked
             touchPosition = Input.mousePosition;
             hasTouchedLevel = true;
-            //ShowLaunchBar(true);
         }
 #else
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && EventSystem.current.currentSelectedGameObject == null)
         {
             touchPosition = Input.GetTouch(0).position;
             hasTouchedLevel = true;
-            //ShowLaunchBar(true);
         }      
 #endif
         if (hasTouchedLevel && HUD.instance.HasSlimeSelected())
         {
+            if (_slimeInstantiated == null)
+                _slimeInstantiated = Instantiate(HUD.instance.selectedSlime, launchPoint.position, Quaternion.identity).GetComponent<Slime>();
+
             Ray ray = Camera.main.ScreenPointToRay(touchPosition);
 
-            RaycastHit hitInfo;
-
-            if (Physics.Raycast(ray,out hitInfo))
+            if (Physics.Raycast(ray, out RaycastHit hitInfo))
             {
                 pointToRay = new Vector3(hitInfo.point.x, launchPoint.position.y, hitInfo.point.z);
                 CalculateVelocityToReachTouchedPoint(pointToRay);
@@ -73,30 +73,38 @@ public class Cannon : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetMouseButtonUp(0) && EventSystem.current.currentSelectedGameObject == null)
         {
-            Vector3 from = new Vector3(launchPoint.position.x, launchPoint.position.y, launchPoint.position.z);
-            Vector3 to = new Vector3(pointToRay.x, launchPoint.position.y, pointToRay.z);
-
-            if(HUD.instance.HasSlimeSelected())
-                InstantiateSlime(Vector3.Normalize(to - from));
-
-            //ShowLaunchBar(false);
-            ResetSetCrossMarkPosition();
-            _launchTrajectory.ClearLineRendererPoints();
+            SetSlimeLaunch();
         }
 #else
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && EventSystem.current.currentSelectedGameObject == null)
         {
-            Vector3 from = new Vector3(launchPoint.position.x, launchPoint.position.y, launchPoint.position.z);
-            Vector3 to = new Vector3(pointToRay.x, launchPoint.position.y, pointToRay.z);
-
-            if(HUD.instance.HasSlimeSelected())
-                InstantiateSlime(Vector3.Normalize(to - from));
-
-            //ShowLaunchBar(false);
-            ResetSetCrossMarkPosition();
-            _launchTrajectory.ClearLineRendererPoints();
-        }  
+            LaunchSlime();
+        }
 #endif
+    }
+
+    private void SetSlimeLaunch()
+    {
+        Vector3 from = new Vector3(launchPoint.position.x, launchPoint.position.y, launchPoint.position.z);
+        Vector3 to = new Vector3(pointToRay.x, launchPoint.position.y, pointToRay.z);
+
+        if (HUD.instance.HasSlimeSelected())
+            LaunchSlime(Vector3.Normalize(to - from));
+
+        ResetCrossMarkPosition();
+        _launchTrajectory.ClearLineRendererPoints();
+    }
+
+    private void LaunchSlime(Vector3 direction)
+    {
+        if (_slimeInstantiated != null)
+        {
+            _slimeInstantiated.Launch(direction, pointToRay, _currentLaunchForce);
+            LevelManager.instance.IncrementSlimeLaunched();
+            _slimeInstantiated = null;
+        }
+
+        HUD.instance.ClearSelectedSlime();
     }
 
     private void CalculateVelocityToReachTouchedPoint(Vector3 point)
@@ -120,19 +128,6 @@ public class Cannon : MonoBehaviour
         HUD.instance.SetLaunchBarValue(value);
     }
 
-    private void InstantiateSlime(Vector3 direction)
-    {
-        Slime slimeInstantiated = Instantiate(HUD.instance.selectedSlime, launchPoint.position, Quaternion.identity).GetComponent<Slime>();
-
-        if(slimeInstantiated != null)
-        {
-            slimeInstantiated.Launch(direction, pointToRay, _currentLaunchForce);
-            LevelManager.instance.IncrementSlimeLaunched();
-        }
-
-        HUD.instance.ClearSelectedSlime();
-    }
-
     private void SetCrossMarkPosition(Vector3 position)
     {
         //keeping Y position (Terrain fixed position)
@@ -143,7 +138,7 @@ public class Cannon : MonoBehaviour
         }
     }
 
-    private void ResetSetCrossMarkPosition()
+    private void ResetCrossMarkPosition()
     {
         if (crossMarkInLevel != null)
             crossMarkInLevel.gameObject.SetActive(false);

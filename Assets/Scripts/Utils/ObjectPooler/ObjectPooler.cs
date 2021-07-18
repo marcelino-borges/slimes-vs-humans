@@ -52,17 +52,17 @@ public class ObjectPooler : MonoBehaviour
         }
     }
 
-    public GameObject Spawn(SlimeType slimeType, Vector3 position, Quaternion rotation)
+    public GameObject Spawn(SlimeType slimeType, Vector3 position, Quaternion rotation, Transform parent = null)
     {
-        return GetObjectFromPool(slimeType.ToString().ToLower(), position, rotation);
+        return GetObjectFromPool(slimeType.ToString().ToLower(), position, rotation, parent);
     }
 
-    public GameObject Spawn(string tag, Vector3 position, Quaternion rotation)
+    public GameObject Spawn(string tag, Vector3 position, Quaternion rotation, Transform parent = null)
     {
-        return GetObjectFromPool(tag, position, rotation);
+        return GetObjectFromPool(tag, position, rotation, parent);
     }
 
-    private GameObject GetObjectFromPool(string tag, Vector3 position, Quaternion rotation)
+    private GameObject GetObjectFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent = null)
     {
         if (!poolDictionary.ContainsKey(tag.ToLower()))
         {

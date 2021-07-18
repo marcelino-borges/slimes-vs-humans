@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2460422401463443222}
-  - component: {fileID: 2460422401463443217}
-  - component: {fileID: 2460422401463443211}
-  - component: {fileID: 2460422401463443221}
   - component: {fileID: 2460422401463443220}
   - component: {fileID: 7973748009370676546}
+  - component: {fileID: 2460422401463443211}
+  - component: {fileID: 2460422401463443221}
+  - component: {fileID: 2460422401463443217}
   m_Layer: 11
   m_Name: Human
   m_TagString: Human
@@ -36,20 +36,51 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2460422401463443217
-CapsuleCollider:
+--- !u!114 &2460422401463443220
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2460422401463443218}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.35977095
-  m_Height: 2.4527748
-  m_Direction: 1
-  m_Center: {x: 0, y: 1.2265662, z: 0.124681786}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b01da54d8ef1c540997f78815a146a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _walkSpeed: 2
+  _runSpeed: 7
+  _screamSfx:
+  - {fileID: 8300000, guid: 7313c517e942f1840a7cce64a90381c9, type: 3}
+  - {fileID: 8300000, guid: b0cf5b24fbb9c0248889945106177a94, type: 3}
+  - {fileID: 8300000, guid: d09ae054ba4f32947abfc22a8e03c2dd, type: 3}
+  - {fileID: 8300000, guid: 50786afd062508b45aeb051ebdf4ee47, type: 3}
+  - {fileID: 8300000, guid: dea86a57d053c8f49901c5a45035c6b0, type: 3}
+  _startWalkingRandomly: 0
+  _minDistanceWhenDestinationReached: 2
+  _animator: {fileID: 7751613879324982047}
+  _checkingPeriod: 0.5
+  _maxTimeScaredAndStuck: 2
+  _canBeInfected: 1
+  currentDestination: {x: 0, y: 0, z: 0}
+--- !u!114 &7973748009370676546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460422401463443218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ae91fdd0313bd4498e55bb49999271c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splattedMaterial:
+  - {fileID: 2100000, guid: bdc497fa5c552fe4e9c43f8f8b06b3a7, type: 2}
+  - {fileID: 2100000, guid: 24f52f749862e3d46887872e4d5847b5, type: 2}
+  - {fileID: 2100000, guid: 0c7f7b40f8136124293dba19e4b18173, type: 2}
+  humanRenderer: {fileID: 3836728690991481861}
+  materialsList: []
 --- !u!195 &2460422401463443211
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -57,7 +88,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2460422401463443218}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.35
   m_Speed: 3.5
@@ -168,49 +199,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &2460422401463443220
-MonoBehaviour:
+--- !u!136 &2460422401463443217
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2460422401463443218}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b01da54d8ef1c540997f78815a146a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isScared: 0
-  _walkSpeed: 2
-  _runSpeed: 7
-  _screamSfx:
-  - {fileID: 8300000, guid: 7313c517e942f1840a7cce64a90381c9, type: 3}
-  - {fileID: 8300000, guid: b0cf5b24fbb9c0248889945106177a94, type: 3}
-  - {fileID: 8300000, guid: d09ae054ba4f32947abfc22a8e03c2dd, type: 3}
-  - {fileID: 8300000, guid: 50786afd062508b45aeb051ebdf4ee47, type: 3}
-  - {fileID: 8300000, guid: dea86a57d053c8f49901c5a45035c6b0, type: 3}
-  currentDestination: {x: 0, y: 0, z: 0}
-  _minDistanceWhenDestinationReached: 2
-  _animator: {fileID: 7751613879324982047}
-  _checkingPeriod: 0.5
---- !u!114 &7973748009370676546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2460422401463443218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ae91fdd0313bd4498e55bb49999271c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  splattedMaterial:
-  - {fileID: 2100000, guid: bdc497fa5c552fe4e9c43f8f8b06b3a7, type: 2}
-  - {fileID: 2100000, guid: 24f52f749862e3d46887872e4d5847b5, type: 2}
-  - {fileID: 2100000, guid: 0c7f7b40f8136124293dba19e4b18173, type: 2}
-  humanRenderer: {fileID: 3836728690991481861}
-  materialsList: []
+  m_Radius: 0.35977095
+  m_Height: 2.4527748
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.2265662, z: 0.124681786}
 --- !u!95 &7751613879324982047
 Animator:
   serializedVersion: 3

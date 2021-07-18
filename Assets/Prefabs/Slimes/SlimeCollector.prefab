@@ -130,7 +130,7 @@ Transform:
   - {fileID: 9065410140409800515}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 76.85333}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &-2700178461373425614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,9 +146,10 @@ MonoBehaviour:
   _health: 0
   _maxHealth: 1
   _damage: 1
+  _lifeSpan: 9999999
   _launchForce: 25
   _detectCollisionCooldown: 0.5
-  _decayRadius: 2
+  _decayRadius: 4
   _cloneCooldown: 0.5
   _canCloneCooldown: 1
   _canDecayCooldown: 1
@@ -179,7 +180,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2752695480552661746}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 4ec406020c6d4b642b1afb3e7c1bae88, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -194,12 +195,12 @@ Rigidbody:
   m_GameObject: {fileID: 2752695480552661746}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!95 &133736175913089683
 Animator:

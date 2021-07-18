@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class Building : MonoBehaviour
 {
-    enum BuildingType {
+    private enum BuildingType {
         None,
         Random,
         House1,
@@ -17,6 +17,8 @@ public class Building : MonoBehaviour
         CityHall
     }
 
+    private AudioSource _audioSource;
+    private GameObject _buildingObject;
     [Tooltip("If set to \"None\", no building is spawned. If \"Random\", a random building is spawned.")]
     [SerializeField] private BuildingType _type = BuildingType.Random;
     [Header("EXPLOSION DETAILS")]
@@ -36,9 +38,11 @@ public class Building : MonoBehaviour
     [SerializeField] private GameObject[] _buildingsPrefabs;
     [Header("SOUND EFFECTS")]
     [SerializeField] private AudioClip[] _explosionSfx;
-    private AudioSource _audioSource;
-    private GameObject _buildingObject;
     [SerializeField] private Rigidbody _rb; //Serializado
+    [SerializeField] private Transform[] humanPositions;
+    [SerializeField] private int _humansToSpawnOnRoof = 0;
+    [SerializeField] private List<Human> _humansOnRooftop;
+    [SerializeField] private GameObject _humanPrefab;
 
     void Awake()
     {
@@ -49,6 +53,34 @@ public class Building : MonoBehaviour
     {
         _audioSource.volume = SoundManager.instance.CurrentVolume;
         InstantiateBuilding();
+        SpawnHumansOnRooftop();
+    }
+
+    private void Update()
+    {
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Explode();
+        }
+#endif
+    }
+
+    private void SpawnHumansOnRooftop()
+    {
+        for (int i = 0; i < _humansToSpawnOnRoof; i++)
+        {
+            if (humanPositions[i] != null) {
+                GameObject humanSpawned = Instantiate(_humanPrefab, humanPositions[i].position, Quaternion.identity, transform);
+                if(humanSpawned != null)
+                {
+                    Human human = humanSpawned.GetComponent<Human>();
+
+                    if (human != null)
+                        _humansOnRooftop.Add(human);
+                }
+            }
+        }
     }
 
     private void InstantiateBuilding()
@@ -91,16 +123,6 @@ public class Building : MonoBehaviour
         return buildingToSpawn;
     }
 
-    private void Update()
-    {
-#if UNITY_EDITOR
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            Explode();
-        }
-#endif
-    }
-
     public void Explode(float delay = 0f)
     {
         StartCoroutine(ExplodeCo(delay));
@@ -110,20 +132,42 @@ public class Building : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         gameObject.isStatic = false;
+        AddPhysicsExplosion();
+        PlayExplosionParticles();
+
+        if (_explosionSfx != null && _explosionSfx.Length > 0)
+            PlaySfx(GetRandomExplosionClip());
+        FreeHumans();
+
+        Destroy(gameObject, 1f);
+    }
+
+    private void FreeHumans()
+    {
+        if (_humansOnRooftop != null && _humansOnRooftop.Count > 0)
+        {
+            foreach (Human human in _humansOnRooftop)
+            {
+                human.gameObject.transform.SetParent(transform.parent);
+                human.gameObject.transform.position = new Vector3(
+                    transform.position.x + Random.Range(-1, 2),
+                    transform.position.y,
+                    transform.position.z + Random.Range(-1, 2)
+                );
+            }
+        }
+    }
+
+    private void AddPhysicsExplosion()
+    {
         _rb.isKinematic = false;
         Vector3 explosionPosition = new Vector3(
-            Utils.GetRandomFloatBetween(-_explosionPossiblePositionsVolumeSize/2, _explosionPossiblePositionsVolumeSize / 2),
+            Utils.GetRandomFloatBetween(-_explosionPossiblePositionsVolumeSize / 2, _explosionPossiblePositionsVolumeSize / 2),
             transform.position.y,
             Utils.GetRandomFloatBetween(-_explosionPossiblePositionsVolumeSize / 2, _explosionPossiblePositionsVolumeSize / 2)
         );
         _rb.AddExplosionForce(Utils.GetRandomFloatFromBounds(_explosionForce), transform.position + explosionPosition, _explosionRadius, _explosionUpwardsModifier, _explosionForceMode);
         _rb.angularVelocity = Utils.GetRandomVectorFromBounds(_explosionAngularRotation);
-        PlayExplosionParticles();
-
-        if (_explosionSfx != null && _explosionSfx.Length > 0)
-            PlaySfx(GetRandomExplosionClip());
-
-        Destroy(gameObject, 1f);
     }
 
     private void PlaySfx(AudioClip clip)

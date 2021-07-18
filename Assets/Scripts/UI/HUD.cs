@@ -123,7 +123,7 @@ public class HUD : MonoBehaviour
         slimesTotal.text = total < 10 ? "0" + total : total.ToString();
     }
 
-    public void SetCurrentHumansScared(int number)
+    public void SetCurrentHumansInfected(int number)
     {
         humansHit.text = number < 10 ? "0" + number : number.ToString();
     }

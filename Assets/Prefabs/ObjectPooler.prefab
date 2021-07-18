@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2352108695421077386}
   - component: {fileID: 2352108695421077381}
   m_Layer: 0
-  m_Name: Pool
+  m_Name: ObjectPooler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,7 +43,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 430d272530bba85429b1eab71fcb3c5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slimesToPool:
-  - tag: 
-    objectToPool: {fileID: 0}
-    amountToPool: 0
+  objectsToPool:
+  - tag: collector
+    objectToPool: {fileID: 2752695480552661746, guid: 6b9a2a8f2740e104895c3304cc453039,
+      type: 3}
+    amountToPool: 200
+  - tag: tactical
+    objectToPool: {fileID: 7423187214024699732, guid: 4aba297906ebdeb4da8b76a15fb6ef7d,
+      type: 3}
+    amountToPool: 200
+  - tag: bomb
+    objectToPool: {fileID: 5004212905919617841, guid: 059e41a88a4fcd541a7e1c2bda990968,
+      type: 3}
+    amountToPool: 20
+  - tag: human-trio
+    objectToPool: {fileID: 7027655509047395318, guid: 47cca5a8d4d65fd43a325d52fc0f299e,
+      type: 3}
+    amountToPool: 50
+  - tag: human
+    objectToPool: {fileID: 2460422401463443218, guid: 39087bcb20e240145b297406fb7a133d,
+      type: 3}
+    amountToPool: 50

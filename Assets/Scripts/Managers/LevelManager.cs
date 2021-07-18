@@ -10,8 +10,8 @@ public class LevelManager : MonoBehaviour
     public VictoryMenu victoryMenu;
     public bool isGameOver = false;
 
-    public int totalHumansToScareInLevel = 0;
-    public int humansScared = 0;
+    public int totalHumansInLevel = 0;
+    public int humansInfected = 0;
     public int maxSlimesOfLevel = 20;
     public int slimesLaunched = 0;
 
@@ -52,8 +52,8 @@ public class LevelManager : MonoBehaviour
     private void InitializeHUD()
     {
         HUD.instance.SetMaxSlimesOfLevel(maxSlimesOfLevel);
-        HUD.instance.SetTotalHumans(totalHumansToScareInLevel);
-        HUD.instance.SetCurrentHumansScared(0);
+        HUD.instance.SetTotalHumans(totalHumansInLevel);
+        HUD.instance.SetCurrentHumansInfected(0);
         HUD.instance.SetSlimesLaunched(0);
     }
 
@@ -179,14 +179,14 @@ public class LevelManager : MonoBehaviour
         ui.SetActive(true);
     }
 
-    public void IncrementHumansScared()
+    public void IncrementHumansInfected()
     {
-        humansScared++;
+        humansInfected++;
 
-        if (humansScared >= totalHumansToScareInLevel)
+        if (humansInfected >= totalHumansInLevel)
             SetVictory();
 
-        HUD.instance.SetCurrentHumansScared(humansScared);
+        HUD.instance.SetCurrentHumansInfected(humansInfected);
     }
 
     public void IncrementSlimeLaunched()

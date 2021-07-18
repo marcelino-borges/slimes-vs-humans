@@ -7,43 +7,78 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Human : MonoBehaviour
 {
-    [SerializeField]
-    protected bool _isScared;
+    #region Private Attributes
+    private readonly string[] idleAnimations = new string[]
+    {
+        "Idle",
+        "Idle_Breathing",
+        "Idle_Dizzy",
+        "Idle_Dwarf",
+        "Idle_Happy",
+        "Idle_ListeningToMusic",
+        "Idle_LookAround",
+        "Idle_Offensive",
+        "Idle_Orc",
+        "Idle_Orc2",
+        "Idle_Sad",
+    };
+
+    private readonly string walkingAnimation = "Walking";
+    private readonly string runningAnimation = "Running";
+    private readonly string goofyRunningAnimation = "Goofy Running";
+    private readonly string injuriedRunAnimation = "InjuredRun";
+    private readonly string painGestureRunAnimation = "PainGesture";
+    private readonly string injuredStumbleIdleAnimation = "InjuredStumbleIdle";
+    private float _timerScaredAndStuck = 0f;
+    private float _checkingTimeCounter = 0f;
+    #endregion
+
+    #region Protected Attributes
+    protected AudioSource _audioSource;
+    protected NavMeshAgent _navMesh;
+    protected bool _goingToDestination = false;
+    protected bool _isWalkingRandomly = true;
     protected float _currentSpeed;
+    protected bool _isInfected;
     [SerializeField]
     protected float _walkSpeed = 4f;
     [SerializeField]
     protected float _runSpeed = 10f;
     [SerializeField]
     protected AudioClip[] _screamSfx;
-    protected AudioSource _audioSource;
-    protected NavMeshAgent _navMesh;
-    public static bool canScream = true;
-    public Vector3 currentDestination;
-    protected bool _goingToDestination = false;
-    protected bool _isWalkingRandomly = true;
+    [SerializeField]
+    protected bool _startWalkingRandomly = false;
     [SerializeField]
     protected float _minDistanceWhenDestinationReached = 1f;
     [SerializeField]
     protected Animator _animator;
     [SerializeField]
     protected float _checkingPeriod = .5f;
-    float _checkingTimeCounter = 0f;
+    [SerializeField]
+    protected float _maxTimeScaredAndStuck = 2f;
+    [SerializeField]
+    protected bool _canBeInfected = true;
+    #endregion
 
-    protected bool IsWalkingRandomly { get => _isWalkingRandomly; }
+    #region Public Attributes
+    public static bool canScream = true;
+    public Vector3 currentDestination;
+    #endregion
 
-    private void Awake()
+    public bool IsWalkingRandomly { get => _isWalkingRandomly; }
+    public bool IsInfected { get => _isInfected; }
+
+    protected void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();        
-        //_audioSource.volume = SoundManager.instance.CurrentVolume;
+        _audioSource = GetComponent<AudioSource>();
 
         _navMesh = GetComponent<NavMeshAgent>();
         _currentSpeed = _walkSpeed;
     }
 
-    protected virtual void Start()
+    protected void Start()
     {
-        LevelManager.instance.totalHumansToScareInLevel++;
+        LevelManager.instance.totalHumansInLevel++;
 
         _audioSource.volume = SoundManager.instance.CurrentVolume;
         _currentSpeed = _walkSpeed;
@@ -51,9 +86,10 @@ public class Human : MonoBehaviour
         if (_animator == null)
             throw new UnassignedReferenceException("Referencie o animator dentro do game object do humano (dentro do obj da mesh?).");
 
-        WalkRandomly();
+        if(_startWalkingRandomly)
+            WalkRandomly();
 
-        SetAnimationByName("Walking");
+        SetAnimationByName(GetIdleAnimation());
     }
 
     protected virtual void Update()
@@ -72,7 +108,7 @@ public class Human : MonoBehaviour
 
             if (_goingToDestination && Vector3.Distance(transform.position, currentDestination) <= _minDistanceWhenDestinationReached)
             {
-                if(!_isScared) {
+                if(!IsInfected) {
                     WalkRandomly();
                 } else
                 {
@@ -80,6 +116,28 @@ public class Human : MonoBehaviour
                 }
             }
         }
+
+        if(IsInfected)
+        {
+            if (!_navMesh.hasPath)
+            {
+                _timerScaredAndStuck += Time.deltaTime;
+
+                if (_timerScaredAndStuck >= _maxTimeScaredAndStuck)
+                {
+
+                    Die();
+                }
+            } else
+            {
+                _timerScaredAndStuck = 0;
+            }
+        }
+    }
+
+    private string GetIdleAnimation()
+    {
+        return Utils.GetRandomArrayElement(idleAnimations);
     }
 
     private void GoToDestination(Vector3 destination)
@@ -94,27 +152,28 @@ public class Human : MonoBehaviour
         _navMesh.speed = _currentSpeed;
     }
 
-    public virtual void Scare()
-    {        
-        SetAnimationByName(Random.Range(0,2) == 0 ? "Running" : "Goofy Running");
-
-        _isScared = true;
-        SetPainted();
-        PlayScreamSfx();
-        Vector3 positionToRun = new Vector3(
-            LevelManager.instance.GetLevelMaxX(),
-            1.72f,
-            LevelManager.instance.GetLevelMaxZ()
-        );
-
-        StopAndRunToDestination(positionToRun);
-
-        LevelManager.instance.IncrementHumansScared();
-    }
-
-    public virtual bool IsScared()
+    public virtual void Infect()
     {
-        return _isScared;
+        if (IsInfected) return;
+
+        //SetAnimationByName(goofyRunningAnimation);
+        SetPainted();
+        //PlayScreamSfx();
+        //Vector3 positionToRun = new Vector3(
+        //    LevelManager.instance.GetLevelMaxX(),
+        //    1.72f,
+        //    LevelManager.instance.GetLevelMaxZ()
+        //);
+        //StopAndRunToDestination(positionToRun, .5f);
+        GameObject humansSpawned = ObjectPooler.instance.Spawn("human-trio", transform.position, transform.rotation);
+        if(humansSpawned != null)
+        {
+
+        }
+
+        _isInfected = true;
+
+        LevelManager.instance.IncrementHumansInfected();
     }
 
     public virtual void SetPainted()
@@ -143,7 +202,7 @@ public class Human : MonoBehaviour
         _isWalkingRandomly = false;
         _goingToDestination = false;
         SetCurrentSpeed(0);
-        SetAnimationByName("Idle");
+        SetAnimationByName(GetIdleAnimation());
     }
 
     public virtual void WalkRandomly()
@@ -173,6 +232,7 @@ public class Human : MonoBehaviour
     {
         _isWalkingRandomly = false;
         yield return new WaitForSeconds(delay);
+        SetAnimationByName(runningAnimation);
         SetCurrentSpeed(_runSpeed);
         GoToDestination(targetPosition);
     }
@@ -185,6 +245,7 @@ public class Human : MonoBehaviour
     private IEnumerator StopAndRunToDestinationCo(Vector3 targetPosition, float stopDuration = 0)
     {
         _isWalkingRandomly = false;
+        SetCurrentSpeed(0);
         yield return new WaitForSeconds(stopDuration);
         RunToPosition(targetPosition);
     }
@@ -214,5 +275,10 @@ public class Human : MonoBehaviour
     public bool IsStopped()
     {
         return _currentSpeed == 0;
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
     }
 }

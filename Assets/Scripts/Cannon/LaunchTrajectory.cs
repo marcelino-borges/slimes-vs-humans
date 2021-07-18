@@ -6,51 +6,50 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class LaunchTrajectory : MonoBehaviour
 {
+    private float _g;
+    private float _radianAngle;
+    private LineRenderer _line;
+    private float _maxXDistance;
+    private Vector3 _endPosition;
+    private Vector3 _startPosition;
+    [SerializeField] private float _velocity = 10f;
+
     public static float degreeAngle = 45;
     public float DegreeAngle { get => degreeAngle; set => degreeAngle = value; }
-    [SerializeField] private float velocity = 10f;
     public int lineResolution = 15; 
 
-    LineRenderer line;
-    float maxXDistance;
-
-    private Vector3 startPosition;
     public Vector3 StartPosition
     {
-        get { return startPosition; }
-        set { startPosition = value; }
+        get { return _startPosition; }
+        set { _startPosition = value; }
     }
 
-    private Vector3 endPosition;
     public Vector3 EndPosition
     {
-        get { return endPosition; }
-        set { endPosition = value; }
+        get { return _endPosition; }
+        set { _endPosition = value; }
     }
-
-    float g;
-    float radianAngle;
-    public float MaxXDistance { get => maxXDistance; set => maxXDistance = value; }
-    public float Velocity { get => velocity; set => velocity = value; }
+    public float MaxXDistance { get => _maxXDistance; set => _maxXDistance = value; }
+    public float Velocity { get => _velocity; set => _velocity = value; }
 
     protected void Awake()
     {
-        line = GetComponent<LineRenderer>();
-        g = Mathf.Abs(Physics.gravity.y);
+        _line = GetComponent<LineRenderer>();
+        _g = Mathf.Abs(Physics.gravity.y);
     }
 
     public void SetLineRendererSettings()
     {
-        if (line == null || !Application.isPlaying)
+        if (_line == null || !Application.isPlaying)
             return;
 
-        line.positionCount = lineResolution + 1;
-        line.SetPositions(CalculateLineRendererPoints());
+        _line.positionCount = lineResolution + 1;
+        _line.SetPositions(CalculateLineRendererPoints());
     }
 
     public void SetMotionParameters(Vector3 startPosition, Vector3 endPosition, float velocity, int lineResolution = 15)
     {
-        radianAngle = degreeAngle * Mathf.Deg2Rad;
+        _radianAngle = degreeAngle * Mathf.Deg2Rad;
         Velocity = velocity;
         this.lineResolution = lineResolution;
         StartPosition = startPosition;
@@ -60,7 +59,7 @@ public class LaunchTrajectory : MonoBehaviour
     private Vector3[] CalculateLineRendererPoints()
     {
         Vector3[] linePositions = new Vector3[lineResolution + 1];
-        radianAngle = Mathf.Deg2Rad * degreeAngle;
+        _radianAngle = Mathf.Deg2Rad * degreeAngle;
         float maxHorizontalDistance = GetZMaxDistance();
 
         for (int i = 0; i <= lineResolution; i++)
@@ -73,31 +72,29 @@ public class LaunchTrajectory : MonoBehaviour
 
     private Vector3 CalculateLinePosition(float t, float maxZDistance)
     {
-        float x = startPosition.x + t * MaxXDistance;
-        float z = startPosition.z + t * maxZDistance;
-        float y = HUD.instance.selectedSlime.GetComponent<Slime>() is SlimeBomb 
-            ? GetYWhenAtZPosition(z, StartPosition.y)
-            : startPosition.y;
+        float x = _startPosition.x + t * MaxXDistance;
+        float z = _startPosition.z + t * maxZDistance;
+        float y = GetYWhenAtZPosition(z, StartPosition.y);
         return new Vector3(x, y, z);
     }
 
     public float GetYWhenAtZPosition(float z, float y0 = 0)
     {
-        return Utils.GetYWhenAtZPosition(z, Velocity, radianAngle, g, startPosition.y);
+        return Utils.GetYWhenAtZPosition(z, Velocity, _radianAngle, _g, _startPosition.y);
     }
 
     public float GetZMaxDistance()
     {
-        return Utils.GetZMaxDistance(Velocity, radianAngle, g);
+        return Utils.GetZMaxDistance(Velocity, _radianAngle, _g);
     }
 
     public float GetVelocityNeededToReachDistance(float distance)
     {
-        return Utils.GetVelocityNeededToReachDistance(distance, g, radianAngle);
+        return Utils.GetVelocityNeededToReachDistance(distance, _g, _radianAngle);
     }
 
     public void ClearLineRendererPoints()
     {
-        line.positionCount = 0;
+        _line.positionCount = 0;
     }
 }

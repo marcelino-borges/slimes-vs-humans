@@ -3,11 +3,6 @@ using UnityEngine;
 
 public class SlimeBomb : Slime
 {
-    bool _moving = false;
-    Vector3 _positionOnLaunch = Vector3.zero;
-    Vector3 _targetPosition = Vector3.zero;
-
-    float time = 0;
     protected override void Awake()
     {
         base.Awake();
@@ -18,57 +13,6 @@ public class SlimeBomb : Slime
     protected override void Start()
     {
         base.Start();
-    }
-
-    protected void FixedUpdate()
-    {
-        if(_moving)
-        {
-            time += Time.deltaTime;
-            float x = time * _targetPosition.x;
-            float z = time * _targetPosition.z;
-            float y = Utils.GetYWhenAtZPosition(
-                z,
-                _launchForce, 
-                LaunchTrajectory.degreeAngle * Mathf.Deg2Rad, 
-                Mathf.Abs(Physics.gravity.y), 
-                _positionOnLaunch.y
-            );
-            Vector3 nextPosition = new Vector3(x, y, z);
-            rb.MovePosition(nextPosition);
-        }
-    }
-
-    public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f)
-    {
-        _positionOnLaunch = transform.position;
-        _targetPosition = targetPosition;  
-        _launchForce = force;
-        _moving = true;
-        SetVelocity(direction * _launchForce);
-#if UNITY_EDITOR
-        //Debug only
-        destinyPoint = transform.position + direction;
-        originPoint = transform.position;
-#endif      
-    }
-
-    protected override void SetVelocity(Vector3 velocity)
-    {
-        this.velocity = velocity;
-    }
-
-    protected override void OnCollisionEnter(Collision collision)
-    {
-        if (collision != null && !collision.gameObject.CompareTag("Cannon"))
-        {
-            PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
-
-            TestCollisionAgainstBuildings(collision);
-
-            StartCoroutine(DamageArea(2f));
-            SetOnGroundMode();
-        }
     }
 
     protected IEnumerator DamageArea(float delay)
@@ -122,21 +66,20 @@ public class SlimeBomb : Slime
         Destroy(gameObject);
     }
 
-    protected override void SetOnGroundMode()
+    protected override void OnCollisionEnter(Collision collision)
     {
-        rb.useGravity = true;
-        _moving = false;
-        rb.AddForce(velocity);
-        isGroundMode = true;
-    }
+        base.OnCollisionEnter(collision);
 
-#if UNITY_EDITOR
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(originPoint, destinyPoint);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(originPoint, _decayRadius);
+        if (collision != null)
+        {
+            if (CanDetectCollision())
+            {
+                PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
+
+                TestCollisionAgainstBuildings(collision);
+
+                StartCoroutine(DamageArea(2f));
+            }
+        }
     }
-#endif
 }

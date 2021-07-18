@@ -14,23 +14,6 @@ public class SlimeCollector : Slime, IPoolableObject
 
     }
 
-    public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f)
-    {
-#if UNITY_EDITOR
-        //Debug only
-        destinyPoint = transform.position + direction;
-        originPoint = transform.position;
-#endif
-        velocity = direction * _launchForce;
-        SetVelocity(velocity);
-    }
-
-    protected override void SetVelocity(Vector3 velocity)
-    {
-        this.velocity = velocity;
-        base.SetVelocity(velocity);        
-    }
-
     protected override void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
@@ -40,8 +23,6 @@ public class SlimeCollector : Slime, IPoolableObject
             CountDetectCollisionCooldown();
             PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
 
-            rb.drag = 2;
-            rb.angularDrag = 2;
             TestCollisionAgainstBuildings(collision);
             TestCollisionAgainstHumans(collision);
         }
