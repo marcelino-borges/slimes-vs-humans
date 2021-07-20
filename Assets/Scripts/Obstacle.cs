@@ -3,17 +3,8 @@
 public class Obstacle : MonoBehaviour
 {
     [SerializeField] protected GameObject explosionParticlesPrefab;
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+    public bool killSlime = false;
 
     public void Explode()
     {
@@ -21,5 +12,21 @@ public class Obstacle : MonoBehaviour
             Instantiate(explosionParticlesPrefab, transform.position, Quaternion.identity);
         }
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other != null)
+        {
+            if (other.gameObject.CompareTag("Slime") && killSlime)
+            {
+                Slime slime = other.gameObject.GetComponent<Slime>();
+
+                if (slime != null && !(slime is SlimeBomb))
+                {
+                    slime.Die();
+                }
+            }
+        }
     }
 }

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanGroup : MonoBehaviour
+public class HumanGroup : MonoBehaviour, IPoolableObject
 {
     public List<Human> humans;
+    public bool isFromPool = false;
 
-    private void Awake()
+    protected void Awake()
     {
         foreach(Transform child in transform)
         {
@@ -17,11 +18,28 @@ public class HumanGroup : MonoBehaviour
         }
     }
 
-    public void InfectAll()
+    public void InfectAll(Slime slime)
     {
         foreach (Human human in humans)
         {
-            human.Infect();
+            human.SetPainted(slime);
+            human.IsInfected = true;
         }
+    }
+
+    private void OnDisable()
+    {
+        if(isFromPool)
+            transform.SetParent(null);
+    }
+
+    public void OnSpawnedFromPool()
+    {
+    }
+
+    public void SetIsFromPool(bool value)
+    {
+        isFromPool = value;
+        //throw new System.NotImplementedException();
     }
 }

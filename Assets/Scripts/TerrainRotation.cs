@@ -7,11 +7,15 @@
 /// </summary>
 public class TerrainRotation : MonoBehaviour
 {
+    [SerializeField]
+    private float _speed = 2f;
+
     public static TerrainRotation instance;
 
-    public float speed = 2f;
-
     public bool toRight = false;
+    public bool isRotating = true;
+
+    protected float Speed { get => _speed; set => _speed = value; }
 
     private void Awake()
     {
@@ -20,15 +24,28 @@ public class TerrainRotation : MonoBehaviour
             instance = this;
         }
     }
-
-    void Start()
-    {
-        
-    }
         
     void Update()
     {
-        Vector3 axis = toRight ? Vector3.up : Vector3.down;
-        transform.Rotate(axis * speed * Time.deltaTime);
+        if (isRotating)
+        {
+            Vector3 axis = toRight ? Vector3.up : Vector3.down;
+            transform.Rotate(axis * _speed * Time.deltaTime);
+        }
+    }
+
+    public void Rotate()
+    {
+        isRotating = true;
+    }
+
+    public void Stop()
+    {
+        isRotating = false;
+    }
+
+    public void InvertRotation()
+    {
+        toRight = !toRight;
     }
 }

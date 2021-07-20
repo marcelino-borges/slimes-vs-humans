@@ -9,11 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2460422401463443222}
+  - component: {fileID: 1743704210226470817}
   - component: {fileID: 2460422401463443220}
   - component: {fileID: 7973748009370676546}
   - component: {fileID: 2460422401463443211}
   - component: {fileID: 2460422401463443221}
   - component: {fileID: 2460422401463443217}
+  - component: {fileID: 6948672724764170864}
   m_Layer: 11
   m_Name: Human
   m_TagString: Human
@@ -36,6 +38,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1743704210226470817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460422401463443218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d360c936f59be5845b579abe2774f146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attractionForce: 100
+  tacticalSlime: {fileID: 0}
+  isBeingAttractd: 0
+  rb: {fileID: 0}
 --- !u!114 &2460422401463443220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +80,10 @@ MonoBehaviour:
   _checkingPeriod: 0.5
   _maxTimeScaredAndStuck: 2
   _canBeInfected: 1
+  _splatEffect: {fileID: 0}
   currentDestination: {x: 0, y: 0, z: 0}
+  isFromPool: 0
+  rb: {fileID: 6948672724764170864}
 --- !u!114 &7973748009370676546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +234,22 @@ CapsuleCollider:
   m_Height: 2.4527748
   m_Direction: 1
   m_Center: {x: 0, y: 1.2265662, z: 0.124681786}
+--- !u!54 &6948672724764170864
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460422401463443218}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
 --- !u!95 &7751613879324982047
 Animator:
   serializedVersion: 3

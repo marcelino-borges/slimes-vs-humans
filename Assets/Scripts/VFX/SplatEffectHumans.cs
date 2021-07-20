@@ -14,33 +14,29 @@ public class SplatEffectHumans : MonoBehaviour
 
     private void Awake() => materialsList = humanRenderer.materials;
 
-    private void OnCollisionEnter(Collision collision)
+    public void CreateSplatEffect(Slime slime)
     {
-        if (collision.gameObject.CompareTag("Slime") && !alreadySplatted)
+        alreadySplatted = true;
+
+        // Check the slime type to get the correct color to splatt effect
+        
+
+        if (slime is SlimeCollector)
         {
-            alreadySplatted = true;
-
-            // Check the slime type to get the correct color to splatt effect
-            Slime slime = collision.gameObject.GetComponent<Slime>();
-
-            if (slime is SlimeCollector)
-            {
-                splatIndex = 0;
-            }
-
-            else if (slime is SlimeTactical)
-            {
-                splatIndex = 1;
-            }
-
-            else if (slime is SlimeBomb)
-            {
-                splatIndex = 2;
-            }
-
-            materialsList[0] = splattedMaterial[splatIndex];
-            humanRenderer.materials = materialsList;
-            //humanRenderer.material.SetTextureOffset("_MainTex", new Vector2(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f)));
+            splatIndex = 0;
         }
+
+        else if (slime is SlimeTactical)
+        {
+            splatIndex = 1;
+        }
+
+        else if (slime is SlimeBomb)
+        {
+            splatIndex = 2;
+        }
+
+        materialsList[0] = splattedMaterial[splatIndex];
+        humanRenderer.materials = materialsList;
     }
 }

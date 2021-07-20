@@ -1,6 +1,4 @@
 ﻿using MilkShake;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -78,7 +76,7 @@ public class Cannon : MonoBehaviour
 #else
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && EventSystem.current.currentSelectedGameObject == null)
         {
-            LaunchSlime();
+            SetSlimeLaunch();
         }
 #endif
     }
@@ -103,7 +101,6 @@ public class Cannon : MonoBehaviour
             LevelManager.instance.IncrementSlimeLaunched();
             _slimeInstantiated = null;
         }
-
         HUD.instance.ClearSelectedSlime();
     }
 

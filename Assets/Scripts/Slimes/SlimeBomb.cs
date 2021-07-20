@@ -66,6 +66,17 @@ public class SlimeBomb : Slime
         Destroy(gameObject);
     }
 
+    protected override void TestCollisionAgainstObstacles(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
+            obstacle.Explode();
+            Die();
+            //SetVelocity(Vector3.zero);
+        }
+    }
+
     protected override void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
@@ -77,6 +88,7 @@ public class SlimeBomb : Slime
                 PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
 
                 TestCollisionAgainstBuildings(collision);
+                TestCollisionAgainstObstacles(collision);
 
                 StartCoroutine(DamageArea(2f));
             }

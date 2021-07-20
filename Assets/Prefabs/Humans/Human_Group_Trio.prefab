@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7159088314909620051}
   - component: {fileID: 3770933974909887650}
+  - component: {fileID: 8875668305103250632}
   m_Layer: 0
   m_Name: Human_Group_Trio
   m_TagString: Untagged
@@ -47,6 +48,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   humans: []
+  isFromPool: 0
+--- !u!95 &8875668305103250632
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7027655509047395318}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 836b1838282d8da45b9ea04513af69fa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &391049838788319533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58,6 +79,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Human (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2460422401463443220, guid: 39087bcb20e240145b297406fb7a133d,
+        type: 3}
+      propertyPath: countToTotalHumansInLevel
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2460422401463443222, guid: 39087bcb20e240145b297406fb7a133d,
         type: 3}
@@ -134,6 +160,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2460422401463443220, guid: 39087bcb20e240145b297406fb7a133d,
+        type: 3}
+      propertyPath: countToTotalHumansInLevel
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2460422401463443222, guid: 39087bcb20e240145b297406fb7a133d,
         type: 3}
       propertyPath: m_RootOrder
@@ -208,6 +239,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Human
+      objectReference: {fileID: 0}
+    - target: {fileID: 2460422401463443220, guid: 39087bcb20e240145b297406fb7a133d,
+        type: 3}
+      propertyPath: countToTotalHumansInLevel
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2460422401463443222, guid: 39087bcb20e240145b297406fb7a133d,
         type: 3}

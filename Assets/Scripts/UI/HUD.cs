@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
@@ -32,17 +33,15 @@ public class HUD : MonoBehaviour
     private GameObject slimeBombPrefab;
     [SerializeField]
     private GameObject slimeCollectorPrefab;
+
     public GameObject selectedSlime;
     public Slider launchProgressBar;
+    public CardSlimeUI cardSelected;
 
     private void Awake()
     { 
-        instance = this;
-    }
-
-    private void Start()
-    {
-        SelectSlimeTatic();
+        if(instance == null)
+            instance = this;
     }
 
     public void ShowPauseMenu()
@@ -63,19 +62,40 @@ public class HUD : MonoBehaviour
         damagePanel.SetActive(false);
     }
 
-    public void SelectSlimeTatic()
+    public void SelectSlimeTatic(CardSlimeUI card)
     {
+        if (LevelManager.instance.quantitySlimeTactical <= 0) return;
+        ClearSelectedSlime();
+        LevelManager.instance.DecrementSlimeTactical();
+        SelectCard(card);
         SelectSlime(slimeTaticPrefab);
     }
 
-    public void SelectSlimeCollector()
+    public void SelectSlimeCollector(CardSlimeUI card)
     {
+        if (LevelManager.instance.quantitySlimeCollector <= 0) return;
+        ClearSelectedSlime();
+        LevelManager.instance.DecrementSlimeCollector();
+        SelectCard(card);
         SelectSlime(slimeCollectorPrefab);
     }
 
-    public void SelectSlimeBomb()
+    public void SelectSlimeBomb(CardSlimeUI card)
     {
+        if (LevelManager.instance.quantitySlimeBomb <= 0) return;
+        ClearSelectedSlime();
+        LevelManager.instance.DecrementSlimeBomb();
+        SelectCard(card);
         SelectSlime(slimeBombPrefab);
+    }
+
+    private void SelectCard(CardSlimeUI card)
+    {
+        if (card != null)
+        {
+            card.Select();
+            cardSelected = card;
+        }
     }
 
     private void SelectSlime(GameObject slimePrefab)
@@ -89,6 +109,12 @@ public class HUD : MonoBehaviour
     public void ClearSelectedSlime()
     {
         selectedSlime = null;
+        if (cardSelected != null)
+        {
+            cardSelected.Deselect();
+            cardSelected.DecrementQuantityLeft();
+            cardSelected = null;
+        }
     }
 
     public void SetLaunchBarVisible(bool visible)
@@ -120,7 +146,7 @@ public class HUD : MonoBehaviour
 
     public void SetMaxSlimesOfLevel(int total)
     {
-        slimesTotal.text = total < 10 ? "0" + total : total.ToString();
+        //slimesTotal.text = total < 10 ? "0" + total : total.ToString();
     }
 
     public void SetCurrentHumansInfected(int number)
@@ -130,7 +156,12 @@ public class HUD : MonoBehaviour
 
     public void SetSlimesLaunched(int number)
     {
-        slimesLeft.text = number < 10 ? "0" + number : number.ToString();
+        //slimesLeft.text = number < 10 ? "0" + number : number.ToString();
+    }
+
+    public void ReloadLevel()
+    {
+        CommonUI.ReloadLevel();
     }
 }
 

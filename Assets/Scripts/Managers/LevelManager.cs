@@ -15,12 +15,19 @@ public class LevelManager : MonoBehaviour
     public int maxSlimesOfLevel = 20;
     public int slimesLaunched = 0;
 
+    [Space(20)]
     public float delayToShowUI = .5f;
     public int starsWonInLevel = 0;
     public GameObject tipCanvas;
     public float delayToShowGameOver = .5f;
     public Cannon cannonInScene;    
     public MeshRenderer terrainInLevel;
+
+    [Space(20)]
+    [Header("SLIMES QUANTITY IN LEVEL")]
+    public int quantitySlimeCollector = 0;
+    public int quantitySlimeTactical = 0;
+    public int quantitySlimeBomb = 0;
 
     private void Awake()
     {
@@ -33,6 +40,8 @@ public class LevelManager : MonoBehaviour
         {
             Debug.LogError("Terrain not found in the scene. Have you assigned a 'Terrain' to your terrain?");
         }
+
+        maxSlimesOfLevel = quantitySlimeCollector + quantitySlimeTactical + quantitySlimeBomb;
     }
 
     void Start()
@@ -55,6 +64,18 @@ public class LevelManager : MonoBehaviour
         HUD.instance.SetTotalHumans(totalHumansInLevel);
         HUD.instance.SetCurrentHumansInfected(0);
         HUD.instance.SetSlimesLaunched(0);
+    }
+
+    public void IncrementHumanTotal()
+    {
+        totalHumansInLevel++;
+        HUD.instance.SetTotalHumans(totalHumansInLevel);
+    }
+
+    public void DecrementHumanTotal()
+    {
+        totalHumansInLevel--;
+        HUD.instance.SetTotalHumans(totalHumansInLevel);
     }
 
     /// <summary>
@@ -166,6 +187,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator SetVictoryCo()
     {
         //player.FreezePlayer();
+        starsWonInLevel = CalculateStarsWon(0, 0);
         yield return new WaitForSeconds(delayToShowUI);
         ShowUI(victoryMenu.gameObject);
         victoryMenu.SetStarsFromLevel();
@@ -184,7 +206,10 @@ public class LevelManager : MonoBehaviour
         humansInfected++;
 
         if (humansInfected >= totalHumansInLevel)
+        {
+            print("humansInfected " + humansInfected + "/" + totalHumansInLevel);
             SetVictory();
+        }
 
         HUD.instance.SetCurrentHumansInfected(humansInfected);
     }
@@ -203,6 +228,27 @@ public class LevelManager : MonoBehaviour
     {
         LevelData currentLevel = new LevelData(SceneManager.GetActiveScene().buildIndex, starsWonInLevel);
         PlayerPersistence.TryToSaveCurrentLevel(currentLevel);
+    }
+
+    public void DecrementSlimeCollector()
+    { 
+        if(quantitySlimeCollector <= 0) return;
+
+        quantitySlimeCollector--;
+    }
+
+    public void DecrementSlimeTactical()
+    {
+        if (quantitySlimeTactical <= 0) return;
+
+        quantitySlimeTactical--;
+    }
+
+    public void DecrementSlimeBomb()
+    {
+        if (quantitySlimeBomb <= 0) return;
+
+        quantitySlimeBomb--;
     }
 }
 

@@ -42,7 +42,6 @@ public class Building : MonoBehaviour
     [SerializeField] private Transform[] humanPositions;
     [SerializeField] private int _humansToSpawnOnRoof = 0;
     [SerializeField] private List<Human> _humansOnRooftop;
-    [SerializeField] private GameObject _humanPrefab;
 
     void Awake()
     {
@@ -68,16 +67,29 @@ public class Building : MonoBehaviour
 
     private void SpawnHumansOnRooftop()
     {
+        GameObject humanPrefab = ObjectPooler.instance.GetOriginalPrefabFromPool("human");
+
         for (int i = 0; i < _humansToSpawnOnRoof; i++)
         {
             if (humanPositions[i] != null) {
-                GameObject humanSpawned = Instantiate(_humanPrefab, humanPositions[i].position, Quaternion.identity, transform);
+
+                GameObject humanSpawned = Instantiate(
+                    humanPrefab,
+                    humanPositions[i].position, 
+                    Quaternion.identity, 
+                    transform
+                );
+
                 if(humanSpawned != null)
                 {
                     Human human = humanSpawned.GetComponent<Human>();
 
                     if (human != null)
+                    {
+                        human.rb.isKinematic = true;
+                        human.CanBeInfected = false;
                         _humansOnRooftop.Add(human);
+                    }
                 }
             }
         }
@@ -137,13 +149,14 @@ public class Building : MonoBehaviour
 
         if (_explosionSfx != null && _explosionSfx.Length > 0)
             PlaySfx(GetRandomExplosionClip());
-        FreeHumans();
+        StartCoroutine(ReleaseHumans(.3f));
 
         Destroy(gameObject, 1f);
     }
 
-    private void FreeHumans()
+    private IEnumerator ReleaseHumans(float delay)
     {
+        yield return new WaitForSeconds(delay);
         if (_humansOnRooftop != null && _humansOnRooftop.Count > 0)
         {
             foreach (Human human in _humansOnRooftop)
@@ -154,6 +167,7 @@ public class Building : MonoBehaviour
                     transform.position.y,
                     transform.position.z + Random.Range(-1, 2)
                 );
+                human.CanBeInfected = true;
             }
         }
     }

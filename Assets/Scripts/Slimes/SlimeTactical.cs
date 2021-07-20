@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class SlimeTactical : Slime, IPoolableObject
@@ -13,21 +13,43 @@ public class SlimeTactical : Slime, IPoolableObject
 
     public void OnSpawnedFromPool()
     {
-        
+
     }
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        base.OnCollisionEnter(collision);
-
-        if (CanDetectCollision())
+        if (collision != null)
         {
-            CountDetectCollisionCooldown();
-            PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
+            if (CanDetectCollision())
+            {
+                PlayExplosionParticles();
+                PlayCollisionParticles();
 
-            TestCollisionAgainstBuildings(collision);
-            TestCollisionAgainstHumans(collision);
-            TestCollisionAgainstObstacles(collision);
+                SetOnGroundMode();
+
+                if (!rb.isKinematic)
+                    StartCoroutine(StopMovementsCo());
+
+                TestCollisionAgainstObstacles(collision);
+                TestCollisionAgainstBuildings(collision);
+                TestCollisionAgainstSlimes(collision);
+
+                CountDetectCollisionCooldown();
+                PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
+            }
         }
+    }
+
+    private IEnumerator StopMovementsCo()
+    {
+        yield return new WaitForSeconds(1.5f);
+        rb.isKinematic = true;
+        StartCoroutine(DieCo());
+    }
+
+    private IEnumerator DieCo()
+    {
+        yield return new WaitForSeconds(2f);
+        Die();
     }
 }

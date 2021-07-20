@@ -5,7 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(AudioSource))]
-public abstract class Slime : MonoBehaviour, IDamageable
+public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
 {
     [Header("SLIMEBASE ATTRIBUTES")]
     private bool _canDecay = true;
@@ -78,10 +78,12 @@ public abstract class Slime : MonoBehaviour, IDamageable
     public bool isGroundMode;
     public bool isClone = false;
     public bool isVibrating;
+    public bool isFromPool = false;
     public ShakePreset shakePreset;
 
     public int Damage { get => _damage; }
     public SlimeType SlimeDecayToSpawn { get => _slimeDecayType; }
+    public float DecayRadius { get => _decayRadius; set => _decayRadius = value; }
 
     protected virtual void Awake()
     {
@@ -95,7 +97,7 @@ public abstract class Slime : MonoBehaviour, IDamageable
         _audioSource.volume = SoundManager.instance.CurrentVolume;
     }
 
-    protected void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (_movingInTrajectory)
         {
@@ -133,23 +135,13 @@ public abstract class Slime : MonoBehaviour, IDamageable
         //Debug only
         destinyPoint = transform.position + direction;
         originPoint = transform.position;
-#endif    
+#endif
+        transform.SetParent(TerrainRotation.instance.transform);
     }
 
     protected virtual void SetVelocity(Vector3 velocity)
     {
         this.velocity = velocity;
-    }
-
-    private void OnEnable()
-    {
-        _health = _maxHealth;
-    }
-
-    private void OnDestroy()
-    {
-        if (isClone && _currentGlobalClonesCount > 0)
-            _currentGlobalClonesCount--;
     }
 
     public virtual void Die()
@@ -170,10 +162,10 @@ public abstract class Slime : MonoBehaviour, IDamageable
         ShakeCamera();
         Vibrate();
 
-        if (!_poolObjectOnDeath)
+        if (!isFromPool)
             Destroy(gameObject);
         else
-            Disable();
+            gameObject.SetActive(false);
     }
 
     public void Decay()
@@ -200,7 +192,6 @@ public abstract class Slime : MonoBehaviour, IDamageable
                     {
                         slime.SetOnGroundMode();
                         slime.isClone = true;
-                        slime._poolObjectOnDeath = true;
                     }
                 }
                 yield return new WaitForSeconds(_cloneCooldown);
@@ -345,7 +336,11 @@ public abstract class Slime : MonoBehaviour, IDamageable
         {
             Human human = collision.gameObject.GetComponent<Human>();
             if (human != null)
-                human.Infect();
+            {
+                human.rb.isKinematic = true;
+                human.Infect(this);
+            }
+
             //CloneItSelf();
             Die();
         }
@@ -356,9 +351,9 @@ public abstract class Slime : MonoBehaviour, IDamageable
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
-            obstacle.Explode();
-            SetVelocity(Vector3.zero);
-            Die();
+
+            if (obstacle.killSlime)
+                Die();
         }
     }
 
@@ -419,6 +414,39 @@ public abstract class Slime : MonoBehaviour, IDamageable
                 SetOnGroundMode();
             }
         }
+    }
+
+    public void OnSpawnedFromPool()
+    {
+        //throw new NotImplementedException();
+    }
+
+    public void SetIsFromPool(bool value)
+    {
+        isFromPool = value;
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        transform.SetParent(null);
+    }
+
+    private void OnEnable()
+    {
+        _health = _maxHealth;
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+
+        if (isClone && _currentGlobalClonesCount > 0)
+            _currentGlobalClonesCount--;
+
+        _isDead = false;
+
+        _health = _maxHealth;
     }
 
 #if UNITY_EDITOR

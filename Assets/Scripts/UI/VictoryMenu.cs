@@ -9,10 +9,19 @@ public class VictoryMenu : MonoBehaviour
 
     public GameObject WatchAdPopUp;
 
+    private Animator animator;
+    
     private bool hasShownStars = false;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     public void SetStarsFromLevel()
     {
+        animator.Play("Show");
+
         if (victorySfx != null)
             SoundManager.instance.PlaySound2D(victorySfx);
 

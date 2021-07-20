@@ -12,9 +12,13 @@ public struct PoolModel
 
 public class ObjectPooler : MonoBehaviour
 {
+    #region Public Attributes
     public static ObjectPooler instance;
     public List<PoolModel> objectsToPool;
     public Dictionary<string, Queue<GameObject>> poolDictionary;
+    #endregion
+
+    #region Monobehavior Methods
 
     private void Awake()
     {
@@ -33,6 +37,9 @@ public class ObjectPooler : MonoBehaviour
             Spawn(SlimeType.COLLECTOR.ToString(), transform.position, Quaternion.identity);
         }
     }
+    #endregion 
+
+    #region Private Custom Methods
 
     private void InitializePoolOfObjects()
     {
@@ -50,16 +57,6 @@ public class ObjectPooler : MonoBehaviour
             }
             poolDictionary.Add(item.tag, objectPool);
         }
-    }
-
-    public GameObject Spawn(SlimeType slimeType, Vector3 position, Quaternion rotation, Transform parent = null)
-    {
-        return GetObjectFromPool(slimeType.ToString().ToLower(), position, rotation, parent);
-    }
-
-    public GameObject Spawn(string tag, Vector3 position, Quaternion rotation, Transform parent = null)
-    {
-        return GetObjectFromPool(tag, position, rotation, parent);
     }
 
     private GameObject GetObjectFromPool(string tag, Vector3 position, Quaternion rotation, Transform parent = null)
@@ -85,10 +82,42 @@ public class ObjectPooler : MonoBehaviour
         IPoolableObject poolableObject = objectToSpawn.GetComponent<IPoolableObject>();
 
         if (poolableObject != null)
+        {
             poolableObject.OnSpawnedFromPool();
+            poolableObject.SetIsFromPool(true);
+        }
 
         poolDictionary[tag.ToLower()].Enqueue(objectToSpawn);
 
         return objectToSpawn;
     }
+    #endregion
+
+    #region Public Methods
+
+    public GameObject Spawn(SlimeType slimeType, Vector3 position, Quaternion rotation, Transform parent = null)
+    {
+        return GetObjectFromPool(slimeType.ToString().ToLower(), position, rotation, parent);
+    }
+
+    public GameObject Spawn(string tag, Vector3 position, Quaternion rotation, Transform parent = null)
+    {
+        return GetObjectFromPool(tag, position, rotation, parent);
+    }
+
+    public GameObject GetOriginalPrefabFromPool(string tag)
+    {
+        GameObject prefab = null;
+
+        foreach (PoolModel pool in objectsToPool)
+        {
+            if (pool.tag.Equals(tag.ToLower()))
+            {
+                prefab = pool.objectToPool;
+                break;
+            }
+        }
+        return prefab;
+    }
+    #endregion
 }

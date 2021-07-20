@@ -452,6 +452,64 @@ Transform:
   m_Father: {fileID: 3184815007023427258}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -84.90553, y: 168.99796, z: 160.95007}
+--- !u!1 &6514824120116953074
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1388587862345943185}
+  - component: {fileID: 8770925378171145875}
+  - component: {fileID: 7221364217843639022}
+  m_Layer: 10
+  m_Name: Attractor
+  m_TagString: Slime
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1388587862345943185
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6514824120116953074}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7804639050473256430}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8770925378171145875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6514824120116953074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053982cdf40fcfb44ab1166a316727ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slime: {fileID: 8693074872168088409}
+--- !u!135 &7221364217843639022
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6514824120116953074}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &7423187214024699732
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,6 +545,7 @@ Transform:
   - {fileID: 3509567657826248335}
   - {fileID: 2715752800010789630}
   - {fileID: 3620797387238091789}
+  - {fileID: 1388587862345943185}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -512,7 +571,7 @@ MonoBehaviour:
   _cloneCooldown: 0.5
   _canCloneCooldown: 1
   _canDecayCooldown: 1
-  _slimeDecayType: 2
+  _slimeDecayType: 0
   _maxCloneCount: 4
   _currentCloneCount: 0
   _maxCollisionReflections: 3
@@ -532,6 +591,7 @@ MonoBehaviour:
   isGroundMode: 0
   isClone: 0
   isVibrating: 0
+  isFromPool: 0
   shakePreset: {fileID: 11400000, guid: 74d16472849c6374db2c71cddbe17811, type: 2}
 --- !u!95 &1561551534294258876
 Animator:
@@ -573,9 +633,9 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7423187214024699732}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 3
   m_Drag: 1
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.1
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
