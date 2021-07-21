@@ -47,9 +47,9 @@ public class Utils : MonoBehaviour
         return Mathf.Sqrt((targetDistance * gravity) / Mathf.Sin(2 * radianAngle));
     }
 
-    public static float GetZMaxDistance(float velocity, float radianAngle, float gravity)
+    public static float GetZMaxDistance(float velocity, float radianAngle, float gravity, float z0 = 0)
     {
-        return (Mathf.Pow(velocity, 2) * Mathf.Sin(2 * radianAngle)) / gravity;
+        return z0 + (Mathf.Pow(velocity, 2) * Mathf.Sin(2 * radianAngle)) / gravity;
     }
 
     public static float GetYWhenAtZPosition(float zPosition, float velocity, float radianAngle, float gravity, float y0 = 0)

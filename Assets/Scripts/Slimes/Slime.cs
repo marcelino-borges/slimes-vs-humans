@@ -2,6 +2,7 @@ using MilkShake;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(AudioSource))]
@@ -80,6 +81,7 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     public bool isVibrating;
     public bool isFromPool = false;
     public ShakePreset shakePreset;
+    public UnityEvent OnDieEvent;
 
     public int Damage { get => _damage; }
     public SlimeType SlimeDecayToSpawn { get => _slimeDecayType; }
@@ -89,6 +91,9 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     {
         rb = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
+
+        if (OnDieEvent == null)
+            OnDieEvent = new UnityEvent();
     }
 
     protected virtual void Start()
@@ -161,6 +166,8 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
 
         ShakeCamera();
         Vibrate();
+
+        OnDieEvent.Invoke();
 
         if (!isFromPool)
             Destroy(gameObject);
@@ -407,7 +414,6 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
         {
             if (CanDetectCollision())
             {
-                PlayExplosionParticles();
                 PlayCollisionParticles();
 
                 TestCollisionAgainstSlimes(collision);

@@ -13,7 +13,11 @@ public class TerrainRotation : MonoBehaviour
     public static TerrainRotation instance;
 
     public bool toRight = false;
-    public bool isRotating = true;
+    public bool canRotate = true;
+    [ReadOnly]
+    [SerializeField]
+    private bool isRotating = true;
+
 
     protected float Speed { get => _speed; set => _speed = value; }
 
@@ -27,7 +31,7 @@ public class TerrainRotation : MonoBehaviour
         
     void Update()
     {
-        if (isRotating)
+        if (canRotate && isRotating)
         {
             Vector3 axis = toRight ? Vector3.up : Vector3.down;
             transform.Rotate(axis * _speed * Time.deltaTime);

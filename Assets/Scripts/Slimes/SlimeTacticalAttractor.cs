@@ -36,6 +36,7 @@ public class SlimeTacticalAttractor : MonoBehaviour
 
                 if (human != null)
                 {
+                    slime.OnDieEvent.AddListener(human.ClearAtraction);
                     human.SetAtraction(slime);
                 }
             }
