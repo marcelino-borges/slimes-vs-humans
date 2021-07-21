@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SlimeBombPiecesExplosion 1
+  m_Name: SlimeTacticMagneticVFX
   m_Shader: {fileID: -6465566751694194690, guid: e9bb17293d8981a47831e85b41577ad5,
     type: 3}
   m_ShaderKeywords: _SPECULAR_SETUP
@@ -39,7 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Slime_Texture:
-        m_Texture: {fileID: 2800000, guid: 9d4f3aa2bc4c93c41bcd6dfd73ed34d4, type: 3}
+        m_Texture: {fileID: 2800000, guid: 003d3f895b2d74f4ca7286d082869a35, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -71,8 +71,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Alpha: 0.93
-    - Smothness: 0.9
+    - Alpha: 2
+    - Smothness: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
