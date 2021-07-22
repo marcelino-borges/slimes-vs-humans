@@ -143,7 +143,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 438c76daec51e42428d6e73c42c334e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gizmos: 0
   _health: 0
   _maxHealth: 1
   _damage: 1
@@ -152,10 +151,10 @@ MonoBehaviour:
   _detectCollisionCooldown: 0.5
   _decayRadius: 4
   _cloneCooldown: 0.5
-  _canCloneCooldown: 1
   _canDecayCooldown: 1
   _slimeDecayType: 0
-  _maxCloneCount: 10
+  _maxCloneCountOnHumans: 4
+  _maxCloneCountOnSlime: 1
   _currentCloneCount: 0
   _maxCollisionReflections: 3
   _collisionReflectionsCount: 0
@@ -168,18 +167,19 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e6b9b88a806e55c44858295c76bb847f, type: 3}
   _deathSfx: {fileID: 8300000, guid: 2d9fa6de52eef42469755b35696a80c1, type: 3}
   _decaySfx: {fileID: 8300000, guid: e8b2ac4ae706a9441a6e3aae4625a2d1, type: 3}
+  _LaunchSfx: {fileID: 8300000, guid: 44950cd7a608c4140a4b210e0f91d212, type: 3}
   _poolObjectOnDeath: 0
   _bodyMesh: {fileID: 7868489869978905733}
   _decayMaterial: {fileID: 2100000, guid: 3db2e37de2daad24f974c7c60c11c701, type: 2}
   rb: {fileID: 0}
-  isGroundMode: 0
-  isClone: 0
-  isVibrating: 0
-  isFromPool: 0
   shakePreset: {fileID: 11400000, guid: 74d16472849c6374db2c71cddbe17811, type: 2}
   OnDieEvent:
     m_PersistentCalls:
       m_Calls: []
+  isGroundMode: 0
+  isClone: 0
+  isFromPool: 0
+  isSterile: 0
 --- !u!135 &4665625166310349135
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -201,7 +201,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2752695480552661746}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 0

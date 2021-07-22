@@ -10,8 +10,8 @@ public class VictoryMenu : MonoBehaviour
     public GameObject WatchAdPopUp;
 
     private Animator animator;
-    
-    private bool hasShownStars = false;
+
+    public bool hasShownStars = false;
 
     private void Awake()
     {
@@ -25,7 +25,8 @@ public class VictoryMenu : MonoBehaviour
         if (victorySfx != null)
             SoundManager.instance.PlaySound2D(victorySfx);
 
-        StartCoroutine(SetStarsFromLevelCo());
+        hasShownStars = true;
+        //StartCoroutine(SetStarsFromLevelCo());
     }
 
     private IEnumerator SetStarsFromLevelCo()

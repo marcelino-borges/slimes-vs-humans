@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour
     [ReadOnly]
     public bool isGameOver = false;
     [ReadOnly]
+    public bool isLevelWon = false;
+    [ReadOnly]
     public int slimesLaunched = 0;
     [ReadOnly]
     [Tooltip("After the play this attribute will store to total slimes the player can use in this level")]
@@ -35,6 +37,11 @@ public class LevelManager : MonoBehaviour
     [Space(20)]
     public float delayToShowVictoryPanel = .5f;
     public float delayToShowGameOverPanel = .5f;
+    [Tooltip("Max number of cloned slimes allowed in the level")]
+    public int maxClonedSlimesInLevel = 1000;
+    [SerializeField]
+    [Tooltip("Set the rotation speed in the LevelManager of this scene")]
+    public float terrainRotationSpeed = 2f;
     [Header("Slimes available for the player")]
     [Tooltip("The number of collector slimes available in the card for the player. " +
              "0 for making the respective card unavailable")]
@@ -45,11 +52,6 @@ public class LevelManager : MonoBehaviour
     [Tooltip("The number of bomb slimes available in the card for the player. " +
              "0 for making the respective card unavailable")]
     public int quantitySlimeBomb = 0;
-    [Tooltip("Max number of cloned slimes allowed in the level")]
-    public int maxClonedSlimesInLevel = 1000;
-    [SerializeField]
-    [Tooltip("Set the rotation speed in the LevelManager of this scene")]
-    public float speed = 2f;
 
     private void Awake()
     {
@@ -176,12 +178,12 @@ public class LevelManager : MonoBehaviour
 
     public void SetGameOver()
     {
+        if (isLevelWon || isGameOver) return;
         StartCoroutine(SetGameOverCo());
     }
 
     private IEnumerator SetGameOverCo()
     {
-        //player.FreezePlayer();
         isGameOver = true;
         yield return new WaitForSeconds(delayToShowGameOverPanel);
         ShowUI(gameOverPanel);
@@ -192,6 +194,7 @@ public class LevelManager : MonoBehaviour
     public void SetVictory()
     {
         //starsWonInLevel = CalculateStarsWon(humansScared, initialObjectivesInLevel);
+        if (isLevelWon || isGameOver) return;
         StartCoroutine(SetVictoryCo());
     }
 
@@ -209,8 +212,8 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator SetVictoryCo()
     {
-        //player.FreezePlayer();
         starsWonInLevel = CalculateStarsWon(0, 0);
+        isLevelWon = true;
         yield return new WaitForSeconds(delayToShowVictoryPanel);
         ShowUI(victoryMenu.gameObject);
         victoryMenu.SetStarsFromLevel();
@@ -238,12 +241,12 @@ public class LevelManager : MonoBehaviour
 
     public void IncrementSlimeLaunched()
     {
-        slimesLaunched++;
+        //slimesLaunched++;
 
-        if (slimesLaunched >= maxSlimesOfLevel)
-            SetGameOver();
+        //if (slimesLaunched >= maxSlimesOfLevel)
+        //    SetGameOver();
 
-        HUD.instance.SetSlimesLaunched(slimesLaunched);
+        //HUD.instance.SetSlimesLaunched(slimesLaunched);
     }
 
     public void SaveLevelData()
@@ -256,21 +259,40 @@ public class LevelManager : MonoBehaviour
     { 
         if(quantitySlimeCollector <= 0) return;
 
+        slimesLaunched++;
         quantitySlimeCollector--;
+
+        if (IsCollectorAndTacticalOver())
+            SetGameOver();
     }
 
     public void DecrementSlimeTactical()
     {
         if (quantitySlimeTactical <= 0) return;
 
+        slimesLaunched++;
         quantitySlimeTactical--;
+
+        if (IsCollectorAndTacticalOver())
+            SetGameOver();
     }
 
     public void DecrementSlimeBomb()
     {
         if (quantitySlimeBomb <= 0) return;
 
+        slimesLaunched++;
         quantitySlimeBomb--;
+    }
+
+    private bool IsCollectorAndTacticalOver()
+    {
+        return quantitySlimeCollector <= 0 && quantitySlimeTactical <= 0;
+    }
+
+    public bool IsGameActive()
+    {
+        return !isGameOver && !isLevelWon;
     }
 }
 

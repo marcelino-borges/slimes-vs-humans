@@ -9,7 +9,15 @@ public class SlimeCollector : Slime
 
         _slimeCloneType = SlimeType.COLLECTOR;
     }
-    
+
+    public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50)
+    {
+        base.Launch(direction, targetPosition, force);
+
+        HUD.instance.cardSelected.DecrementQuantityLeft();
+        LevelManager.instance.DecrementSlimeCollector();
+    }
+
     protected IEnumerator DamageArea(float delay = 0)
     {
         yield return new WaitForSeconds(delay);
@@ -28,7 +36,6 @@ public class SlimeCollector : Slime
                     {
                         human.Infect(this);
                     }
-                    CloneItSelf();
                 }
             }
         }
@@ -44,12 +51,13 @@ public class SlimeCollector : Slime
                 human.rb.isKinematic = true;
                 human.Infect(this);
             }
+            CloneItSelf(_maxCloneCountOnHumans);
         }
     }
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (collision != null)
+        if (collision != null && LevelManager.instance.IsGameActive())
         {
             if (CanDetectCollision())
             {

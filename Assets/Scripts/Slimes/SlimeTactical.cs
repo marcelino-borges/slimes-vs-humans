@@ -11,6 +11,14 @@ public class SlimeTactical : Slime
         _slimeCloneType = SlimeType.TACTICAL;
     }
 
+    public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50)
+    {
+        base.Launch(direction, targetPosition, force);
+
+        HUD.instance.cardSelected.DecrementQuantityLeft();
+        LevelManager.instance.DecrementSlimeTactical();
+    }
+
     protected override void OnCollisionEnter(Collision collision)
     {
         if (collision != null)
