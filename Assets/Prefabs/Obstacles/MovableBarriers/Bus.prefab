@@ -112,6 +112,36 @@ Transform:
   m_Father: {fileID: 8233738113677927350}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4219121543376305020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2966944581128175636}
+  m_Layer: 14
+  m_Name: DestinyPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2966944581128175636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4219121543376305020}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8233738113677927350}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5230390138620676244
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +153,7 @@ GameObject:
   - component: {fileID: 8233738113677927350}
   - component: {fileID: 6273765690434659193}
   - component: {fileID: 295840200717162942}
+  - component: {fileID: 7571390505438519734}
   m_Layer: 14
   m_Name: Bus
   m_TagString: Obstacle
@@ -142,6 +173,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3652878880352591708}
+  - {fileID: 2966944581128175636}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -172,6 +204,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionParticlesPrefab: {fileID: 0}
   killSlime: 0
+--- !u!114 &7571390505438519734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5230390138620676244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d548d727bf5d3d743aa00fae4223a229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5850748859001474476
 GameObject:
   m_ObjectHideFlags: 0

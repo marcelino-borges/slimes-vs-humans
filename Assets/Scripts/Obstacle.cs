@@ -3,7 +3,8 @@
 public class Obstacle : MonoBehaviour
 {
     [SerializeField] protected GameObject explosionParticlesPrefab;
-    
+    [SerializeField] private ParticleSystem slimeContactEffect;
+
     public bool killSlime = false;
 
     public void Explode()
@@ -25,6 +26,11 @@ public class Obstacle : MonoBehaviour
                 if (slime != null && !(slime is SlimeBomb))
                 {
                     slime.Die();
+
+                    if (slimeContactEffect != null)
+                    {
+                        slimeContactEffect.Play();
+                    }
                 }
             }
         }
