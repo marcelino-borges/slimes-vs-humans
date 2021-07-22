@@ -51,6 +51,7 @@ public class VictoryMenu : MonoBehaviour
         {
             CommonUI.LoadNextLevel();
             //UnityAds.instance.ShowVideo();
+
         }
     }
     public void LoadMainMenu()

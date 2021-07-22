@@ -5077,6 +5077,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1545173933762009863}
     m_Modifications:
+    - target: {fileID: 1450299253, guid: 8b1f3b4c271a0ca42930f2ee7401a074, type: 3}
+      propertyPath: m_Size.x
+      value: 12.108983
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 8b1f3b4c271a0ca42930f2ee7401a074, type: 3}
+      propertyPath: m_Size.y
+      value: 6.328197
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 8b1f3b4c271a0ca42930f2ee7401a074, type: 3}
+      propertyPath: m_Size.z
+      value: 4.8226066
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 8b1f3b4c271a0ca42930f2ee7401a074, type: 3}
+      propertyPath: m_Center.x
+      value: 0.04874897
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 8b1f3b4c271a0ca42930f2ee7401a074, type: 3}
+      propertyPath: m_Center.y
+      value: -0.4359454
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 8b1f3b4c271a0ca42930f2ee7401a074, type: 3}
+      propertyPath: m_Center.z
+      value: 2.4113038
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 8b1f3b4c271a0ca42930f2ee7401a074, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 458357644086448310, guid: 8b1f3b4c271a0ca42930f2ee7401a074,
         type: 3}
       propertyPath: m_RootOrder
@@ -5542,6 +5570,11 @@ PrefabInstance:
         type: 3}
       propertyPath: EmissionModule.m_Bursts.Array.data[0].countCurve.minScalar
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1188327819180773546, guid: 0e71cf6eefaf3f34abdb3abb9d39ccd8,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1940249131419168662, guid: 0e71cf6eefaf3f34abdb3abb9d39ccd8,
         type: 3}

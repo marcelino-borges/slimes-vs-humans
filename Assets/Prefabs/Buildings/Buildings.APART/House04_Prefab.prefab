@@ -5013,6 +5013,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1545173933762009863}
     m_Modifications:
+    - target: {fileID: 1450299253, guid: 7e7bf6bd69973b94aa819ace778dc789, type: 3}
+      propertyPath: m_Size.x
+      value: 7.155508
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 7e7bf6bd69973b94aa819ace778dc789, type: 3}
+      propertyPath: m_Size.y
+      value: 4.313158
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 7e7bf6bd69973b94aa819ace778dc789, type: 3}
+      propertyPath: m_Size.z
+      value: 3.2697983
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 7e7bf6bd69973b94aa819ace778dc789, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 7e7bf6bd69973b94aa819ace778dc789, type: 3}
+      propertyPath: m_Center.y
+      value: -5.188387e-15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 7e7bf6bd69973b94aa819ace778dc789, type: 3}
+      propertyPath: m_Center.z
+      value: 1.6348993
+      objectReference: {fileID: 0}
     - target: {fileID: 458357644086448310, guid: 7e7bf6bd69973b94aa819ace778dc789,
         type: 3}
       propertyPath: m_RootOrder

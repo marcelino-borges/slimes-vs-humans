@@ -32,7 +32,7 @@ public class Cannon : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            print("_currentGlobalClonesCount = " + Slime._currentGlobalClonesCount);
+            print("_currentGlobalClonesCount = " + Slime.currentGlobalClonesCount);
         }
 #endif
         hasTouched = false;

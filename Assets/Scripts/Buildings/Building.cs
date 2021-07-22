@@ -17,8 +17,6 @@ public class Building : MonoBehaviour
         CityHall
     }
 
-    private AudioSource _audioSource;
-    private GameObject _buildingObject;
     [Tooltip("If set to \"None\", no building is spawned. If \"Random\", a random building is spawned.")]
     [SerializeField] private BuildingType _type = BuildingType.Random;
     [Header("EXPLOSION DETAILS")]
@@ -38,12 +36,15 @@ public class Building : MonoBehaviour
     [SerializeField] private GameObject[] _buildingsPrefabs;
     [Header("SOUND EFFECTS")]
     [SerializeField] private AudioClip[] _explosionSfx;
-    [SerializeField] private Rigidbody _rb; //Serializado
+    [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform[] humanPositions;
     [SerializeField] private int _humansToSpawnOnRoof = 0;
     [SerializeField] private List<Human> _humansOnRooftop;
-    private bool countingDownToReleaseHumans = false;
     [SerializeField] private float _timeBeforeReleasingHumans = .3f;
+
+    private AudioSource _audioSource;
+    private GameObject _buildingObject;
+    private bool countingDownToReleaseHumans = false;
     private float _counterTimeBeforeReleasingHumans = 0f;
 
     void Awake()

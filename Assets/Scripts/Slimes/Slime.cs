@@ -13,13 +13,22 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     private Vector3 _targetPosition = Vector3.zero;
     private float time = 0;
 
-    [Header("SLIMEBASE ATTRIBUTES")]
+    protected float _cloneSfxCooldown = .25f;
+    protected SlimeType _slimeCloneType = SlimeType.NONE;
+    protected AudioSource _audioSource;
+    protected bool _canDetectCollision = true;
+    protected bool _isDead = false;
+    protected bool _movingInTrajectory = false;
+    protected Vector3 velocity;
+    protected Material _originalBodyMaterial;
+
     [Space(10f)]
-    [SerializeField] 
+    [Header("SLIMEBASE ATTRIBUTES")]
+    [SerializeField]
     protected int _health;
-    [SerializeField] 
+    [SerializeField]
     protected int _maxHealth;
-    [SerializeField] 
+    [SerializeField]
     protected int _damage;
     [SerializeField]
     protected float _lifeSpan = 9999999f;
@@ -27,7 +36,7 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     [Tooltip("Not applicable to Slime Bomb")]
     protected float _launchForce = 100f;
     [Tooltip("Cooldown to forbid a bunch of collision detection in a single hit")]
-    [SerializeField] 
+    [SerializeField]
     protected float _detectCollisionCooldown = .5f;
     [SerializeField]
     protected float _decayRadius = 2f;
@@ -37,26 +46,23 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     protected float _canCloneCooldown = 1f;
     [SerializeField]
     protected float _canDecayCooldown = 1f;
-    protected float _cloneSfxCooldown = .25f;
     [Tooltip("Leave empty if you don't want the slime to decay when dying")]
     [SerializeField]
     protected SlimeType _slimeDecayType = SlimeType.NONE;
-    protected SlimeType _slimeCloneType = SlimeType.NONE;
     [Tooltip("Amount of times the slime can clone itself when Clone method is called")]
-    [SerializeField] 
+    [SerializeField]
     protected int _maxCloneCount = 2;
     [SerializeField]
     protected int _currentCloneCount = 0;
-    [SerializeField] 
+    [SerializeField]
     protected int _maxCollisionReflections = 3;
     [Tooltip("Amount of times the slime can reflect it's movement when colliding with an allowed-to-reflect object")]
-    [SerializeField] 
+    [SerializeField]
     protected int _collisionReflectionsCount = 0;
-    [SerializeField] 
+    [SerializeField]
     protected GameObject _explosionParticlesPrefab;
     [SerializeField]
     protected GameObject _collisionParticlesPrefab;
-    protected AudioSource _audioSource;
     [SerializeField]
     protected AudioClip[] _collisionSfx;
     [SerializeField]
@@ -66,27 +72,28 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     [Tooltip("Whether the slime will be pooled when Die method is called")]
     [SerializeField]
     protected bool _poolObjectOnDeath = false;
-    protected bool _canDetectCollision = true;
-    protected bool _isDead = false;
-    protected bool _movingInTrajectory = false;
-    protected Vector3 velocity;
     [SerializeField]
     protected SkinnedMeshRenderer _bodyMesh;
     [SerializeField]
     protected Material _decayMaterial;
-    protected Material _originalBodyMaterial;
-
-    public static int _currentGlobalClonesCount = 0;
-    public static int _maxGlobalClonesCount = 200;
 
     public Rigidbody rb;
-    public bool isGroundMode;
-    public bool isClone = false;
-    public static bool isVibrating;
-    public bool isFromPool = false;
-    public bool isSterile = false;
     public ShakePreset shakePreset;
     public UnityEvent OnDieEvent;
+
+    [Header("READ-ONLY ATTRIBUTES")]
+    [ReadOnly]
+    public bool isGroundMode;
+    [ReadOnly]
+    public bool isClone = false;
+    [ReadOnly]
+    public bool isFromPool = false;
+    [ReadOnly]
+    public bool isSterile = false;
+
+    public static int currentGlobalClonesCount = 0;
+    public static int maxGlobalClonesCount = 200;
+    public static bool isVibrating;
 
     public int Damage { get => _damage; }
     public SlimeType SlimeDecayToSpawn { get => _slimeDecayType; }
@@ -229,8 +236,8 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
 
     public void Disable()
     {
-        if (isClone && _currentGlobalClonesCount > 0)
-            _currentGlobalClonesCount--;
+        if (isClone && currentGlobalClonesCount > 0)
+            currentGlobalClonesCount--;
         gameObject.SetActive(false);
     }
 
@@ -244,12 +251,12 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
         if (!isSterile && _currentCloneCount < _maxCloneCount)
         {
             //StartCoroutine(CountCanCloneCooldown());
-            _currentGlobalClonesCount++;
+            currentGlobalClonesCount++;
             _currentCloneCount++;
 
             for (int i = 1; i <= _maxCloneCount; i++)
             {
-                if (_currentGlobalClonesCount < _maxGlobalClonesCount)
+                if (currentGlobalClonesCount < maxGlobalClonesCount)
                 {
                     Vector3 position = GetPositionInRadius();
                     ObjectPooler.instance.Spawn(_slimeCloneType, position, Quaternion.identity);
@@ -449,7 +456,7 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
             {
                 PlayCollisionParticles();
 
-                //TestCollisionAgainstSlimes(collision);
+                TestCollisionAgainstSlimes(collision);
                 SetOnGroundMode();
             }
         }
@@ -459,8 +466,8 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     {
         StopAllCoroutines();
 
-        if (isClone && _currentGlobalClonesCount > 0)
-            _currentGlobalClonesCount--;
+        if (isClone && currentGlobalClonesCount > 0)
+            currentGlobalClonesCount--;
 
 
     }
@@ -469,8 +476,8 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     {
         StopAllCoroutines();
 
-        if (isClone && _currentGlobalClonesCount > 0)
-            _currentGlobalClonesCount--;
+        if (isClone && currentGlobalClonesCount > 0)
+            currentGlobalClonesCount--;
 
         SetSterileMaterial(_originalBodyMaterial);
     }

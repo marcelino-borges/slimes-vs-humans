@@ -14,7 +14,8 @@ public class MainMenu : MonoBehaviour
     public void Play()
     {
         CommonUI.PlayButtonClickSfx();
-        SceneManager.LoadScene(nextLevelName);
+        //SceneManager.LoadScene(nextLevelName);
+        CommonUI.LoadNextLevel();
     }
 
     public void LoadSettingsMenu()

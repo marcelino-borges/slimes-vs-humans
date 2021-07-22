@@ -6,28 +6,50 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
 
+    [ReadOnly]
+    [Tooltip("Attribute set in the end of the level to store the amount of stars player has won in this level")]
+    public int starsWonInLevel = 0;
+    [ReadOnly]
+    public bool isGameOver = false;
+    [ReadOnly]
+    public int slimesLaunched = 0;
+    [ReadOnly]
+    [Tooltip("After the play this attribute will store to total slimes the player can use in this level")]
+    public int maxSlimesOfLevel = 20;
+    [ReadOnly]
+    public int humansInfected = 0;
+    [ReadOnly]
+    public int totalHumansInLevel = 0;
+
+    [Space(10)]
+    [Header("- REFERENCES TO ASSIGN")]
+    [Space(20)]
     public GameObject gameOverPanel;
     public VictoryMenu victoryMenu;
-    public bool isGameOver = false;
-
-    public int totalHumansInLevel = 0;
-    public int humansInfected = 0;
-    public int maxSlimesOfLevel = 20;
-    public int slimesLaunched = 0;
-
-    [Space(20)]
-    public float delayToShowUI = .5f;
-    public int starsWonInLevel = 0;
     public GameObject tipCanvas;
-    public float delayToShowGameOver = .5f;
-    public Cannon cannonInScene;    
+    public Cannon cannonInScene;
     public MeshRenderer terrainInLevel;
 
+    [Space(10)]
+    [Header("- LEVEL INITIAL SETTINGS")]
     [Space(20)]
-    [Header("SLIMES QUANTITY IN LEVEL")]
+    public float delayToShowVictoryPanel = .5f;
+    public float delayToShowGameOverPanel = .5f;
+    [Header("Slimes available for the player")]
+    [Tooltip("The number of collector slimes available in the card for the player. " +
+             "0 for making the respective card unavailable")]
     public int quantitySlimeCollector = 0;
+    [Tooltip("The number of tactical slimes available in the card for the player. " +
+             "0 for making the respective card unavailable")]
     public int quantitySlimeTactical = 0;
+    [Tooltip("The number of bomb slimes available in the card for the player. " +
+             "0 for making the respective card unavailable")]
     public int quantitySlimeBomb = 0;
+    [Tooltip("Max number of cloned slimes allowed in the level")]
+    public int maxClonedSlimesInLevel = 1000;
+    [SerializeField]
+    [Tooltip("Set the rotation speed in the LevelManager of this scene")]
+    public float speed = 2f;
 
     private void Awake()
     {
@@ -42,6 +64,7 @@ public class LevelManager : MonoBehaviour
         }
 
         maxSlimesOfLevel = quantitySlimeCollector + quantitySlimeTactical + quantitySlimeBomb;
+        Slime.maxGlobalClonesCount = maxClonedSlimesInLevel;
     }
 
     void Start()
@@ -160,7 +183,7 @@ public class LevelManager : MonoBehaviour
     {
         //player.FreezePlayer();
         isGameOver = true;
-        yield return new WaitForSeconds(delayToShowGameOver);
+        yield return new WaitForSeconds(delayToShowGameOverPanel);
         ShowUI(gameOverPanel);
         // Analytics - Level failed
         GameAnalyticsManager.instance.LogFailLevelEvent();
@@ -188,7 +211,7 @@ public class LevelManager : MonoBehaviour
     {
         //player.FreezePlayer();
         starsWonInLevel = CalculateStarsWon(0, 0);
-        yield return new WaitForSeconds(delayToShowUI);
+        yield return new WaitForSeconds(delayToShowVictoryPanel);
         ShowUI(victoryMenu.gameObject);
         victoryMenu.SetStarsFromLevel();
         SaveLevelData();
@@ -207,7 +230,6 @@ public class LevelManager : MonoBehaviour
 
         if (humansInfected >= totalHumansInLevel)
         {
-            print("humansInfected " + humansInfected + "/" + totalHumansInLevel);
             SetVictory();
         }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
@@ -6,6 +7,18 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public UnityEvent onLanguageChangeEvent;
     public FontAssets fonts;
+
+    //FOR THE PROTOTYPE ONLY
+    [ReadOnly]
+    public int nextLevelIndex = 0;
+    public List<string> levels = new List<string>() 
+    { 
+        "Level001",
+        "Level002",
+        "Level003",
+        "Level004",
+        "Level005",
+    };
 
     private void Awake()
     {
@@ -67,5 +80,24 @@ public class GameManager : MonoBehaviour
         playerData.playerOptionsConfig = playerOptions;
 
         PlayerPersistence.SavePlayerData(playerData);
+    }
+
+    public string GetNextLevel()
+    {
+        int levelIndexToPlay = nextLevelIndex;
+        nextLevelIndex++;
+
+        if (nextLevelIndex >= levels.Count)
+        {
+            nextLevelIndex = 0;
+            ShuffleLevelsArray();
+        }
+
+        return levels[levelIndexToPlay];
+    }
+
+    public void ShuffleLevelsArray()
+    {
+        levels.Shuffle();
     }
 }

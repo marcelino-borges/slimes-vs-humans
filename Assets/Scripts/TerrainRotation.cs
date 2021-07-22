@@ -7,19 +7,20 @@
 /// </summary>
 public class TerrainRotation : MonoBehaviour
 {
+    [ReadOnly]
     [SerializeField]
+    [Tooltip("Set the rotation speed in the LevelManager of this scene")]
     private float _speed = 2f;
+    [ReadOnly]
+    [SerializeField]
+    private bool isRotating = true;
 
     public static TerrainRotation instance;
 
     public bool toRight = false;
     public bool canRotate = true;
-    [ReadOnly]
-    [SerializeField]
-    private bool isRotating = true;
 
-
-    protected float Speed { get => _speed; set => _speed = value; }
+    public float Speed { get => _speed; set => _speed = value; }
 
     private void Awake()
     {
@@ -27,6 +28,8 @@ public class TerrainRotation : MonoBehaviour
         {
             instance = this;
         }
+
+        _speed = LevelManager.instance.speed;
     }
         
     void Update()

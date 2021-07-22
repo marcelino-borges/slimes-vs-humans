@@ -34,6 +34,19 @@ public class SlimeCollector : Slime
         }
     }
 
+    protected override void TestCollisionAgainstHumans(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Human"))
+        {
+            Human human = collision.gameObject.GetComponent<Human>();
+            if (human != null)
+            {
+                human.rb.isKinematic = true;
+                human.Infect(this);
+            }
+        }
+    }
+
     protected override void OnCollisionEnter(Collision collision)
     {
         if (collision != null)
@@ -56,6 +69,7 @@ public class SlimeCollector : Slime
                 TestCollisionAgainstSlimes(collision);
                 TestCollisionAgainstBuildings(collision);
                 TestCollisionAgainstObstacles(collision);
+                TestCollisionAgainstHumans(collision);
 
                 CountDetectCollisionCooldown();
             }
