@@ -1,11 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class VehiclesMovement : MonoBehaviour
 {
-    [SerializeField] private float velocity;
-    [SerializeField] private Transform destinyPoint;
+    [Tooltip("This vechicle has movement?"), SerializeField]
+    private bool vehicleHasMove;
+
+    [Space(5), Tooltip("Velocity amount of movement"), SerializeField]
+    private float velocity;
+
+    [Space(5), Tooltip("Destiny of the movement of the vehicle"), SerializeField]
+    private Transform destinyPoint;
 
     private Vector3 vectorDestiny;
     private Vector3 originalPosition;
@@ -18,6 +22,9 @@ public class VehiclesMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        transform.localPosition = Vector3.Lerp(originalPosition, originalPosition + vectorDestiny, Mathf.PingPong(Time.time, 1));
+        if (vehicleHasMove)
+        {
+            transform.localPosition = Vector3.Lerp(originalPosition, originalPosition + vectorDestiny, Mathf.PingPong(Time.time, 1));
+        }
     }
 }
