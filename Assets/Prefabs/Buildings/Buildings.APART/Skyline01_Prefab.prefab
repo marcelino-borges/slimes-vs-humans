@@ -203,6 +203,7 @@ MonoBehaviour:
   - {fileID: 752687233151227354}
   _humansToSpawnOnRoof: 0
   _humansOnRooftop: []
+  _timeBeforeReleasingHumans: 0.15
 --- !u!114 &-154088954919875220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +324,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1545173933762009863}
     m_Modifications:
+    - target: {fileID: 1450299253, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
+      propertyPath: m_Size.x
+      value: 5.0532656
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
+      propertyPath: m_Size.y
+      value: 5.052482
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
+      propertyPath: m_Size.z
+      value: 9.269248
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
+      propertyPath: m_Center.x
+      value: -0.0062425137
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
+      propertyPath: m_Center.y
+      value: -0.024667025
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
+      propertyPath: m_Center.z
+      value: 4.621961
+      objectReference: {fileID: 0}
     - target: {fileID: 458357644086448310, guid: 1155a7dc334d7484e8d93ced4d448b1a,
         type: 3}
       propertyPath: m_RootOrder
@@ -398,7 +423,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skyline1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5362678388374283813, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1155a7dc334d7484e8d93ced4d448b1a, type: 3}
 --- !u!4 &950681545467149926 stripped
 Transform:

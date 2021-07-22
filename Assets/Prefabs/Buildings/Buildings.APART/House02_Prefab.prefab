@@ -229,6 +229,7 @@ MonoBehaviour:
   - {fileID: 5485348500137760994}
   _humansToSpawnOnRoof: 0
   _humansOnRooftop: []
+  _timeBeforeReleasingHumans: 0.15
 --- !u!114 &-2078899110109690683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5012,6 +5013,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1545173933762009863}
     m_Modifications:
+    - target: {fileID: 1450299253, guid: 1fded4370cb67524eb255e5a004c4ace, type: 3}
+      propertyPath: m_Size.x
+      value: 4.395332
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 1fded4370cb67524eb255e5a004c4ace, type: 3}
+      propertyPath: m_Size.y
+      value: 5.97394
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 1fded4370cb67524eb255e5a004c4ace, type: 3}
+      propertyPath: m_Size.z
+      value: 2.9976428
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 1fded4370cb67524eb255e5a004c4ace, type: 3}
+      propertyPath: m_Center.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 1fded4370cb67524eb255e5a004c4ace, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1450299253, guid: 1fded4370cb67524eb255e5a004c4ace, type: 3}
+      propertyPath: m_Center.z
+      value: 1.4738213
+      objectReference: {fileID: 0}
     - target: {fileID: 458357644086448310, guid: 1fded4370cb67524eb255e5a004c4ace,
         type: 3}
       propertyPath: m_RootOrder

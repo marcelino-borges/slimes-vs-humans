@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SlimeTactical : Slime, IPoolableObject
+public class SlimeTactical : Slime
 {
     protected override void Awake()
     {
@@ -11,19 +11,18 @@ public class SlimeTactical : Slime, IPoolableObject
         _slimeCloneType = SlimeType.TACTICAL;
     }
 
-    public void OnSpawnedFromPool()
-    {
-
-    }
-
     protected override void OnCollisionEnter(Collision collision)
     {
         if (collision != null)
         {
             if (CanDetectCollision())
             {
-                PlayExplosionParticles();
-                PlayCollisionParticles();
+                if (!isGroundMode)
+                {
+                    PlayCollisionParticles();
+                    PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
+                    Vibrate();
+                }
 
                 SetOnGroundMode();
 
@@ -32,10 +31,8 @@ public class SlimeTactical : Slime, IPoolableObject
 
                 TestCollisionAgainstObstacles(collision);
                 TestCollisionAgainstBuildings(collision);
-                TestCollisionAgainstSlimes(collision);
 
                 CountDetectCollisionCooldown();
-                PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
             }
         }
     }

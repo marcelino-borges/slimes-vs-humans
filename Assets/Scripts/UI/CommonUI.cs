@@ -6,8 +6,9 @@ public class CommonUI : MonoBehaviour
     public static void LoadNextLevel()
     {
         SoundManager.instance.PlayButtonSfx();
-        int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
-        SceneManager.LoadScene(nextLevelIndex);
+        //int nextLevelIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        //SceneManager.LoadScene(nextLevelIndex);
+        SceneManager.LoadScene(GameManager.instance.GetNextLevel());
     }
     public static void LoadMainMenu()
     {

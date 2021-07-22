@@ -149,12 +149,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 328f85f968b6ad54381bb900bbf81eb2,
         type: 3}
       propertyPath: m_Name
-      value: Tree3_Mesh Variant
+      value: Tree03
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 328f85f968b6ad54381bb900bbf81eb2,
         type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 4294967295
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 328f85f968b6ad54381bb900bbf81eb2, type: 3}

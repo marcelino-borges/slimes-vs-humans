@@ -2,23 +2,33 @@ using MilkShake;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(AudioSource))]
 public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
 {
-    [Header("SLIMEBASE ATTRIBUTES")]
     private bool _canDecay = true;
     private Vector3 _positionOnLaunch = Vector3.zero;
     private Vector3 _targetPosition = Vector3.zero;
     private float time = 0;
 
+    protected float _cloneSfxCooldown = .25f;
+    protected SlimeType _slimeCloneType = SlimeType.NONE;
+    protected AudioSource _audioSource;
+    protected bool _canDetectCollision = true;
+    protected bool _isDead = false;
+    protected bool _movingInTrajectory = false;
+    protected Vector3 velocity;
+    protected Material _originalBodyMaterial;
+
     [Space(10f)]
-    [SerializeField] 
+    [Header("SLIMEBASE ATTRIBUTES")]
+    [SerializeField]
     protected int _health;
-    [SerializeField] 
+    [SerializeField]
     protected int _maxHealth;
-    [SerializeField] 
+    [SerializeField]
     protected int _damage;
     [SerializeField]
     protected float _lifeSpan = 9999999f;
@@ -26,7 +36,7 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     [Tooltip("Not applicable to Slime Bomb")]
     protected float _launchForce = 100f;
     [Tooltip("Cooldown to forbid a bunch of collision detection in a single hit")]
-    [SerializeField] 
+    [SerializeField]
     protected float _detectCollisionCooldown = .5f;
     [SerializeField]
     protected float _decayRadius = 2f;
@@ -36,26 +46,23 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     protected float _canCloneCooldown = 1f;
     [SerializeField]
     protected float _canDecayCooldown = 1f;
-    protected float _cloneSfxCooldown = .25f;
     [Tooltip("Leave empty if you don't want the slime to decay when dying")]
     [SerializeField]
     protected SlimeType _slimeDecayType = SlimeType.NONE;
-    protected SlimeType _slimeCloneType = SlimeType.NONE;
     [Tooltip("Amount of times the slime can clone itself when Clone method is called")]
-    [SerializeField] 
+    [SerializeField]
     protected int _maxCloneCount = 2;
     [SerializeField]
     protected int _currentCloneCount = 0;
-    [SerializeField] 
+    [SerializeField]
     protected int _maxCollisionReflections = 3;
     [Tooltip("Amount of times the slime can reflect it's movement when colliding with an allowed-to-reflect object")]
-    [SerializeField] 
+    [SerializeField]
     protected int _collisionReflectionsCount = 0;
-    [SerializeField] 
+    [SerializeField]
     protected GameObject _explosionParticlesPrefab;
     [SerializeField]
     protected GameObject _collisionParticlesPrefab;
-    protected AudioSource _audioSource;
     [SerializeField]
     protected AudioClip[] _collisionSfx;
     [SerializeField]
@@ -65,30 +72,57 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     [Tooltip("Whether the slime will be pooled when Die method is called")]
     [SerializeField]
     protected bool _poolObjectOnDeath = false;
-    protected bool _canDetectCollision = true;
-    protected bool _canCloneItself = true;
-    protected bool _isDead = false;
-    protected bool canPlayCloneSfx = true;
-    protected Vector3 velocity;
-    protected bool _movingInTrajectory = false;
+    [SerializeField]
+    protected SkinnedMeshRenderer _bodyMesh;
+    [SerializeField]
+    protected Material _decayMaterial;
 
-    public static int _currentGlobalClonesCount = 0;
-    public static int _maxGlobalClonesCount = 200;
     public Rigidbody rb;
-    public bool isGroundMode;
-    public bool isClone = false;
-    public bool isVibrating;
-    public bool isFromPool = false;
     public ShakePreset shakePreset;
+    public UnityEvent OnDieEvent;
+
+    [Header("READ-ONLY ATTRIBUTES")]
+    [ReadOnly]
+    public bool isGroundMode;
+    [ReadOnly]
+    public bool isClone = false;
+    [ReadOnly]
+    public bool isFromPool = false;
+    [ReadOnly]
+    public bool isSterile = false;
+
+    public static int currentGlobalClonesCount = 0;
+    public static int maxGlobalClonesCount = 200;
+    public static bool isVibrating;
 
     public int Damage { get => _damage; }
     public SlimeType SlimeDecayToSpawn { get => _slimeDecayType; }
     public float DecayRadius { get => _decayRadius; set => _decayRadius = value; }
 
+    #region IPoolableObject implementation
+    public void OnSpawnedFromPool()
+    {
+        _health = _maxHealth;
+        isClone = true;
+        _poolObjectOnDeath = true;
+        SetOnGroundMode();
+    }
+
+    public void SetIsFromPool(bool value)
+    {
+        isFromPool = value;
+    }
+    #endregion
+
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
         _audioSource = GetComponent<AudioSource>();
+
+        if (OnDieEvent == null)
+            OnDieEvent = new UnityEvent();
+
+        _originalBodyMaterial = _bodyMesh.material;
     }
 
     protected virtual void Start()
@@ -152,15 +186,15 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
 
         _health = 0;
         
-        if (_slimeDecayType != SlimeType.NONE)
-            Decay();
+        //if (_slimeDecayType != SlimeType.NONE)
+        //    Decay();
 
         PlayExplosionParticles();
-
         PlaySfx(_deathSfx);
-
         ShakeCamera();
         Vibrate();
+        OnDieEvent.Invoke();
+        transform.SetParent(TerrainRotation.instance.gameObject.transform);
 
         if (!isFromPool)
             Destroy(gameObject);
@@ -202,50 +236,55 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
 
     public void Disable()
     {
-        if (isClone && _currentGlobalClonesCount > 0)
-            _currentGlobalClonesCount--;
+        if (isClone && currentGlobalClonesCount > 0)
+            currentGlobalClonesCount--;
         gameObject.SetActive(false);
     }
 
-    //public virtual void CloneItSelf()
-    //{
-    //    StartCoroutine(CloneItselfCo());
-    //}
-
-    //protected virtual IEnumerator CloneItselfCo()
-    //{
-    //    if (_canCloneItself && !isGroundMode && _currentCloneCount < _maxCloneCount)
-    //    {
-    //        StartCoroutine(CountCanCloneCooldown());
-    //        _currentGlobalClonesCount++;
-    //        _currentCloneCount++;
-
-    //        for (int i = 1; i <= _maxCloneCount - 1; i++)
-    //        {
-    //            if (_currentGlobalClonesCount < _maxGlobalClonesCount)
-    //            {
-    //                Vector3 position = GetPositionInRadius();
-
-    //                Slime slime = ObjectPooler.instance.Spawn(_slimeCloneType, position, Quaternion.identity).GetComponent<Slime>();
-    //                if (slime != null)
-    //                {
-    //                    slime.isClone = true;
-    //                    slime._poolObjectOnDeath = true;
-    //                }
-    //                yield return new WaitForSeconds(_cloneCooldown);
-    //            } else
-    //            {
-    //                break;
-    //            }
-    //        }
-    //    }
-    //}
-
-    private IEnumerator CountCanCloneCooldown()
+    public virtual void CloneItSelf()
     {
-        _canCloneItself = false;
-        yield return new WaitForSeconds(_canCloneCooldown);
-        _canCloneItself = true;
+        StartCoroutine(CloneItselfCo());
+    }
+
+    protected virtual IEnumerator CloneItselfCo()
+    {
+        if (!isSterile && _currentCloneCount < _maxCloneCount)
+        {
+            //StartCoroutine(CountCanCloneCooldown());
+            currentGlobalClonesCount++;
+            _currentCloneCount++;
+
+            for (int i = 1; i <= _maxCloneCount; i++)
+            {
+                if (currentGlobalClonesCount < maxGlobalClonesCount)
+                {
+                    Vector3 position = GetPositionInRadius();
+                    ObjectPooler.instance.Spawn(_slimeCloneType, position, Quaternion.identity);
+                    PlaySfx(_decaySfx);
+                    yield return new WaitForSeconds(Random.Range(_cloneCooldown - .2f, _cloneCooldown + .2f));
+                }
+                else
+                {
+                    break;
+                }
+            }
+            Sterilize();
+            //Die();
+        }
+    }
+
+    protected void Sterilize()
+    {
+        isSterile = true;
+        SetSterileMaterial(_decayMaterial);
+    }
+
+    protected void SetSterileMaterial(Material material)
+    {
+        if (_bodyMesh != null && material != null)
+        {
+            _bodyMesh.material = material;
+        }
     }
 
     private IEnumerator CountCanDecayCooldown()
@@ -326,7 +365,6 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
         if (collision.gameObject.CompareTag("Building"))
         {
             ShakeCamera();
-            Vibrate();
         }
     }
 
@@ -341,7 +379,6 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
                 human.Infect(this);
             }
 
-            //CloneItSelf();
             Die();
         }
     }
@@ -361,8 +398,16 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     {
         if (collision.gameObject.CompareTag("Slime"))
         {
-            //CloneItSelf();
+            CloneItSelf();
             //Die();
+        }
+    }
+
+    protected virtual void TestCollisionAgainstTerrain(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Terrain"))
+        {
+            transform.SetParent(TerrainRotation.instance.gameObject.transform);
         }
     }
 
@@ -387,27 +432,28 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
 
     protected void Vibrate()
     {
-        StartCoroutine(VibrateCo());
+        if (!isVibrating)
+        {
+            Handheld.Vibrate();
+            StartCoroutine(VibrateCo());
+        }
     }
 
     private IEnumerator VibrateCo()
     {
-        if (!isVibrating)
-        {
-            Handheld.Vibrate();
-            isVibrating = true;
-            yield return new WaitForSeconds(.5f);
-            isVibrating = false;
-        }
+        isVibrating = true;
+        yield return new WaitForSeconds(1f);
+        isVibrating = false;
     }
 
     protected virtual void OnCollisionEnter(Collision collision)
     {
         if (collision != null)
         {
+            TestCollisionAgainstTerrain(collision);
+
             if (CanDetectCollision())
             {
-                PlayExplosionParticles();
                 PlayCollisionParticles();
 
                 TestCollisionAgainstSlimes(collision);
@@ -416,37 +462,24 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
         }
     }
 
-    public void OnSpawnedFromPool()
-    {
-        //throw new NotImplementedException();
-    }
-
-    public void SetIsFromPool(bool value)
-    {
-        isFromPool = value;
-    }
-
     private void OnDisable()
     {
         StopAllCoroutines();
-        transform.SetParent(null);
-    }
 
-    private void OnEnable()
-    {
-        _health = _maxHealth;
+        if (isClone && currentGlobalClonesCount > 0)
+            currentGlobalClonesCount--;
+
+
     }
 
     private void OnDestroy()
     {
         StopAllCoroutines();
 
-        if (isClone && _currentGlobalClonesCount > 0)
-            _currentGlobalClonesCount--;
+        if (isClone && currentGlobalClonesCount > 0)
+            currentGlobalClonesCount--;
 
-        _isDead = false;
-
-        _health = _maxHealth;
+        SetSterileMaterial(_originalBodyMaterial);
     }
 
 #if UNITY_EDITOR

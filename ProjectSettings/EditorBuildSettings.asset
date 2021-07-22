@@ -9,6 +9,21 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/MainMenu.unity
     guid: 691528b790debc34e990b8422dd86b57
   - enabled: 1
+    path: Assets/Scenes/Levels/Level001.unity
+    guid: 8dca840b2a028ca45af8e45e55aa58a3
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level002.unity
+    guid: 8fda843ed4e65df43919f4a514098d15
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level003.unity
+    guid: 99487f635ec6923499e22f93ea6852a2
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level004.unity
+    guid: 7388ea5abc669ca48b25ad1f38d32450
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level005.unity
+    guid: 075de5389f4c76b4386695451e2c1367
+  - enabled: 0
     path: Assets/Scenes/dev/MarcelinoDev/MarcelinoDev.unity
     guid: 4589ceaa717050a47a93046be83e5485
   - enabled: 1

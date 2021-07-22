@@ -28,7 +28,7 @@ public class SlimeTacticalAttractor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other != null)
+        if (other != null)
         {
             if (other.gameObject.CompareTag("Human"))
             {
@@ -36,6 +36,7 @@ public class SlimeTacticalAttractor : MonoBehaviour
 
                 if (human != null)
                 {
+                    slime.OnDieEvent.AddListener(human.ClearAtraction);
                     human.SetAtraction(slime);
                 }
             }

@@ -627,6 +627,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObjectPoolerManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2352108695421077381, guid: 35dca7c4a6730ba498b2cf66b2b14cd0,
+        type: 3}
+      propertyPath: defaultParent
+      value: 
+      objectReference: {fileID: 1524702793}
     - target: {fileID: 2352108695421077386, guid: 35dca7c4a6730ba498b2cf66b2b14cd0,
         type: 3}
       propertyPath: m_RootOrder
@@ -1291,6 +1296,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93956b8c122c6d74ba7d9ecacb2727f2, type: 3}
+--- !u!4 &1026654378 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1545173933762009863, guid: f53e42d34f999cc408fcab165770fd9b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1253600582}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1051044628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1368,21 +1379,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 463357472680376361, guid: 927b6aab81405834f8115b01778ee227,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
     - target: {fileID: 463357472680376364, guid: 927b6aab81405834f8115b01778ee227,
         type: 3}
       propertyPath: m_Name
       value: Terrain_Buildings
       objectReference: {fileID: 0}
-    - target: {fileID: 463357472680376366, guid: 927b6aab81405834f8115b01778ee227,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: a957669fb954c064ab1e87ce14a26131, type: 2}
     - target: {fileID: 463357472680376367, guid: 927b6aab81405834f8115b01778ee227,
         type: 3}
       propertyPath: m_Size.x
@@ -1620,7 +1621,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1524702793}
     m_Modifications:
     - target: {fileID: 1545173933762009860, guid: f53e42d34f999cc408fcab165770fd9b,
         type: 3}
@@ -1650,17 +1651,17 @@ PrefabInstance:
     - target: {fileID: 1545173933762009863, guid: f53e42d34f999cc408fcab165770fd9b,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.74
+      value: 6.24
       objectReference: {fileID: 0}
     - target: {fileID: 1545173933762009863, guid: f53e42d34f999cc408fcab165770fd9b,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1545173933762009863, guid: f53e42d34f999cc408fcab165770fd9b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50.32
+      value: 12.849998
       objectReference: {fileID: 0}
     - target: {fileID: 1545173933762009863, guid: f53e42d34f999cc408fcab165770fd9b,
         type: 3}
@@ -1670,17 +1671,17 @@ PrefabInstance:
     - target: {fileID: 1545173933762009863, guid: f53e42d34f999cc408fcab165770fd9b,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1545173933762009863, guid: f53e42d34f999cc408fcab165770fd9b,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1545173933762009863, guid: f53e42d34f999cc408fcab165770fd9b,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 1545173933762009863, guid: f53e42d34f999cc408fcab165770fd9b,
         type: 3}
@@ -2154,6 +2155,7 @@ Transform:
   - {fileID: 407385826}
   - {fileID: 1165336514}
   - {fileID: 8106552556084788278}
+  - {fileID: 1026654378}
   m_Father: {fileID: 1616699317}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2170,8 +2172,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
-  toRight: 0
   isRotating: 1
+  toRight: 0
+  canRotate: 1
 --- !u!1001 &1564060749
 PrefabInstance:
   m_ObjectHideFlags: 0

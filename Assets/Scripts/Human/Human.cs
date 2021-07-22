@@ -95,7 +95,8 @@ public class Human : MonoBehaviour, IPoolableObject
 
         PlayScreamSfx();
         SetPainted(slime);
-        SpawnGroupOfHumans(slime);
+        SetAnimationByName("Infect");
+        //SpawnGroupOfHumans(slime);
 
         _isInfected = true;
         

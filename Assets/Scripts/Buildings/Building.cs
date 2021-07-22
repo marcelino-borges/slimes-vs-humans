@@ -17,8 +17,6 @@ public class Building : MonoBehaviour
         CityHall
     }
 
-    private AudioSource _audioSource;
-    private GameObject _buildingObject;
     [Tooltip("If set to \"None\", no building is spawned. If \"Random\", a random building is spawned.")]
     [SerializeField] private BuildingType _type = BuildingType.Random;
     [Header("EXPLOSION DETAILS")]
@@ -38,10 +36,16 @@ public class Building : MonoBehaviour
     [SerializeField] private GameObject[] _buildingsPrefabs;
     [Header("SOUND EFFECTS")]
     [SerializeField] private AudioClip[] _explosionSfx;
-    [SerializeField] private Rigidbody _rb; //Serializado
+    [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform[] humanPositions;
     [SerializeField] private int _humansToSpawnOnRoof = 0;
     [SerializeField] private List<Human> _humansOnRooftop;
+    [SerializeField] private float _timeBeforeReleasingHumans = .3f;
+
+    private AudioSource _audioSource;
+    private GameObject _buildingObject;
+    private bool countingDownToReleaseHumans = false;
+    private float _counterTimeBeforeReleasingHumans = 0f;
 
     void Awake()
     {
@@ -63,6 +67,17 @@ public class Building : MonoBehaviour
             Explode();
         }
 #endif
+        if(countingDownToReleaseHumans)
+        {
+            _counterTimeBeforeReleasingHumans += Time.deltaTime;
+            if(_counterTimeBeforeReleasingHumans >= _timeBeforeReleasingHumans)
+            {
+                _counterTimeBeforeReleasingHumans = 0f;
+                countingDownToReleaseHumans = false;
+
+                ReleaseHumans();
+            }
+        }
     }
 
     private void SpawnHumansOnRooftop()
@@ -149,14 +164,14 @@ public class Building : MonoBehaviour
 
         if (_explosionSfx != null && _explosionSfx.Length > 0)
             PlaySfx(GetRandomExplosionClip());
-        StartCoroutine(ReleaseHumans(.3f));
+
+        countingDownToReleaseHumans = true;
 
         Destroy(gameObject, 1f);
     }
 
-    private IEnumerator ReleaseHumans(float delay)
+    private void ReleaseHumans()
     {
-        yield return new WaitForSeconds(delay);
         if (_humansOnRooftop != null && _humansOnRooftop.Count > 0)
         {
             foreach (Human human in _humansOnRooftop)

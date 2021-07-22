@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class SlimeCollector : Slime, IPoolableObject
+public class SlimeCollector : Slime
 {
     protected override void Awake()
     {
@@ -9,13 +9,8 @@ public class SlimeCollector : Slime, IPoolableObject
 
         _slimeCloneType = SlimeType.COLLECTOR;
     }
-
-    public void OnSpawnedFromPool()
-    {
-
-    }
-
-    protected IEnumerator DamageArea(float delay)
+    
+    protected IEnumerator DamageArea(float delay = 0)
     {
         yield return new WaitForSeconds(delay);
 
@@ -31,13 +26,25 @@ public class SlimeCollector : Slime, IPoolableObject
 
                     if (human != null)
                     {
-                        human.rb.isKinematic = true;
                         human.Infect(this);
                     }
+                    CloneItSelf();
                 }
             }
         }
-        Die();
+    }
+
+    protected override void TestCollisionAgainstHumans(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Human"))
+        {
+            Human human = collision.gameObject.GetComponent<Human>();
+            if (human != null)
+            {
+                human.rb.isKinematic = true;
+                human.Infect(this);
+            }
+        }
     }
 
     protected override void OnCollisionEnter(Collision collision)
@@ -46,8 +53,15 @@ public class SlimeCollector : Slime, IPoolableObject
         {
             if (CanDetectCollision())
             {
-                PlayExplosionParticles();
-                PlayCollisionParticles();
+                if (!isGroundMode)
+                {
+                    PlayCollisionParticles();
+                    PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
+                    Vibrate();
+                }
+
+                if (!isGroundMode)
+                    StartCoroutine(DamageArea());
 
                 SetOnGroundMode();
 
@@ -55,11 +69,9 @@ public class SlimeCollector : Slime, IPoolableObject
                 TestCollisionAgainstSlimes(collision);
                 TestCollisionAgainstBuildings(collision);
                 TestCollisionAgainstObstacles(collision);
+                TestCollisionAgainstHumans(collision);
 
                 CountDetectCollisionCooldown();
-                PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
-
-                StartCoroutine(DamageArea(0));
             }
         }
     }

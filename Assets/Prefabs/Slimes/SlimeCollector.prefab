@@ -169,12 +169,17 @@ MonoBehaviour:
   _deathSfx: {fileID: 8300000, guid: 2d9fa6de52eef42469755b35696a80c1, type: 3}
   _decaySfx: {fileID: 8300000, guid: e8b2ac4ae706a9441a6e3aae4625a2d1, type: 3}
   _poolObjectOnDeath: 0
+  _bodyMesh: {fileID: 7868489869978905733}
+  _decayMaterial: {fileID: 2100000, guid: 3db2e37de2daad24f974c7c60c11c701, type: 2}
   rb: {fileID: 0}
   isGroundMode: 0
   isClone: 0
   isVibrating: 0
   isFromPool: 0
   shakePreset: {fileID: 11400000, guid: 74d16472849c6374db2c71cddbe17811, type: 2}
+  OnDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!135 &4665625166310349135
 SphereCollider:
   m_ObjectHideFlags: 0

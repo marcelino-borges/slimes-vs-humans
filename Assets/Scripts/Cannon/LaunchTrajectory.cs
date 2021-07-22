@@ -74,18 +74,18 @@ public class LaunchTrajectory : MonoBehaviour
     {
         float x = _startPosition.x + t * MaxXDistance;
         float z = _startPosition.z + t * maxZDistance;
-        float y = GetYWhenAtZPosition(z, StartPosition.y);
+        float y = GetYWhenAtZPosition(z, _startPosition.y);
         return new Vector3(x, y, z);
     }
 
     public float GetYWhenAtZPosition(float z, float y0 = 0)
     {
-        return Utils.GetYWhenAtZPosition(z, Velocity, _radianAngle, _g, _startPosition.y);
+        return Utils.GetYWhenAtZPosition(z, Velocity, _radianAngle, _g, y0);
     }
 
     public float GetZMaxDistance()
     {
-        return Utils.GetZMaxDistance(Velocity, _radianAngle, _g);
+        return Utils.GetZMaxDistance(Velocity, _radianAngle, _g, _startPosition.z);
     }
 
     public float GetVelocityNeededToReachDistance(float distance)

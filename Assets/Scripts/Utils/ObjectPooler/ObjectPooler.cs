@@ -16,6 +16,7 @@ public class ObjectPooler : MonoBehaviour
     public static ObjectPooler instance;
     public List<PoolModel> objectsToPool;
     public Dictionary<string, Queue<GameObject>> poolDictionary;
+    public Transform defaultParent;
     #endregion
 
     #region Monobehavior Methods
@@ -28,6 +29,7 @@ public class ObjectPooler : MonoBehaviour
     private void Start()
     {
         InitializePoolOfObjects();
+        defaultParent = TerrainRotation.instance.gameObject.transform;
     }
 
     private void Update()
@@ -53,6 +55,7 @@ public class ObjectPooler : MonoBehaviour
             {
                 GameObject obj = Instantiate(item.objectToPool);
                 obj.SetActive(false);
+                obj.transform.SetParent(defaultParent);
                 objectPool.Enqueue(obj);
             }
             poolDictionary.Add(item.tag, objectPool);
