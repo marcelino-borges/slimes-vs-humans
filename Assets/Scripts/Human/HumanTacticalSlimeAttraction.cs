@@ -38,17 +38,15 @@ public class HumanTacticalSlimeAttraction : MonoBehaviour
     {
         if (isBeingAttractd) return;
 
-        rb.isKinematic = false;
-
-        isBeingAttractd = true;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
         tacticalSlime = slime;
+        isBeingAttractd = true;
     }
 
     public void ClearAtraction()
     {
-        isBeingAttractd = false;
         tacticalSlime = null;
-
-        rb.isKinematic = true;
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+        isBeingAttractd = false;
     }
 }

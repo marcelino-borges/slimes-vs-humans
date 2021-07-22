@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SlimeCollectBodyInside
+  m_Name: SlimeCollectBody
   m_Shader: {fileID: -6465566751694194690, guid: e9bb17293d8981a47831e85b41577ad5,
     type: 3}
   m_ShaderKeywords: 

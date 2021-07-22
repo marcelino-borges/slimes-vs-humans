@@ -463,9 +463,9 @@ GameObject:
   - component: {fileID: 1388587862345943185}
   - component: {fileID: 8770925378171145875}
   - component: {fileID: 7221364217843639022}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Attractor
-  m_TagString: Slime
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -568,7 +568,7 @@ MonoBehaviour:
   _launchForce: 20
   _detectCollisionCooldown: 0.5
   _decayRadius: 5
-  _cloneCooldown: 0.5
+  _cloneCooldown: 0.75
   _canCloneCooldown: 1
   _canDecayCooldown: 1
   _slimeDecayType: 0
@@ -587,12 +587,17 @@ MonoBehaviour:
   _deathSfx: {fileID: 8300000, guid: 2d9fa6de52eef42469755b35696a80c1, type: 3}
   _decaySfx: {fileID: 8300000, guid: e8b2ac4ae706a9441a6e3aae4625a2d1, type: 3}
   _poolObjectOnDeath: 0
+  _bodyMesh: {fileID: 7506305160658705430}
+  _decayMaterial: {fileID: 2100000, guid: 3db2e37de2daad24f974c7c60c11c701, type: 2}
   rb: {fileID: 0}
   isGroundMode: 0
   isClone: 0
-  isVibrating: 0
   isFromPool: 0
+  isSterile: 0
   shakePreset: {fileID: 11400000, guid: 74d16472849c6374db2c71cddbe17811, type: 2}
+  OnDieEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &1561551534294258876
 Animator:
   serializedVersion: 3
@@ -633,7 +638,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7423187214024699732}
   serializedVersion: 2
-  m_Mass: 3
+  m_Mass: 5
   m_Drag: 1
   m_AngularDrag: 0.1
   m_UseGravity: 0

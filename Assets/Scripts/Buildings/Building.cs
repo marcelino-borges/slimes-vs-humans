@@ -42,6 +42,9 @@ public class Building : MonoBehaviour
     [SerializeField] private Transform[] humanPositions;
     [SerializeField] private int _humansToSpawnOnRoof = 0;
     [SerializeField] private List<Human> _humansOnRooftop;
+    private bool countingDownToReleaseHumans = false;
+    [SerializeField] private float _timeBeforeReleasingHumans = .3f;
+    private float _counterTimeBeforeReleasingHumans = 0f;
 
     void Awake()
     {
@@ -63,6 +66,17 @@ public class Building : MonoBehaviour
             Explode();
         }
 #endif
+        if(countingDownToReleaseHumans)
+        {
+            _counterTimeBeforeReleasingHumans += Time.deltaTime;
+            if(_counterTimeBeforeReleasingHumans >= _timeBeforeReleasingHumans)
+            {
+                _counterTimeBeforeReleasingHumans = 0f;
+                countingDownToReleaseHumans = false;
+
+                ReleaseHumans();
+            }
+        }
     }
 
     private void SpawnHumansOnRooftop()
@@ -149,14 +163,14 @@ public class Building : MonoBehaviour
 
         if (_explosionSfx != null && _explosionSfx.Length > 0)
             PlaySfx(GetRandomExplosionClip());
-        StartCoroutine(ReleaseHumans(.3f));
+
+        countingDownToReleaseHumans = true;
 
         Destroy(gameObject, 1f);
     }
 
-    private IEnumerator ReleaseHumans(float delay)
+    private void ReleaseHumans()
     {
-        yield return new WaitForSeconds(delay);
         if (_humansOnRooftop != null && _humansOnRooftop.Count > 0)
         {
             foreach (Human human in _humansOnRooftop)

@@ -142,3 +142,6 @@ crashlytics-build.properties
 *.zip
 
 *.keystore
+
+github_key.*
+github-key.*

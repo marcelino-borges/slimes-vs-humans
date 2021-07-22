@@ -229,8 +229,7 @@ MonoBehaviour:
   - {fileID: 5485348500137760994}
   _humansToSpawnOnRoof: 0
   _humansOnRooftop: []
-  _humanPrefab: {fileID: 2460422401463443218, guid: 39087bcb20e240145b297406fb7a133d,
-    type: 3}
+  _timeBeforeReleasingHumans: 0.15
 --- !u!114 &-2078899110109690683
 MonoBehaviour:
   m_ObjectHideFlags: 0

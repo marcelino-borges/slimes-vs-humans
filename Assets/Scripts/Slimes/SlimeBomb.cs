@@ -85,7 +85,12 @@ public class SlimeBomb : Slime
         {
             if (CanDetectCollision())
             {
-                PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
+                if (!isGroundMode)
+                {
+                    PlayCollisionParticles();
+                    PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
+                    Vibrate();
+                }
 
                 TestCollisionAgainstBuildings(collision);
                 TestCollisionAgainstObstacles(collision);

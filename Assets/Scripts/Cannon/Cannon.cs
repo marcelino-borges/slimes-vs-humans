@@ -63,8 +63,7 @@ public class Cannon : MonoBehaviour
 
             if (Physics.Raycast(crossMarkUpOffset, crossMarkInLevel.position - crossMarkUpOffset, out RaycastHit hit))
             {
-                print("hit.point.y: " + hit.point.y);
-                SetCrossMarkPosition(new Vector3(crossMarkInLevel.position.x, hit.point.y, crossMarkInLevel.position.z));
+                SetCrossMarkPosition(new Vector3(crossMarkInLevel.position.x, hit.point.y + .2f, crossMarkInLevel.position.z));
             }
         }
 
