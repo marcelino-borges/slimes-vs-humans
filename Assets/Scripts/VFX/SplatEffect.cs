@@ -30,7 +30,16 @@ public class SplatEffect : MonoBehaviour
             slimeContactPoint = collision.contacts[0];
 
             // Instantiate random splat object
-            selectedSplash = Instantiate(splatsDecal[Random.Range(0, splatsDecal.Count)], collision.contacts[0].point, Quaternion.LookRotation(Vector3.up, slimeContactPoint.normal));
+            if (gameObject.CompareTag("Terrain"))
+            {
+                selectedSplash = Instantiate(splatsDecal[Random.Range(0, splatsDecal.Count)], collision.contacts[0].point, Quaternion.LookRotation(Vector3.right, slimeContactPoint.normal));
+            }
+
+            else
+            {
+                selectedSplash = Instantiate(splatsDecal[Random.Range(0, splatsDecal.Count)], collision.contacts[0].point, Quaternion.LookRotation(Vector3.up, slimeContactPoint.normal));
+            }
+            
             selectedSplash.transform.SetParent(gameObject.transform, true);
 
             if (slime is SlimeCollector)
