@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SlimeDie_ShakePreset
   m_EditorClassIdentifier: 
   shakeType: 0
-  strength: 0.07
+  strength: 0.1
   roughness: 23
   fadeIn: 0.1
   fadeOut: 0.1
-  positionInfluence: {x: 1, y: 1, z: 1}
-  rotationInfluence: {x: 1, y: 1, z: 1}
+  positionInfluence: {x: 2, y: 2, z: 2}
+  rotationInfluence: {x: 2, y: 2, z: 2}

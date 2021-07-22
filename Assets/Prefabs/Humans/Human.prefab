@@ -75,6 +75,7 @@ MonoBehaviour:
   _canBeInfected: 1
   countToTotalHumansInLevel: 1
   _splatEffect: {fileID: 0}
+  _mesh: {fileID: 8077498235774312896}
   currentDestination: {x: 0, y: 0, z: 0}
   isFromPool: 0
   rb: {fileID: 6948672724764170864}

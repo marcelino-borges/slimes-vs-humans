@@ -29,7 +29,7 @@ public class TerrainRotation : MonoBehaviour
             instance = this;
         }
 
-        _speed = LevelManager.instance.speed;
+        _speed = LevelManager.instance.terrainRotationSpeed;
     }
         
     void Update()

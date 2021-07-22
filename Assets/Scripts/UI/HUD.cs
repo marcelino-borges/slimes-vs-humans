@@ -64,27 +64,24 @@ public class HUD : MonoBehaviour
 
     public void SelectSlimeTatic(CardSlimeUI card)
     {
-        if (LevelManager.instance.quantitySlimeTactical <= 0) return;
+        if (LevelManager.instance.quantitySlimeTactical <= 0 || !LevelManager.instance.IsGameActive()) return;
         ClearSelectedSlime();
-        LevelManager.instance.DecrementSlimeTactical();
         SelectCard(card);
         SelectSlime(slimeTaticPrefab);
     }
 
     public void SelectSlimeCollector(CardSlimeUI card)
     {
-        if (LevelManager.instance.quantitySlimeCollector <= 0) return;
+        if (LevelManager.instance.quantitySlimeCollector <= 0 || !LevelManager.instance.IsGameActive()) return;
         ClearSelectedSlime();
-        LevelManager.instance.DecrementSlimeCollector();
         SelectCard(card);
         SelectSlime(slimeCollectorPrefab);
     }
 
     public void SelectSlimeBomb(CardSlimeUI card)
     {
-        if (LevelManager.instance.quantitySlimeBomb <= 0) return;
+        if (LevelManager.instance.quantitySlimeBomb <= 0 || !LevelManager.instance.IsGameActive()) return;
         ClearSelectedSlime();
-        LevelManager.instance.DecrementSlimeBomb();
         SelectCard(card);
         SelectSlime(slimeBombPrefab);
     }
@@ -112,7 +109,6 @@ public class HUD : MonoBehaviour
         if (cardSelected != null)
         {
             cardSelected.Deselect();
-            cardSelected.DecrementQuantityLeft();
             cardSelected = null;
         }
     }

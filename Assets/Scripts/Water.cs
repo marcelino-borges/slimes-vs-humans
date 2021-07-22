@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SlimesKiller : MonoBehaviour
+public class Water : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
@@ -11,9 +11,13 @@ public class SlimesKiller : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision != null && collision.gameObject.CompareTag("Slime"))
+        if (collision != null)
         {
-            Destroy(collision.gameObject);
+            if(collision.gameObject.CompareTag("Slime"))
+                Destroy(collision.gameObject);
+
+            if (collision.gameObject.CompareTag("Human"))
+                LevelManager.instance.SetGameOver();
         }
     }
 }

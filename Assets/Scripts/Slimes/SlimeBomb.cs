@@ -15,6 +15,14 @@ public class SlimeBomb : Slime
         base.Start();
     }
 
+    public override void Launch(Vector3 direction, Vector3 targetPosition, float force = 50)
+    {
+        base.Launch(direction, targetPosition, force);
+
+        HUD.instance.cardSelected.DecrementQuantityLeft();
+        LevelManager.instance.DecrementSlimeBomb();
+    }
+
     protected IEnumerator DamageArea(float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -73,16 +81,14 @@ public class SlimeBomb : Slime
             Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
             obstacle.Explode();
             Die();
-            //SetVelocity(Vector3.zero);
         }
     }
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        base.OnCollisionEnter(collision);
-
         if (collision != null)
         {
+            TestCollisionAgainstTerrain(collision);
             if (CanDetectCollision())
             {
                 if (!isGroundMode)

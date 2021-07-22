@@ -34,9 +34,16 @@ public class SoundManager : MonoBehaviour
     {
     }
 
-    public void PlaySound2D(AudioClip audio)
+    public void PlaySound2D(AudioClip audio, bool abortIfPlaying = false)
     {
-        audioSource.PlayOneShot(audio, CurrentVolume);
+        if (abortIfPlaying)
+        {
+            if (!audioSource.isPlaying)
+                audioSource.PlayOneShot(audio, CurrentVolume);
+        } else
+        {
+            audioSource.PlayOneShot(audio, CurrentVolume);
+        }
     }
 
     public void PlaySoundAtPosition(AudioClip audio, Vector3 position, float volume = -1f)

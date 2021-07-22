@@ -24,24 +24,27 @@ public class Human : MonoBehaviour, IPoolableObject
 
     #region Protected Attributes
     protected AudioSource _audioSource;
+    protected Material[] _originalMaterials;
     protected bool _isInfected;
-    [SerializeField]
-    protected AudioClip[] _screamSfx;
-    [SerializeField]
-    protected Animator _animator;
     [SerializeField]
     protected bool _canBeInfected = true;
     [SerializeField]
     private bool countToTotalHumansInLevel = true;
     [SerializeField]
+    protected AudioClip[] _screamSfx;
+    [SerializeField]
+    protected Animator _animator;
+    [SerializeField]
     protected SplatEffectHumans _splatEffect;
+    [SerializeField]
+    protected SkinnedMeshRenderer _mesh;
     #endregion
 
     #region Public Attributes
     public static bool canScream = true;
-    public Vector3 currentDestination;
-    public bool isFromPool = false;
     public Rigidbody rb;
+    [ReadOnly]
+    public bool isFromPool = false;
     #endregion
 
     #region Public Props
@@ -51,10 +54,25 @@ public class Human : MonoBehaviour, IPoolableObject
     protected bool CountToTotalHumansInLevel { get => countToTotalHumansInLevel; set => countToTotalHumansInLevel = value; }
     #endregion
 
+    #region IPoolableObject implementation
+    public void OnSpawnedFromPool()
+    {
+        //throw new System.NotImplementedException();
+    }
+
+    public void SetIsFromPool(bool value)
+    {
+        isFromPool = value;
+    }
+    #endregion
+
     protected void Awake()
     {
         _audioSource = GetComponent<AudioSource>();
         _splatEffect = GetComponent<SplatEffectHumans>();
+
+        if (_mesh != null)
+            _originalMaterials = _mesh.materials;
     }
 
     protected void Start()
@@ -74,16 +92,6 @@ public class Human : MonoBehaviour, IPoolableObject
     {
     }
 
-    public void OnSpawnedFromPool()
-    {
-        //throw new System.NotImplementedException();
-    }
-
-    public void SetIsFromPool(bool value)
-    {
-        isFromPool = value;
-    }
-
     private string GetIdleAnimation()
     {
         return Utils.GetRandomArrayElement(idleAnimations);
@@ -91,12 +99,11 @@ public class Human : MonoBehaviour, IPoolableObject
 
     public virtual void Infect(Slime slime)
     {
-        if (IsInfected || !_canBeInfected) return;
+        if (IsInfected || !_canBeInfected || !LevelManager.instance.IsGameActive()) return;
 
         PlayScreamSfx();
         SetPainted(slime);
         SetAnimationByName("Infect");
-        //SpawnGroupOfHumans(slime);
 
         _isInfected = true;
         
@@ -158,5 +165,25 @@ public class Human : MonoBehaviour, IPoolableObject
         StopAllCoroutines();
         if(isFromPool)
             transform.SetParent(null);
+
+        _mesh.materials = _originalMaterials;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision != null)
+        {
+            if (collision.gameObject.CompareTag("Terrain"))
+                rb.useGravity = false;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision != null)
+        {
+            if (collision.gameObject.CompareTag("Terrain"))
+                rb.useGravity = true;
+        }
     }
 }
