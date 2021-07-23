@@ -1371,6 +1371,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93956b8c122c6d74ba7d9ecacb2727f2, type: 3}
+--- !u!224 &1005966512 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5994199236179702893, guid: 93956b8c122c6d74ba7d9ecacb2727f2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1005966511}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1026654378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1545173933762009863, guid: f53e42d34f999cc408fcab165770fd9b,
@@ -1530,6 +1536,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 181951876637419568, guid: 808b7091f43c87c439270ea3e705116f,
+        type: 3}
+      propertyPath: tipCanvas
+      value: 
+      objectReference: {fileID: 1557553252}
     - target: {fileID: 181951876637419568, guid: 808b7091f43c87c439270ea3e705116f,
         type: 3}
       propertyPath: victoryMenu
@@ -2155,6 +2166,136 @@ MonoBehaviour:
   isRotating: 1
   toRight: 0
   canRotate: 1
+--- !u!1001 &1557553251
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1005966512}
+    m_Modifications:
+    - target: {fileID: 7686471179190600505, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_text
+      value: THE BLUE SLIME, PULLING HUMANS CLOSE TO HIM
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 982
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1351
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -33.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350791, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7686471180138350792, guid: 281ee362e7145f7418ad51caab692591,
+        type: 3}
+      propertyPath: m_Name
+      value: Tip1Popup_Slimes
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 281ee362e7145f7418ad51caab692591, type: 3}
+--- !u!1 &1557553252 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7686471180138350792, guid: 281ee362e7145f7418ad51caab692591,
+    type: 3}
+  m_PrefabInstance: {fileID: 1557553251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1564060749
 PrefabInstance:
   m_ObjectHideFlags: 0
