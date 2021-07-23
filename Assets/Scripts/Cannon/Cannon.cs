@@ -61,7 +61,7 @@ public class Cannon : MonoBehaviour
 #else
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && EventSystem.current.currentSelectedGameObject == null)
         {
-            hasTouched = true;
+            _hasTouched = true;
         }      
 #endif
         if (_hasTouched && HUD.instance.HasSlimeSelected())
