@@ -42,8 +42,23 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.58, y: 2.2910771, z: 4.5430126}
-  m_Center: {x: 0, y: 1.1455386, z: -0.14912224}
+  m_Size: {x: 2.4, y: 2.3, z: 4.54}
+  m_Center: {x: 0, y: 1.15, z: -0.2}
+--- !u!114 &5756041530782600295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5019841102552142741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d548d727bf5d3d743aa00fae4223a229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vehicleHasMove: 0
+  velocity: 0
+  destinyPoint: {fileID: 0}
 --- !u!114 &6704358011713306472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,20 +74,6 @@ MonoBehaviour:
   explosionParticlesPrefab: {fileID: 0}
   slimeContactEffect: {fileID: 0}
   killSlime: 0
---- !u!114 &5756041530782600295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5019841102552142741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d548d727bf5d3d743aa00fae4223a229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  velocity: 0
-  destinyPoint: {fileID: 0}
 --- !u!1 &7072252285734546628
 GameObject:
   m_ObjectHideFlags: 0
