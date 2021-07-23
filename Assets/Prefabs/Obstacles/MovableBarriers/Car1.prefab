@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4867187238693972149}
-  - component: {fileID: 996864383955113076}
-  - component: {fileID: 4089235583419386682}
   m_Layer: 14
   m_Name: Car1
   m_TagString: Obstacle
@@ -33,32 +31,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &996864383955113076
+--- !u!65 &7506869503403006292
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302614368233796533}
+  m_GameObject: {fileID: 5019841102552142741}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.58, y: 1.54, z: 3.1}
-  m_Center: {x: 0, y: 0.77, z: -0.14}
---- !u!114 &4089235583419386682
+  m_Size: {x: 2.4, y: 2.3, z: 4.54}
+  m_Center: {x: 0, y: 1.15, z: -0.2}
+--- !u!114 &5756041530782600295
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 302614368233796533}
+  m_GameObject: {fileID: 5019841102552142741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d548d727bf5d3d743aa00fae4223a229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vehicleHasMove: 0
+  velocity: 0
+  destinyPoint: {fileID: 0}
+--- !u!114 &6704358011713306472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5019841102552142741}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b3f4fccfe91ed74ba7ceb768b514722, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   explosionParticlesPrefab: {fileID: 0}
+  slimeContactEffect: {fileID: 0}
   killSlime: 0
 --- !u!1 &7072252285734546628
 GameObject:
@@ -249,8 +263,19 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 140505f8caa3a064e807ef29cc48ca51,
+        type: 3}
+      propertyPath: m_TagString
+      value: Obstacle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 140505f8caa3a064e807ef29cc48ca51, type: 3}
+--- !u!1 &5019841102552142741 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 140505f8caa3a064e807ef29cc48ca51,
+    type: 3}
+  m_PrefabInstance: {fileID: 5290435656396025540}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5684068633055512879 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 140505f8caa3a064e807ef29cc48ca51,
