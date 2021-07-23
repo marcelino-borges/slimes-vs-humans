@@ -95,11 +95,13 @@ public class HUD : MonoBehaviour
         }
     }
 
-    private void SelectSlime(GameObject slimePrefab)
+    public void SelectSlime(GameObject slimePrefab)
     {
         if (slimePrefab != null)
         {
             selectedSlime = slimePrefab;
+            LevelManager.instance.cannonInScene.InstantiateSlime(selectedSlime);
+            LevelManager.instance.cannonInScene.SetCrossMarkVisibleInInitialPosition();
         }
     }
 
@@ -110,6 +112,11 @@ public class HUD : MonoBehaviour
         {
             cardSelected.Deselect();
             cardSelected = null;
+        }
+
+        if(LevelManager.instance.cannonInScene.slimeInstantiated != null)
+        {
+            Destroy(LevelManager.instance.cannonInScene.slimeInstantiated.gameObject);
         }
     }
 

@@ -9,7 +9,7 @@ public class HumanTacticalSlimeAttraction : MonoBehaviour
     private SlimeTactical tacticalSlime;
     [ReadOnly]
     [SerializeField]
-    private bool isBeingAttractd = false;
+    private bool isBeingAttracted = false;
     public Rigidbody rb;
 
     private void Awake()
@@ -19,12 +19,16 @@ public class HumanTacticalSlimeAttraction : MonoBehaviour
 
     void Update()
     {
-        if(isBeingAttractd && tacticalSlime != null)
+        if(tacticalSlime != null && tacticalSlime.gameObject.activeInHierarchy)
         {
-            if (Vector3.Distance(tacticalSlime.transform.position, transform.position) > 1)
+
+            if (isBeingAttracted && Vector3.Distance(tacticalSlime.transform.position, transform.position) > 1)
             {
                 ForceTowardsSlime();
             }
+        } else
+        {
+            ClearAtraction();
         }
     }
 
@@ -36,17 +40,17 @@ public class HumanTacticalSlimeAttraction : MonoBehaviour
 
     public void SetAtraction(SlimeTactical slime)
     {
-        if (isBeingAttractd) return;
+        if (isBeingAttracted) return;
 
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         tacticalSlime = slime;
-        isBeingAttractd = true;
+        isBeingAttracted = true;
     }
 
     public void ClearAtraction()
     {
         tacticalSlime = null;
         rb.constraints = RigidbodyConstraints.FreezeAll;
-        isBeingAttractd = false;
+        isBeingAttracted = false;
     }
 }

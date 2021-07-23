@@ -173,13 +173,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 151917642f1878345b2f0e1e21730b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointToRay: {x: 0, y: 0, z: 0}
-  launchPoint: {fileID: 812194946121882152}
-  cannonLaunchForceLimits: {x: 25, y: 25}
-  _launchForceProgressBarVelocity: 2
-  _launchTrajectory: {fileID: 0}
-  crossMarkOriginalPosition: {x: -200, y: 1.75, z: -200}
   crossMarkInLevel: {fileID: 0}
+  invalidTargetSfx: {fileID: 8300000, guid: 206690cf913e57a4394acef499d49cf1, type: 3}
+  crossMarkInitialPosition: {x: 0, y: 0, z: 0}
+  slimeInstantiated: {fileID: 0}
+  launchPoint: {fileID: 812194946121882152}
+  shakePreset: {fileID: 11400000, guid: 74d16472849c6374db2c71cddbe17811, type: 2}
+  aimingSensitivity: 2
 --- !u!114 &3155827354844552107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d939783b9d3cab444bbee5edf782609d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: 25.29
+  _velocity: 10
   lineResolution: 15
 --- !u!33 &812194947524816376
 MeshFilter:

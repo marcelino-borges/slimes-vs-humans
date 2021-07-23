@@ -188,8 +188,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.05, y: 2.16, z: 5.73}
-  m_Center: {x: 0, y: 1.083, z: -0.065}
+  m_Size: {x: 3.0950668, y: 3.312142, z: 8.623016}
+  m_Center: {x: 0, y: 1.6590707, z: -0.06500006}
 --- !u!114 &295840200717162942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionParticlesPrefab: {fileID: 0}
+  slimeContactEffect: {fileID: 0}
   killSlime: 0
 --- !u!114 &7571390505438519734
 MonoBehaviour:
@@ -216,6 +217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d548d727bf5d3d743aa00fae4223a229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velocity: 0
+  destinyPoint: {fileID: 0}
 --- !u!1 &5850748859001474476
 GameObject:
   m_ObjectHideFlags: 0

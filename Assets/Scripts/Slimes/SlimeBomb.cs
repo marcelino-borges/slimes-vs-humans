@@ -66,6 +66,7 @@ public class SlimeBomb : Slime
         if (_isDead) return;
 
         _isDead = true;
+        Vibrate();
 
         _health = 0;
         PlayExplosionParticles();

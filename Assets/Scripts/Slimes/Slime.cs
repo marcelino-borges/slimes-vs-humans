@@ -163,6 +163,7 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
 
     public virtual void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f)
     {
+        rb.isKinematic = false;
         PlaySfx(_LaunchSfx);
         _positionOnLaunch = transform.position;
         _targetPosition = targetPosition;
@@ -187,7 +188,6 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
         if (_isDead) return;
 
         _isDead = true;
-
         _health = 0;
         
         //if (_slimeDecayType != SlimeType.NONE)

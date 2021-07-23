@@ -2309,11 +2309,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 998800933}
     m_Modifications:
-    - target: {fileID: 3261586094255283119, guid: 828b5b2c6fac01947a17ecdd68943fc5,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4006343133348110397, guid: 828b5b2c6fac01947a17ecdd68943fc5,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2378,11 +2373,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ElectricalBarrier
-      objectReference: {fileID: 0}
-    - target: {fileID: 8977063487542421675, guid: 828b5b2c6fac01947a17ecdd68943fc5,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 828b5b2c6fac01947a17ecdd68943fc5, type: 3}
@@ -5336,6 +5326,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car1
       objectReference: {fileID: 0}
+    - target: {fileID: 4653166746953684221, guid: cee096edb902ae249bc01218d177ec51,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4867187238693972149, guid: cee096edb902ae249bc01218d177ec51,
         type: 3}
       propertyPath: m_RootOrder
@@ -5411,30 +5406,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bus
       objectReference: {fileID: 0}
-    - target: {fileID: 7571390505438519734, guid: a0a94a1f71ab2064f91d5560fd6b9618,
+    - target: {fileID: 8087795156167498402, guid: a0a94a1f71ab2064f91d5560fd6b9618,
         type: 3}
-      propertyPath: m_Enabled
-      value: 0
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8233738113677927350, guid: a0a94a1f71ab2064f91d5560fd6b9618,
         type: 3}
       propertyPath: m_RootOrder
       value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8233738113677927350, guid: a0a94a1f71ab2064f91d5560fd6b9618,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8233738113677927350, guid: a0a94a1f71ab2064f91d5560fd6b9618,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8233738113677927350, guid: a0a94a1f71ab2064f91d5560fd6b9618,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8233738113677927350, guid: a0a94a1f71ab2064f91d5560fd6b9618,
         type: 3}
@@ -5505,6 +5485,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Car2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5957816988555202149, guid: ff88091fe7d140548bf408427ab5f49f,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7704439005945763271, guid: ff88091fe7d140548bf408427ab5f49f,
         type: 3}

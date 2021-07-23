@@ -12,6 +12,7 @@ TagManager:
   - Obstacle
   - Ground
   - Terrain
+  - Water
   layers:
   - Default
   - TransparentFX
