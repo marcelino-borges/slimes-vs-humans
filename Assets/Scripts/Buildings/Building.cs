@@ -83,7 +83,7 @@ public class Building : MonoBehaviour
     private void SpawnHumansOnRooftop()
     {
         GameObject humanPrefab = ObjectPooler.instance.GetOriginalPrefabFromPool("human");
-
+        humanPositions.Shuffle();
         for (int i = 0; i < _humansToSpawnOnRoof; i++)
         {
             if (humanPositions[i] != null) {

@@ -214,7 +214,7 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     {
         if (_canDecay && !isGroundMode)
         {
-            StartCoroutine(CountCanDecayCooldown());
+            //StartCoroutine(CountCanDecayCooldown());
             PlaySfx(_decaySfx);
 
             for (int i = 1; i <= _maxCloneCountOnHumans; i++)

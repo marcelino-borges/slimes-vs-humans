@@ -75,7 +75,7 @@ public class SlimeCollector : Slime
 
                 //Collision against humans implemented in the IEnumerator DamageArea() in this class
                 TestCollisionAgainstSlimes(collision);
-                TestCollisionAgainstBuildings(collision);
+                //TestCollisionAgainstBuildings(collision);
                 TestCollisionAgainstObstacles(collision);
                 TestCollisionAgainstHumans(collision);
 

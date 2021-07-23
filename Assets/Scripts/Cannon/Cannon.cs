@@ -143,7 +143,28 @@ public class Cannon : MonoBehaviour
         }
         //HUD.instance.ClearSelectedSlime();
         //HUD.instance.SelectSlime(HUD.instance.selectedSlime);
-        InstantiateSlime(HUD.instance.selectedSlime, 1f);
+        MonoBehaviour prefab = HUD.instance.selectedSlime.GetComponent<MonoBehaviour>();
+        bool canInstantiate = false;
+        if (prefab is SlimeBomb)
+        {
+            if (LevelManager.instance.quantitySlimeBomb > 0)
+                canInstantiate = true;
+        } 
+        else if (prefab is SlimeTactical)
+        {
+            if (LevelManager.instance.quantitySlimeTactical > 0)
+                canInstantiate = true;
+        } 
+        else if (prefab is SlimeCollector)
+        {
+            if (LevelManager.instance.quantitySlimeCollector > 0)
+                canInstantiate = true;
+        }
+
+        if (canInstantiate)
+            InstantiateSlime(HUD.instance.selectedSlime, 1f);
+        else
+            HUD.instance.ClearSelectedSlime();
     }
 
     private void CalculateVelocityToReachTouchedPoint(Vector3 point)
