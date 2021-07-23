@@ -1621,6 +1621,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 927b6aab81405834f8115b01778ee227, type: 3}
+--- !u!23 &1051044629 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 463357472680376366, guid: 927b6aab81405834f8115b01778ee227,
+    type: 3}
+  m_PrefabInstance: {fileID: 1051044628}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1067026904 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3704717773427039027, guid: 543c64b52825a754e8e554f8c8534496,
@@ -1834,6 +1840,11 @@ PrefabInstance:
       objectReference: {fileID: 136935010}
     - target: {fileID: 181951876637419568, guid: 808b7091f43c87c439270ea3e705116f,
         type: 3}
+      propertyPath: terrainInLevel
+      value: 
+      objectReference: {fileID: 1051044629}
+    - target: {fileID: 181951876637419568, guid: 808b7091f43c87c439270ea3e705116f,
+        type: 3}
       propertyPath: quantitySlimeBomb
       value: 0
       objectReference: {fileID: 0}
@@ -1841,8 +1852,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialSlimeSelected
       value: 2
-      propertyPath: terrainRotationSpeed
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 181951876637419568, guid: 808b7091f43c87c439270ea3e705116f,
         type: 3}
