@@ -52,6 +52,7 @@ public class LevelManager : MonoBehaviour
     [Tooltip("The number of bomb slimes available in the card for the player. " +
              "0 for making the respective card unavailable")]
     public int quantitySlimeBomb = 0;
+    public SlimeType initialSlimeSelected = SlimeType.NONE;
 
     private void Awake()
     {
@@ -81,6 +82,7 @@ public class LevelManager : MonoBehaviour
 
         // Analytics Start Level
         GameAnalyticsManager.instance.LogStartLevelEvent();
+        SelectInitialCard();
     }
 
     private void InitializeHUD()
@@ -293,6 +295,11 @@ public class LevelManager : MonoBehaviour
     public bool IsGameActive()
     {
         return !isGameOver && !isLevelWon;
+    }
+
+    private void SelectInitialCard()
+    {
+        HUD.instance.SelectInitialCard(initialSlimeSelected);
     }
 }
 

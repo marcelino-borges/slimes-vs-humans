@@ -5156,7 +5156,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CityHall
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6015084378053656129, guid: 8b1f3b4c271a0ca42930f2ee7401a074, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8b1f3b4c271a0ca42930f2ee7401a074, type: 3}
 --- !u!4 &4614992900642254026 stripped
 Transform:

@@ -966,8 +966,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e1984ac2bb08d42ae82f27da8c8427, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slimesLeft: {fileID: 0}
-  slimesTotal: {fileID: 0}
   humansHit: {fileID: 7398218018733679489}
   humansTotal: {fileID: 6185255157293557991}
   pausePanel: {fileID: 2983385368554881380}
@@ -980,6 +978,9 @@ MonoBehaviour:
     type: 3}
   selectedSlime: {fileID: 0}
   launchProgressBar: {fileID: 847873137}
+  collectorCard: {fileID: 4424629963042486485}
+  tacticalCard: {fileID: 4134922671933857634}
+  bombCard: {fileID: 823018050507934841}
   cardSelected: {fileID: 0}
 --- !u!1 &3833188991827723337
 GameObject:
@@ -1873,6 +1874,7 @@ MonoBehaviour:
   delayBetweenEachStarActivation: 0.4
   victorySfx: {fileID: 8300000, guid: 6d9ad0b78b28faf4180ee7ed7b8a3252, type: 3}
   WatchAdPopUp: {fileID: 4435892773006128197}
+  hasShownStars: 0
 --- !u!95 &6615811785798703269
 Animator:
   serializedVersion: 3

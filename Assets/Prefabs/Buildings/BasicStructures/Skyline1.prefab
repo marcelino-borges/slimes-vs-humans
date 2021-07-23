@@ -13,9 +13,9 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 0
   m_IsKinematic: 1
-  m_Interpolate: 2
+  m_Interpolate: 1
   m_Constraints: 32
-  m_CollisionDetection: 3
+  m_CollisionDetection: 0
 --- !u!65 &1450299253
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29,22 +29,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.587575, y: 2.6751492, z: 4.662664}
   m_Center: {x: -0.006242454, y: -0.062425375, z: 2.3186681}
---- !u!208 &5362678388374283813
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 943426562633222668}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 1.25, y: 1.4660001, z: 2.3430002}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: -0.216, z: 2.3430002}
-  m_TimeToStationary: 0.5
 --- !u!114 &-6089747589973066124
 MonoBehaviour:
   m_ObjectHideFlags: 0

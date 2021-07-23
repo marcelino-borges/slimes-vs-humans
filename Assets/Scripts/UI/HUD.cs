@@ -12,10 +12,6 @@ public class HUD : MonoBehaviour
 
     [Header("UI TEXTS")]
     [SerializeField]
-    private TextMeshProUGUI slimesLeft;
-    [SerializeField]
-    private TextMeshProUGUI slimesTotal;
-    [SerializeField]
     private TextMeshProUGUI humansHit;
     [SerializeField]
     private TextMeshProUGUI humansTotal;
@@ -33,9 +29,12 @@ public class HUD : MonoBehaviour
     private GameObject slimeBombPrefab;
     [SerializeField]
     private GameObject slimeCollectorPrefab;
-
+    [ReadOnly]
     public GameObject selectedSlime;
     public Slider launchProgressBar;
+    public CardSlimeUI collectorCard;
+    public CardSlimeUI tacticalCard;
+    public CardSlimeUI bombCard;
     public CardSlimeUI cardSelected;
 
     private void Awake()
@@ -48,6 +47,26 @@ public class HUD : MonoBehaviour
     {
         if (pausePanel != null)
             pausePanel.SetActive(true);
+    }
+
+    public void SelectInitialCard(SlimeType type)
+    {
+        switch(type)
+        {
+            case SlimeType.COLLECTOR:
+                SelectCard(collectorCard);
+                SelectSlime(slimeCollectorPrefab);
+                break;
+            case SlimeType.TACTICAL:
+                SelectCard(tacticalCard);
+                SelectSlime(slimeTaticPrefab);
+                break;
+            case SlimeType.BOMB:
+                SelectCard(bombCard);
+                SelectSlime(slimeBombPrefab);
+                break;
+        }
+        
     }
 
     public void BlinkDamagePanel()

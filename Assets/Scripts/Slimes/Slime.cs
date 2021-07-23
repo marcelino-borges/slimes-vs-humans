@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(AudioSource))]
-public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
+public abstract class Slime : MonoBehaviour, IPoolableObject
 {
     private bool _canDecay = true;
     private Vector3 _positionOnLaunch = Vector3.zero;
@@ -70,6 +70,7 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     protected AudioClip _deathSfx;
     [SerializeField]
     protected AudioClip _decaySfx;
+    [ReadOnly]
     [SerializeField]
     protected AudioClip _LaunchSfx;
     [Tooltip("Whether the slime will be pooled when Die method is called")]
@@ -153,16 +154,11 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
         }
     }
 
-    public virtual void ApplyDamage(int dmg)
-    {
-        if (_health > 0)
-            _health -= dmg;
-        else
-            gameObject.SetActive(false);
-    }
-
     public virtual void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f)
     {
+        print("direction: " + direction);
+        print("targetPosition: " + targetPosition);
+        print("force: " + force);
         rb.isKinematic = false;
         PlaySfx(_LaunchSfx);
         _positionOnLaunch = transform.position;
@@ -253,8 +249,6 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     {
         if (!isSterile && _currentCloneCount < _maxCloneCountOnHumans && LevelManager.instance.IsGameActive())
         {
-            //StartCoroutine(CountCanCloneCooldown());
-
             for (int i = 1; i <= quantity; i++)
             {
                 if (currentGlobalClonesCount < maxGlobalClonesCount && LevelManager.instance.IsGameActive())
@@ -272,7 +266,7 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
                         break;
                     }
 
-                    yield return new WaitForSeconds(Random.Range(_cloneCooldown - .2f, _cloneCooldown + .2f));
+                    yield return new WaitForSeconds(Random.Range(0, .25f));
                 }
                 else
                 {
@@ -409,9 +403,7 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
     {
         if (collision.gameObject.CompareTag("Slime"))
         {
-            int quantity = Mathf.RoundToInt(_maxCloneCountOnHumans / 2);
             CloneItSelf(_maxCloneCountOnSlime);
-            //Die();
         }
     }
 
@@ -430,8 +422,10 @@ public abstract class Slime : MonoBehaviour, IDamageable, IPoolableObject
 
     protected virtual void SetOnGroundMode()
     {
+        print("SetOnGroundMode");
         _movingInTrajectory = false;
         rb.useGravity = true;
+        rb.isKinematic = false;
         rb.AddForce(velocity * 50f);
         isGroundMode = true;
     }

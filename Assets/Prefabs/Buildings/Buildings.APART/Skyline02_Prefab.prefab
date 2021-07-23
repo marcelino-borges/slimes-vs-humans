@@ -5152,8 +5152,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skyline2
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 2332878246480920465, guid: c8f303d875fcc654ca4e72625e0ddfa3, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8f303d875fcc654ca4e72625e0ddfa3, type: 3}
 --- !u!4 &5812887141406702425 stripped
 Transform:

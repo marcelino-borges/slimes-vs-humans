@@ -36,9 +36,11 @@ public class Building : MonoBehaviour
     [SerializeField] private GameObject[] _buildingsPrefabs;
     [Header("SOUND EFFECTS")]
     [SerializeField] private AudioClip[] _explosionSfx;
+    [ReadOnly]
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Transform[] humanPositions;
     [SerializeField] private int _humansToSpawnOnRoof = 0;
+    [ReadOnly]
     [SerializeField] private List<Human> _humansOnRooftop;
     [SerializeField] private float _timeBeforeReleasingHumans = .3f;
 
@@ -167,7 +169,7 @@ public class Building : MonoBehaviour
 
         countingDownToReleaseHumans = true;
 
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, _timeBeforeReleasingHumans + .7f);
     }
 
     private void ReleaseHumans()
