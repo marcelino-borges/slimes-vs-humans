@@ -156,9 +156,6 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     public virtual void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f)
     {
-        print("direction: " + direction);
-        print("targetPosition: " + targetPosition);
-        print("force: " + force);
         rb.isKinematic = false;
         PlaySfx(_LaunchSfx);
         _positionOnLaunch = transform.position;
