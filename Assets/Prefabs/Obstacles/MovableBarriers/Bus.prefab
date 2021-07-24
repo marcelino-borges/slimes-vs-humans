@@ -155,9 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d548d727bf5d3d743aa00fae4223a229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vehicleHasMove: 0
   velocity: 0
-  destinyPoint: {fileID: 0}
+  destinyPoint: {fileID: 2966944581128175636}
 --- !u!1 &4219121543376305020
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,9 +196,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8233738113677927350}
-  - component: {fileID: 6273765690434659193}
-  - component: {fileID: 295840200717162942}
-  - component: {fileID: 7571390505438519734}
   m_Layer: 14
   m_Name: Bus
   m_TagString: Obstacle
@@ -223,49 +219,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &6273765690434659193
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5230390138620676244}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.0950668, y: 3.312142, z: 8.623016}
-  m_Center: {x: 0, y: 1.6590707, z: -0.06500006}
---- !u!114 &295840200717162942
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5230390138620676244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b3f4fccfe91ed74ba7ceb768b514722, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionParticlesPrefab: {fileID: 0}
-  slimeContactEffect: {fileID: 0}
-  killSlime: 0
---- !u!114 &7571390505438519734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5230390138620676244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d548d727bf5d3d743aa00fae4223a229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vehicleHasMove: 0
-  velocity: 0
-  destinyPoint: {fileID: 0}
 --- !u!1 &5850748859001474476
 GameObject:
   m_ObjectHideFlags: 0
