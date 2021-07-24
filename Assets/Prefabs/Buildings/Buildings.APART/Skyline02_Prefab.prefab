@@ -5152,6 +5152,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skyline2
       objectReference: {fileID: 0}
+    - target: {fileID: 5259045409718314143, guid: c8f303d875fcc654ca4e72625e0ddfa3,
+        type: 3}
+      propertyPath: splatColor.Array.data[0].b
+      value: 0.60784316
+      objectReference: {fileID: 0}
+    - target: {fileID: 5259045409718314143, guid: c8f303d875fcc654ca4e72625e0ddfa3,
+        type: 3}
+      propertyPath: splatColor.Array.data[0].g
+      value: 0.34901962
+      objectReference: {fileID: 0}
+    - target: {fileID: 5259045409718314143, guid: c8f303d875fcc654ca4e72625e0ddfa3,
+        type: 3}
+      propertyPath: splatColor.Array.data[0].r
+      value: 0.8745098
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8f303d875fcc654ca4e72625e0ddfa3, type: 3}
 --- !u!4 &5812887141406702425 stripped

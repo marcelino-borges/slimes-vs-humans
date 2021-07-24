@@ -216,7 +216,8 @@ public class Building : MonoBehaviour
         if (_explosionParticles != null)
         {
             _explosionParticles.Play();
-            Destroy(_explosionParticles.gameObject);
+            print("Particulas");
+            //Destroy(_explosionParticles.gameObject);
         }
     }
 

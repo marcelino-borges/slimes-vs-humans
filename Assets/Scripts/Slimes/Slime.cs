@@ -78,8 +78,8 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected bool _poolObjectOnDeath = false;
     [SerializeField]
     protected SkinnedMeshRenderer _bodyMesh;
-    [SerializeField]
-    protected Material _decayMaterial;
+    //[SerializeField]
+    //protected Material _decayMaterial;
 
     public Rigidbody rb;
     public ShakePreset shakePreset;
@@ -278,7 +278,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected void Sterilize()
     {
         isSterile = true;
-        SetSterileMaterial(_decayMaterial);
+        //SetSterileMaterial(_decayMaterial);
     }
 
     protected void SetSterileMaterial(Material material)

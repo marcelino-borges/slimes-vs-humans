@@ -5088,6 +5088,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: House2
       objectReference: {fileID: 0}
+    - target: {fileID: 6424465681595603946, guid: 1fded4370cb67524eb255e5a004c4ace,
+        type: 3}
+      propertyPath: splatColor.Array.data[0].b
+      value: 0.60784316
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424465681595603946, guid: 1fded4370cb67524eb255e5a004c4ace,
+        type: 3}
+      propertyPath: splatColor.Array.data[0].g
+      value: 0.34901962
+      objectReference: {fileID: 0}
+    - target: {fileID: 6424465681595603946, guid: 1fded4370cb67524eb255e5a004c4ace,
+        type: 3}
+      propertyPath: splatColor.Array.data[0].r
+      value: 0.8745098
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3047294676996215308, guid: 1fded4370cb67524eb255e5a004c4ace, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1fded4370cb67524eb255e5a004c4ace, type: 3}

@@ -170,7 +170,6 @@ MonoBehaviour:
   _LaunchSfx: {fileID: 8300000, guid: 44950cd7a608c4140a4b210e0f91d212, type: 3}
   _poolObjectOnDeath: 0
   _bodyMesh: {fileID: 7868489869978905733}
-  _decayMaterial: {fileID: 2100000, guid: 3db2e37de2daad24f974c7c60c11c701, type: 2}
   rb: {fileID: 0}
   shakePreset: {fileID: 11400000, guid: 74d16472849c6374db2c71cddbe17811, type: 2}
   OnDieEvent:
@@ -207,7 +206,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 1
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!95 &133736175913089683
 Animator:

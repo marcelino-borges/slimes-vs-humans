@@ -4989,6 +4989,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1545173933762009863}
     m_Modifications:
+    - target: {fileID: -2444502378463791891, guid: 7e7bf6bd69973b94aa819ace778dc789,
+        type: 3}
+      propertyPath: splatColor.Array.data[0].b
+      value: 0.60784316
+      objectReference: {fileID: 0}
+    - target: {fileID: -2444502378463791891, guid: 7e7bf6bd69973b94aa819ace778dc789,
+        type: 3}
+      propertyPath: splatColor.Array.data[0].g
+      value: 0.34901962
+      objectReference: {fileID: 0}
+    - target: {fileID: -2444502378463791891, guid: 7e7bf6bd69973b94aa819ace778dc789,
+        type: 3}
+      propertyPath: splatColor.Array.data[0].r
+      value: 0.8745098
+      objectReference: {fileID: 0}
     - target: {fileID: 1450299253, guid: 7e7bf6bd69973b94aa819ace778dc789, type: 3}
       propertyPath: m_Size.x
       value: 7.155508
