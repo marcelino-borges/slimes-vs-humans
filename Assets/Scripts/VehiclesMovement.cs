@@ -2,10 +2,7 @@
 
 public class VehiclesMovement : MonoBehaviour
 {
-    [Tooltip("This vechicle has movement?"), SerializeField]
-    private bool vehicleHasMove;
-
-    [Space(5), Tooltip("Velocity amount of movement"), SerializeField]
+    [Space(5), Tooltip("If equal to zero, the vehicle will have no movement"), SerializeField]
     private float velocity;
 
     [Space(5), Tooltip("Destiny of the movement of the vehicle"), SerializeField]
@@ -22,7 +19,7 @@ public class VehiclesMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (vehicleHasMove)
+        if (velocity != 0)
         {
             transform.localPosition = Vector3.Lerp(originalPosition, originalPosition + vectorDestiny, Mathf.PingPong(Time.time, 1));
         }
