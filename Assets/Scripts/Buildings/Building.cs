@@ -169,7 +169,7 @@ public class Building : MonoBehaviour
 
         countingDownToReleaseHumans = true;
 
-        Destroy(gameObject, _timeBeforeReleasingHumans + .7f);
+        Destroy(gameObject, _timeBeforeReleasingHumans + 1f);
     }
 
     private void ReleaseHumans()
@@ -216,7 +216,8 @@ public class Building : MonoBehaviour
         if (_explosionParticles != null)
         {
             _explosionParticles.Play();
-            Destroy(_explosionParticles.gameObject);
+            print("Particulas");
+            //Destroy(_explosionParticles.gameObject);
         }
     }
 
