@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
@@ -18,6 +20,7 @@ public class LevelManager : MonoBehaviour
     [ReadOnly]
     [Tooltip("After the play this attribute will store to total slimes the player can use in this level")]
     public int maxSlimesOfLevel = 20;
+
     [ReadOnly]
     public int humansInfected = 0;
     [ReadOnly]
@@ -53,6 +56,8 @@ public class LevelManager : MonoBehaviour
              "0 for making the respective card unavailable")]
     public int quantitySlimeBomb = 0;
     public SlimeType initialSlimeSelected = SlimeType.NONE;
+    public float timeToCheckGameOver = 3f;
+    public UnityEvent OnGameOverEvent;
 
     private void Awake()
     {
@@ -184,11 +189,14 @@ public class LevelManager : MonoBehaviour
     public void SetGameOver()
     {
         if (isLevelWon || isGameOver) return;
-        StartCoroutine(SetGameOverCo());
+
+        StopCoroutine(WaitAndCheckGameOver());
+        StartCoroutine(WaitAndCheckGameOver());
     }
 
-    private IEnumerator SetGameOverCo()
+    private IEnumerator WaitAndCheckGameOver()
     {
+        yield return new WaitForSeconds(timeToCheckGameOver);
         isGameOver = true;
         yield return new WaitForSeconds(delayToShowGameOverPanel);
         ShowUI(gameOverPanel);
@@ -303,6 +311,12 @@ public class LevelManager : MonoBehaviour
     private void SelectInitialCard()
     {
         HUD.instance.SelectInitialCard(initialSlimeSelected);
+    }
+
+    public void CreateGameOverEvent()
+    {
+        OnGameOverEvent = new UnityEvent();
+        OnGameOverEvent.AddListener(SetGameOver);
     }
 }
 

@@ -16,6 +16,9 @@ public class SlimeTactical : Slime
 
         HUD.instance.cardSelected.DecrementQuantityLeft();
         LevelManager.instance.DecrementSlimeTactical();
+
+        if (LevelManager.instance.quantitySlimeTactical <= 0 && LevelManager.instance.quantitySlimeCollector <= 0)
+            LevelManager.instance.CreateGameOverEvent();
     }
 
     protected override void OnCollisionEnter(Collision collision)
@@ -54,6 +57,10 @@ public class SlimeTactical : Slime
     private IEnumerator DieCo()
     {
         yield return new WaitForSeconds(2f);
+
+        if (LevelManager.instance.OnGameOverEvent != null)
+            LevelManager.instance.OnGameOverEvent.Invoke();
+
         Die();
     }
 }
