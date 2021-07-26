@@ -38,11 +38,11 @@ public class SoundManager : MonoBehaviour
     {
         if (abortIfPlaying)
         {
-            if (!audioSource.isPlaying)
-                audioSource.PlayOneShot(audio, CurrentVolume);
+            audioSource.PlayOneShot(audio, CurrentVolume);
         } else
         {
-            audioSource.PlayOneShot(audio, CurrentVolume);
+            if (!audioSource.isPlaying)
+                audioSource.PlayOneShot(audio, CurrentVolume);
         }
     }
 

@@ -53,6 +53,18 @@ MonoBehaviour:
     korean: {fileID: 11400000, guid: 1d00d34626db31e4bb2aeca940f84d8e, type: 2}
     thai: {fileID: 11400000, guid: 7b01b883f2c766a4bb454ce3a17a8b06, type: 2}
     latin: {fileID: 11400000, guid: 7a69413d9ca0bfd459a45982e26f3db9, type: 2}
+  isVibrating: 0
+  vibrationCooldownTime: 0.7
+  shakePreset: {fileID: 11400000, guid: 74d16472849c6374db2c71cddbe17811, type: 2}
+  nextLevelIndex: 0
+  levels:
+  - Level001
+  - Level002
+  - Level003
+  - Level004
+  - Level005
+  - Level006
+  - Level007
 --- !u!114 &8993831827673549961
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -58,21 +58,18 @@ public class SlimeCollector : Slime
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (collision != null && LevelManager.instance.IsGameActive())
+        if ((_hasBeenLaunched || isClone) && collision != null && LevelManager.instance.IsGameActive())
         {
             if (CanDetectCollision())
             {
                 if (!isGroundMode)
                 {
                     PlayCollisionParticles();
-                    PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
-                    Vibrate();
-                }
-
-                if (!isGroundMode)
+                    //SoundManager.instance.PlaySound2D(Utils.GetRandomArrayElement(_collisionSfx));
+                    GameManager.instance.VibrateAndShake();
                     StartCoroutine(DamageArea());
-
-                SetOnGroundMode();
+                    SetOnGroundMode();
+                }
 
                 //Collision against humans implemented in the IEnumerator DamageArea() in this class
                 TestCollisionAgainstSlimes(collision);

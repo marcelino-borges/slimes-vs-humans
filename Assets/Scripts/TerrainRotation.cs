@@ -55,4 +55,9 @@ public class TerrainRotation : MonoBehaviour
     {
         toRight = !toRight;
     }
+
+    public void SetCanRotate(bool value)
+    {
+        canRotate = value;
+    }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class SlimeTactical : Slime
@@ -21,15 +20,15 @@ public class SlimeTactical : Slime
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (collision != null)
+        if (_hasBeenLaunched && collision != null)
         {
             if (CanDetectCollision())
             {
                 if (!isGroundMode)
                 {
                     PlayCollisionParticles();
-                    PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
-                    Vibrate();
+                    //SoundManager.instance.PlaySound2D(Utils.GetRandomArrayElement(_collisionSfx));
+                    GameManager.instance.VibrateAndShake();
                 }
 
                 SetOnGroundMode();

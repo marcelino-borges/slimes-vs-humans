@@ -75,7 +75,10 @@ public class LevelManager : MonoBehaviour
         InitializeHUD();
 
         if (tipCanvas != null)
+        {
+            TerrainRotation.instance.Stop();
             tipCanvas.SetActive(true);
+        }
 
         if (cannonInScene == null)
             throw new MissingReferenceException("Reference the cannon of the scene");

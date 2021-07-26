@@ -467,10 +467,10 @@ MonoBehaviour:
   _decaySfx: {fileID: 8300000, guid: e8b2ac4ae706a9441a6e3aae4625a2d1, type: 3}
   _LaunchSfx: {fileID: 8300000, guid: 9b93ba2c7f9010e4fb5e60fde6aea726, type: 3}
   _poolObjectOnDeath: 0
+  _hasBeenLaunched: 0
   _bodyMesh: {fileID: 1212623093757486034}
   _decayMaterial: {fileID: 2100000, guid: 3db2e37de2daad24f974c7c60c11c701, type: 2}
   rb: {fileID: 0}
-  shakePreset: {fileID: 11400000, guid: 74d16472849c6374db2c71cddbe17811, type: 2}
   OnDieEvent:
     m_PersistentCalls:
       m_Calls: []
