@@ -82,8 +82,8 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected bool _hasBeenLaunched = false;
     [SerializeField]
     protected SkinnedMeshRenderer _bodyMesh;
-    [SerializeField]
-    protected Material _decayMaterial;
+    //[SerializeField]
+    //protected Material _decayMaterial;
 
     public Rigidbody rb;
     public UnityEvent OnDieEvent;
