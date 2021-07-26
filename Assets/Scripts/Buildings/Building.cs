@@ -154,6 +154,7 @@ public class Building : MonoBehaviour
 
     public void Explode(float delay = 0f)
     {
+        gameObject.isStatic = false;
         StartCoroutine(ExplodeCo(delay));
     }
 
@@ -178,6 +179,7 @@ public class Building : MonoBehaviour
         {
             foreach (Human human in _humansOnRooftop)
             {
+                human.rb.isKinematic = false;
                 human.gameObject.transform.SetParent(transform.parent);
                 human.gameObject.transform.position = new Vector3(
                     transform.position.x + Random.Range(-1, 2),

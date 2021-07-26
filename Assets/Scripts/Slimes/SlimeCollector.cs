@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SlimeCollector : Slime
 {
@@ -16,6 +17,9 @@ public class SlimeCollector : Slime
 
         HUD.instance.cardSelected.DecrementQuantityLeft();
         LevelManager.instance.DecrementSlimeCollector();
+
+        if (LevelManager.instance.quantitySlimeTactical <= 0 && LevelManager.instance.quantitySlimeCollector <= 0)
+            LevelManager.instance.CreateGameOverEvent();
     }
 
     protected IEnumerator DamageArea(float delay = 0)
@@ -51,6 +55,9 @@ public class SlimeCollector : Slime
             {
                 human.rb.isKinematic = true;
                 human.Infect(this);
+
+                if(LevelManager.instance.OnGameOverEvent != null)
+                    LevelManager.instance.OnGameOverEvent.Invoke();
             }
             CloneItSelf(_maxCloneCountOnHumans);
         }
@@ -58,21 +65,18 @@ public class SlimeCollector : Slime
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (collision != null && LevelManager.instance.IsGameActive())
+        if ((_hasBeenLaunched || isClone) && collision != null && LevelManager.instance.IsGameActive())
         {
             if (CanDetectCollision())
             {
                 if (!isGroundMode)
                 {
                     PlayCollisionParticles();
-                    PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
-                    Vibrate();
-                }
-
-                if (!isGroundMode)
+                    //SoundManager.instance.PlaySound2D(Utils.GetRandomArrayElement(_collisionSfx));
+                    GameManager.instance.VibrateAndShake();
                     StartCoroutine(DamageArea());
-
-                SetOnGroundMode();
+                    SetOnGroundMode();
+                }
 
                 //Collision against humans implemented in the IEnumerator DamageArea() in this class
                 TestCollisionAgainstSlimes(collision);

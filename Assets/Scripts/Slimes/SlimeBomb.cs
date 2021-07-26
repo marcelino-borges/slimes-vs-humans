@@ -56,23 +56,9 @@ public class SlimeBomb : Slime
             if (building != null)
             {
                 building.Explode();
-                Die();
             }
+            Die();
         }
-    }
-
-    public override void Die()
-    {
-        if (_isDead) return;
-
-        _isDead = true;
-        Vibrate();
-
-        _health = 0;
-        PlayExplosionParticles();
-        SoundManager.instance.PlaySound2D(_deathSfx);
-
-        Destroy(gameObject);
     }
 
     protected override void TestCollisionAgainstObstacles(Collision collision)
@@ -85,9 +71,21 @@ public class SlimeBomb : Slime
         }
     }
 
+    public override void Die()
+    {
+        if (_isDead) return;
+
+        _isDead = true;
+        GameManager.instance.VibrateAndShake();
+        _health = 0;
+        PlayExplosionParticles();
+        SoundManager.instance.PlaySound2D(_deathSfx);
+        Destroy(gameObject);
+    }
+
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (collision != null)
+        if (_hasBeenLaunched && collision != null)
         {
             TestCollisionAgainstTerrain(collision);
             if (CanDetectCollision())
@@ -95,8 +93,8 @@ public class SlimeBomb : Slime
                 if (!isGroundMode)
                 {
                     PlayCollisionParticles();
-                    PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
-                    Vibrate();
+                    //SoundManager.instance.PlaySound2D(Utils.GetRandomArrayElement(_collisionSfx));
+                    SetOnGroundMode();
                 }
 
                 TestCollisionAgainstBuildings(collision);

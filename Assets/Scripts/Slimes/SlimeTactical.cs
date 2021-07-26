@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class SlimeTactical : Slime
@@ -17,19 +16,22 @@ public class SlimeTactical : Slime
 
         HUD.instance.cardSelected.DecrementQuantityLeft();
         LevelManager.instance.DecrementSlimeTactical();
+
+        if (LevelManager.instance.quantitySlimeTactical <= 0 && LevelManager.instance.quantitySlimeCollector <= 0)
+            LevelManager.instance.CreateGameOverEvent();
     }
 
     protected override void OnCollisionEnter(Collision collision)
     {
-        if (collision != null)
+        if (_hasBeenLaunched && collision != null)
         {
             if (CanDetectCollision())
             {
                 if (!isGroundMode)
                 {
                     PlayCollisionParticles();
-                    PlaySfx(Utils.GetRandomArrayElement(_collisionSfx));
-                    Vibrate();
+                    //SoundManager.instance.PlaySound2D(Utils.GetRandomArrayElement(_collisionSfx));
+                    GameManager.instance.VibrateAndShake();
                 }
 
                 SetOnGroundMode();
@@ -55,6 +57,10 @@ public class SlimeTactical : Slime
     private IEnumerator DieCo()
     {
         yield return new WaitForSeconds(2f);
+
+        if (LevelManager.instance.OnGameOverEvent != null)
+            LevelManager.instance.OnGameOverEvent.Invoke();
+
         Die();
     }
 }

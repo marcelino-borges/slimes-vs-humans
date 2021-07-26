@@ -43,8 +43,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46277b7e55579b64ab0802096a265ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  starsWonInLevel: 0
+  isGameOver: 0
+  isLevelWon: 0
+  slimesLaunched: 0
+  maxSlimesOfLevel: 20
+  humansInfected: 0
+  totalHumansInLevel: 0
   gameOverPanel: {fileID: 0}
-  victoryPanel: {fileID: 0}
-  player: {fileID: 0}
-  totalObjectivesInLevel: 0
-  objectivesDestroyed: 0
+  victoryMenu: {fileID: 0}
+  tipCanvas: {fileID: 0}
+  cannonInScene: {fileID: 0}
+  terrainInLevel: {fileID: 0}
+  delayToShowVictoryPanel: 0.5
+  delayToShowGameOverPanel: 0.5
+  maxClonedSlimesInLevel: 1000
+  terrainRotationSpeed: 2
+  quantitySlimeCollector: 0
+  quantitySlimeTactical: 0
+  quantitySlimeBomb: 0
+  initialSlimeSelected: 0
+  timeToCheckGameOver: 5
+  OnGameOverEvent:
+    m_PersistentCalls:
+      m_Calls: []

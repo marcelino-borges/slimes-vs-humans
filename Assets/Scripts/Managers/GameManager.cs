@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using MilkShake;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +9,9 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public UnityEvent onLanguageChangeEvent;
     public FontAssets fonts;
+    public bool isVibrating;
+    public float vibrationCooldownTime = .7f;
+    public ShakePreset shakePreset;
 
     //FOR THE PROTOTYPE ONLY
     [ReadOnly]
@@ -99,5 +104,28 @@ public class GameManager : MonoBehaviour
     public void ShuffleLevelsArray()
     {
         levels.Shuffle();
+    }
+
+    public void VibrateAndShake()
+    {
+        if (!isVibrating)
+        {
+            Handheld.Vibrate();
+            ShakeCamera();
+            StartCoroutine(CountVibrateCooldown(vibrationCooldownTime));
+        }
+    }
+
+    private IEnumerator CountVibrateCooldown(float time)
+    {
+        isVibrating = true;
+        yield return new WaitForSeconds(time);
+        isVibrating = false;
+    }
+
+    public void ShakeCamera()
+    {
+        if (shakePreset != null)
+            Shaker.ShakeAll(shakePreset);
     }
 }
