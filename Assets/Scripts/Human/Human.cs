@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.VFX;
 
 [RequireComponent(typeof(AudioSource))]
 public class Human : MonoBehaviour, IPoolableObject
@@ -40,6 +41,10 @@ public class Human : MonoBehaviour, IPoolableObject
     protected SkinnedMeshRenderer _mesh;
     #endregion
 
+    [Space(5), Header("the kind of slime that the human becomes"), SerializeField] // ***To slime effect
+    private VisualEffect turnSlimeVFX;
+    private CapsuleCollider humanColl;
+
     #region Public Attributes
     public static bool canScream = true;
     public Rigidbody rb;
@@ -73,6 +78,8 @@ public class Human : MonoBehaviour, IPoolableObject
 
         if (_mesh != null)
             _originalMaterials = _mesh.materials;
+
+        humanColl = GetComponent<CapsuleCollider>();
     }
 
     protected void Start()
@@ -90,6 +97,10 @@ public class Human : MonoBehaviour, IPoolableObject
 
     protected virtual void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            StartCoroutine(HumantToSlimeCR());
+        }
     }
 
     private string GetIdleAnimation()
@@ -108,6 +119,8 @@ public class Human : MonoBehaviour, IPoolableObject
         _isInfected = true;
         
         LevelManager.instance.IncrementHumansInfected();
+
+        StartCoroutine(HumantToSlimeCR()); // ***To slime effect
     }
 
     private void SpawnGroupOfHumans(Slime slime)
@@ -185,5 +198,20 @@ public class Human : MonoBehaviour, IPoolableObject
             if (collision.gameObject.CompareTag("Terrain"))
                 rb.useGravity = true;
         }
+    }
+
+    private IEnumerator HumantToSlimeCR()
+    {
+        humanColl.enabled = false;
+        turnSlimeVFX.Play();
+        _mesh.enabled = false;
+
+        yield return new WaitForSeconds(0.5f);
+        ObjectPooler.instance.Spawn(SlimeType.COLLECTOR, transform.position, Quaternion.identity);
+
+        yield return new WaitForSeconds(1.5f);
+        turnSlimeVFX.enabled = false;
+        ObjectPooler.instance.Spawn(SlimeType.COLLECTOR, transform.position, Quaternion.identity);
+        Destroy(this);
     }
 }
