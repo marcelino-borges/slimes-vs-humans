@@ -58,8 +58,9 @@ public class SlimeCollector : Slime
 
                 if(LevelManager.instance.OnGameOverEvent != null)
                     LevelManager.instance.OnGameOverEvent.Invoke();
+                if(human.CanBeInfected)
+                    CloneItSelf(_maxCloneCountOnHumans);
             }
-            CloneItSelf(_maxCloneCountOnHumans);
         }
     }
 
