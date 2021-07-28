@@ -105,7 +105,6 @@ GameObject:
   - component: {fileID: -2700178461373425614}
   - component: {fileID: 4665625166310349135}
   - component: {fileID: 858185352681866115}
-  - component: {fileID: 133736175913089683}
   - component: {fileID: 5596606843588932153}
   m_Layer: 10
   m_Name: SlimeCollector
@@ -152,6 +151,7 @@ MonoBehaviour:
   _detectCollisionCooldown: 0.5
   _decayRadius: 4
   _cloneCooldown: 0.15
+  _canPlayCollisionParticlesCooldown: 1
   _canDecayCooldown: 1
   _slimeDecayType: 0
   _maxCloneCountOnHumans: 4
@@ -210,25 +210,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 80
   m_CollisionDetection: 0
---- !u!95 &133736175913089683
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2752695480552661746}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: de1fd7e905011144ab5af6c73af4373e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!82 &5596606843588932153
 AudioSource:
   m_ObjectHideFlags: 0

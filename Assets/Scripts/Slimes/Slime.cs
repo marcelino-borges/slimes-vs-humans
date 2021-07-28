@@ -142,7 +142,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         //Destroy(gameObject, _lifeSpan);
         _audioSource.volume = SoundManager.instance.CurrentVolume;
         Physics.reuseCollisionCallbacks = true;
-        LevelManager.instance.OnVictoryEvent.AddListener(InactivatePhysics);
+        LevelManager.instance.OnVictoryEvent.AddListener(OnVictoryInactivatePhysics);
     }
 
     protected virtual void FixedUpdate()
@@ -211,38 +211,6 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
             gameObject.SetActive(false);
     }
 
-    public void Decay()
-    {
-        StartCoroutine(DecayCo());
-    }
-
-    protected IEnumerator DecayCo()
-    {
-        if (_canDecay && !isGroundMode)
-        {
-            //StartCoroutine(CountCanDecayCooldown());
-            SoundManager.instance.PlaySound2D(_decaySfx);
-
-            for (int i = 1; i <= _maxCloneCountOnHumans; i++)
-            {
-                GameObject obj = ObjectPooler.instance.Spawn(_slimeDecayType, GetPositionInRadius(), Quaternion.identity);
-
-                if (obj != null)
-                {
-                    Slime slime = obj.GetComponent<Slime>();
-
-                    if (slime != null)
-                    {
-                        slime.SetOnGroundMode();
-                        slime.isClone = true;
-                    }
-                }
-                yield return new WaitForSeconds(_cloneCooldown);
-            }
-            Die();
-        }
-    }
-
     public void Disable()
     {
         if (isClone && currentGlobalClonesCount > 0)
@@ -300,13 +268,6 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         {
             _bodyMesh.material = material;
         }
-    }
-
-    private IEnumerator CountCanDecayCooldown()
-    {
-        _canDecay = false;
-        yield return new WaitForSeconds(_canDecayCooldown);
-        _canDecay = true;
     }
 
     protected Vector3 GetPositionInRadius()
@@ -425,7 +386,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         }
         isGroundMode = true;
 
-        StartCoroutine(CheckAndInactivatePhysics(5f));
+        StartCoroutine(CheckAndInactivatePhysics(7f));
     }
 
     private IEnumerator CheckAndInactivatePhysics(float time)
@@ -443,6 +404,17 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     private void InactivatePhysics()
     {
+        StartCoroutine(InactivatePhysicsCo());
+    }
+
+    private void OnVictoryInactivatePhysics()
+    {
+        StartCoroutine(InactivatePhysicsCo(5f));
+    }
+
+    private IEnumerator InactivatePhysicsCo(float time = 0)
+    {
+        yield return new WaitForSeconds(time);
         Destroy(rb);
         GetComponent<Collider>().enabled = false;
         gameObject.isStatic = true;
