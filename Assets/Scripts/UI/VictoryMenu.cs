@@ -18,7 +18,7 @@ public class VictoryMenu : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void SetStarsFromLevel()
+    public void SetStarsFromLevel(int starsWon)
     {
         animator.Play("Show");
 
@@ -26,17 +26,15 @@ public class VictoryMenu : MonoBehaviour
             SoundManager.instance.PlaySound2D(victorySfx);
 
         hasShownStars = true;
-        //StartCoroutine(SetStarsFromLevelCo());
+        StartCoroutine(SetStarsFromLevelCo(starsWon));
     }
 
-    private IEnumerator SetStarsFromLevelCo()
+    private IEnumerator SetStarsFromLevelCo(int starsWon)
     {
-        int stars = LevelManager.instance.starsWonInLevel;
-
         // Analytics - Check High Score Achieved
         // if (stars == 3)
 
-        for (int i = 0; i < stars; i++)
+        for (int i = 0; i < starsWon; i++)
         {
             yield return new WaitForSeconds(delayBetweenEachStarActivation);
             starsUI[i].Activate();

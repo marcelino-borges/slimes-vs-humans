@@ -35,6 +35,6 @@ public class GameOverChecking : MonoBehaviour
     {
         yield return new WaitForSeconds(countDown);
 
-        print("Sim, game over!!!");
+        //print("Sim, game over!!!");
     }
 }

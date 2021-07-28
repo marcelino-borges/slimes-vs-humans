@@ -40,6 +40,7 @@ public class LevelManager : MonoBehaviour
     [Space(20)]
     public float delayToShowVictoryPanel = .5f;
     public float delayToShowGameOverPanel = .5f;
+    public float timeToCheckGameOver = 3f;
     [Tooltip("Max number of cloned slimes allowed in the level")]
     public int maxClonedSlimesInLevel = 1000;
     [SerializeField]
@@ -56,21 +57,26 @@ public class LevelManager : MonoBehaviour
              "0 for making the respective card unavailable")]
     public int quantitySlimeBomb = 0;
     public SlimeType initialSlimeSelected = SlimeType.NONE;
-    public float timeToCheckGameOver = 3f;
     public UnityEvent OnGameOverEvent;
+    public UnityEvent OnVictoryEvent;
 
     private void Awake()
     {
         if (instance == null)
             instance = this;
 
+        if (OnVictoryEvent == null)
+            OnVictoryEvent = new UnityEvent();
+
         terrainInLevel = GameObject.FindGameObjectWithTag("Terrain").GetComponent<MeshRenderer>();
+
+#if UNITY_EDITOR
 
         if(terrainInLevel == null)
         {
             Debug.LogError("Terrain not found in the scene. Have you assigned a 'Terrain' to your terrain?");
         }
-
+#endif
         maxSlimesOfLevel = quantitySlimeCollector + quantitySlimeTactical + quantitySlimeBomb;
         Slime.maxGlobalClonesCount = maxClonedSlimesInLevel;
     }
@@ -188,6 +194,8 @@ public class LevelManager : MonoBehaviour
 
     public void SetGameOver()
     {
+        //if (isLevelWon || isGameOver) return;
+
         if (isLevelWon || isGameOver) return;
 
         StopCoroutine(WaitAndCheckGameOver());
@@ -199,40 +207,46 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(timeToCheckGameOver);
         isGameOver = true;
         yield return new WaitForSeconds(delayToShowGameOverPanel);
-        ShowUI(gameOverPanel);
+        SetVictory();
+        //ShowUI(gameOverPanel);
         // Analytics - Level failed
-        GameAnalyticsManager.instance.LogFailLevelEvent();
+        //GameAnalyticsManager.instance.LogFailLevelEvent();
+    }
+
+    private int CalculateStarsWon()
+    {
+        int stars = 3;
+
+        float percentInfected = 100 * humansInfected / totalHumansInLevel;
+
+        if (percentInfected < 90 && percentInfected > 50)
+            stars = 2;
+        else if (percentInfected <= 50 && percentInfected > 25)
+            stars = 1;
+        else
+            stars = 0;
+
+        return stars;
     }
 
     public void SetVictory()
     {
         //starsWonInLevel = CalculateStarsWon(humansScared, initialObjectivesInLevel);
-        if (isLevelWon || isGameOver) return;
+        if (isLevelWon) return;
+        OnVictoryEvent.Invoke();
         StartCoroutine(SetVictoryCo());
-    }
-
-    private int CalculateStarsWon(int objectivesDestroyed, int initialObjectivesInLevel)
-    {
-        int stars = 3;
-        //if (objectivesDestroyed < initialObjectivesInLevel)
-        //    stars--;
-
-        //if (collectablesInLevel > 0 && player.collectables < collectablesInLevel)
-        //    stars--;
-
-        return stars;
     }
 
     private IEnumerator SetVictoryCo()
     {
-        starsWonInLevel = CalculateStarsWon(0, 0);
+        starsWonInLevel = CalculateStarsWon();
         isLevelWon = true;
         yield return new WaitForSeconds(delayToShowVictoryPanel);
         ShowUI(victoryMenu.gameObject);
-        victoryMenu.SetStarsFromLevel();
+        victoryMenu.SetStarsFromLevel(starsWonInLevel);
         SaveLevelData();
         //Analytics - Level Complete
-        GameAnalyticsManager.instance.LogCompleteLevelEvent(starsWonInLevel);
+        GameAnalyticsManager.instance.LogCompleteLevelEvent();
     }
 
     private void ShowUI(GameObject ui)

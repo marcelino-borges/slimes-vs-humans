@@ -55,15 +55,18 @@ MonoBehaviour:
   tipCanvas: {fileID: 0}
   cannonInScene: {fileID: 0}
   terrainInLevel: {fileID: 0}
-  delayToShowVictoryPanel: 0.5
+  delayToShowVictoryPanel: 2
   delayToShowGameOverPanel: 0.5
-  maxClonedSlimesInLevel: 1000
-  terrainRotationSpeed: 2
+  timeToCheckGameOver: 2
+  maxClonedSlimesInLevel: 250
+  terrainRotationSpeed: 0
   quantitySlimeCollector: 0
   quantitySlimeTactical: 0
   quantitySlimeBomb: 0
   initialSlimeSelected: 0
-  timeToCheckGameOver: 5
   OnGameOverEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnVictoryEvent:
     m_PersistentCalls:
       m_Calls: []

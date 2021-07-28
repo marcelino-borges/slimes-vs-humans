@@ -399,7 +399,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5636635035163672971}
   - component: {fileID: 7422803559545362263}
-  - component: {fileID: 1404943966265424990}
   - component: {fileID: 1087820575}
   - component: {fileID: 1087820576}
   - component: {fileID: 3915859012096189898}
@@ -449,6 +448,7 @@ MonoBehaviour:
   _detectCollisionCooldown: 0.5
   _decayRadius: 3
   _cloneCooldown: 0.15
+  _canPlayCollisionParticlesCooldown: 1
   _canDecayCooldown: 1
   _slimeDecayType: 0
   _maxCloneCountOnHumans: 2
@@ -479,25 +479,6 @@ MonoBehaviour:
   isClone: 0
   isFromPool: 0
   isSterile: 0
---- !u!95 &1404943966265424990
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5004212905919617841}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 0325beb8ecafef649821b3dcb161e6d1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!135 &1087820575
 SphereCollider:
   m_ObjectHideFlags: 0

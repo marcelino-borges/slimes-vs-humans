@@ -21,6 +21,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected bool _canDetectCollision = true;
     protected bool _isDead = false;
     protected bool _movingInTrajectory = false;
+    protected bool _canPlayCollisionParticles = false;
     protected Vector3 velocity;
     protected Material _originalBodyMaterial;
 
@@ -44,6 +45,8 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected float _decayRadius = 2f;
     [SerializeField]
     protected float _cloneCooldown = .15f;
+    [SerializeField]
+    protected float _canPlayCollisionParticlesCooldown = 1f;
     [SerializeField]
     protected float _canDecayCooldown = 1f;
     [Tooltip("Leave empty if you don't want the slime to decay when dying")]
@@ -138,6 +141,8 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     {
         //Destroy(gameObject, _lifeSpan);
         _audioSource.volume = SoundManager.instance.CurrentVolume;
+        Physics.reuseCollisionCallbacks = true;
+        LevelManager.instance.OnVictoryEvent.AddListener(OnVictoryInactivatePhysics);
     }
 
     protected virtual void FixedUpdate()
@@ -206,38 +211,6 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
             gameObject.SetActive(false);
     }
 
-    public void Decay()
-    {
-        StartCoroutine(DecayCo());
-    }
-
-    protected IEnumerator DecayCo()
-    {
-        if (_canDecay && !isGroundMode)
-        {
-            //StartCoroutine(CountCanDecayCooldown());
-            SoundManager.instance.PlaySound2D(_decaySfx);
-
-            for (int i = 1; i <= _maxCloneCountOnHumans; i++)
-            {
-                GameObject obj = ObjectPooler.instance.Spawn(_slimeDecayType, GetPositionInRadius(), Quaternion.identity);
-
-                if (obj != null)
-                {
-                    Slime slime = obj.GetComponent<Slime>();
-
-                    if (slime != null)
-                    {
-                        slime.SetOnGroundMode();
-                        slime.isClone = true;
-                    }
-                }
-                yield return new WaitForSeconds(_cloneCooldown);
-            }
-            Die();
-        }
-    }
-
     public void Disable()
     {
         if (isClone && currentGlobalClonesCount > 0)
@@ -297,13 +270,6 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         }
     }
 
-    private IEnumerator CountCanDecayCooldown()
-    {
-        _canDecay = false;
-        yield return new WaitForSeconds(_canDecayCooldown);
-        _canDecay = true;
-    }
-
     protected Vector3 GetPositionInRadius()
     {
         return new Vector3(
@@ -327,38 +293,30 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     protected void PlayExplosionParticles()
     {
-        try
-        {
-            PlayParticles(_explosionParticlesPrefab);
-        } 
-        catch (Exception e)
-        {
-            Debug.LogWarning("Erro no PlayExplosionParticles() do classe Slime.cs: " + e.Message);
-        }
+        PlayParticles(_explosionParticlesPrefab);
     }
 
     protected void PlayCollisionParticles()
     {
-        try
+        if (_canPlayCollisionParticles)
         {
             PlayParticles(_collisionParticlesPrefab);
+            StartCoroutine(CountCollisionParticlesCooldownCo());
         }
-        catch (Exception e)
-        {
-            Debug.LogWarning("Erro no PlayCollisionParticles() do classe Slime.cs: " + e.Message);
-        }
+    }
+
+    private IEnumerator CountCollisionParticlesCooldownCo()
+    {
+        _canPlayCollisionParticles = false;
+        yield return new WaitForSeconds(_canPlayCollisionParticlesCooldown);
+        _canPlayCollisionParticles = true;
     }
 
     protected void PlayParticles(GameObject collisionParticlesPrefab)
     {
-        try
-        {
+        if(collisionParticlesPrefab != null) { 
             GameObject instantiated = Instantiate(collisionParticlesPrefab, transform.position, Quaternion.identity);
             instantiated.GetComponent<ParticleSystem>().Play();
-        }
-        catch (Exception e)
-        {            
-            throw e;
         }
     }
 
@@ -428,22 +386,38 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         }
         isGroundMode = true;
 
-        StartCoroutine(InactivatePhysics(5f));
+        StartCoroutine(CheckAndInactivatePhysics(7f));
     }
 
-    private IEnumerator InactivatePhysics(float time)
+    private IEnumerator CheckAndInactivatePhysics(float time)
     {
         yield return new WaitForSeconds(time);
         if(isGroundMode && transform.position.y < 2f)
         {
-            Destroy(rb);
-            GetComponent<Collider>().enabled = false;
-            gameObject.isStatic = true;
+            InactivatePhysics();
             
         } else
         {
-            StartCoroutine(InactivatePhysics(5f));
+            StartCoroutine(CheckAndInactivatePhysics(5f));
         }
+    }
+
+    private void InactivatePhysics()
+    {
+        StartCoroutine(InactivatePhysicsCo());
+    }
+
+    private void OnVictoryInactivatePhysics()
+    {
+        StartCoroutine(InactivatePhysicsCo(5f));
+    }
+
+    private IEnumerator InactivatePhysicsCo(float time = 0)
+    {
+        yield return new WaitForSeconds(time);
+        Destroy(rb);
+        GetComponent<Collider>().enabled = false;
+        gameObject.isStatic = true;
     }
 
     protected virtual void OnCollisionEnter(Collision collision)
