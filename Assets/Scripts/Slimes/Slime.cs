@@ -88,6 +88,9 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     public Rigidbody rb;
     public UnityEvent OnDieEvent;
 
+    [Header("Launch Particle"), Space(5), SerializeField]
+    private ParticleSystem launchPS; // *** Launch Particles
+
     [Header("READ-ONLY ATTRIBUTES")]
     [ReadOnly]
     public bool isGroundMode;
@@ -158,6 +161,8 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     public virtual void Launch(Vector3 direction, Vector3 targetPosition, float force = 50f)
     {
+        launchPS.Play(); // *** Launch Particles
+
         _hasBeenLaunched = true;
         rb.isKinematic = false;
         SoundManager.instance.PlaySound2D(_LaunchSfx);
@@ -498,4 +503,3 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 #endif
 
 }
-
