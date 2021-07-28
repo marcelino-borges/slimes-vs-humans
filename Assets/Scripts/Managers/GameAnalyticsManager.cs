@@ -62,9 +62,9 @@ public class GameAnalyticsManager : MonoBehaviour
     /// <summary>
     /// Called when level completes (victory)
     /// </summary>
-    public void LogCompleteLevelEvent(int score)
+    public void LogCompleteLevelEvent()
     {
-        LogEventWithScore(GAProgressionStatus.Complete, score);
+        LogEventWithoutScore(GAProgressionStatus.Complete);
     }
     #endregion
 

@@ -58,19 +58,25 @@ public class LevelManager : MonoBehaviour
     public SlimeType initialSlimeSelected = SlimeType.NONE;
     public float timeToCheckGameOver = 3f;
     public UnityEvent OnGameOverEvent;
+    public UnityEvent OnVictoryEvent;
 
     private void Awake()
     {
         if (instance == null)
             instance = this;
 
+        if (OnVictoryEvent == null)
+            OnVictoryEvent = new UnityEvent();
+
         terrainInLevel = GameObject.FindGameObjectWithTag("Terrain").GetComponent<MeshRenderer>();
+
+#if UNITY_EDITOR
 
         if(terrainInLevel == null)
         {
             Debug.LogError("Terrain not found in the scene. Have you assigned a 'Terrain' to your terrain?");
         }
-
+#endif
         maxSlimesOfLevel = quantitySlimeCollector + quantitySlimeTactical + quantitySlimeBomb;
         Slime.maxGlobalClonesCount = maxClonedSlimesInLevel;
     }
@@ -208,6 +214,7 @@ public class LevelManager : MonoBehaviour
     {
         //starsWonInLevel = CalculateStarsWon(humansScared, initialObjectivesInLevel);
         if (isLevelWon || isGameOver) return;
+        OnVictoryEvent.Invoke();
         StartCoroutine(SetVictoryCo());
     }
 
@@ -232,7 +239,7 @@ public class LevelManager : MonoBehaviour
         victoryMenu.SetStarsFromLevel();
         SaveLevelData();
         //Analytics - Level Complete
-        GameAnalyticsManager.instance.LogCompleteLevelEvent(starsWonInLevel);
+        GameAnalyticsManager.instance.LogCompleteLevelEvent();
     }
 
     private void ShowUI(GameObject ui)
