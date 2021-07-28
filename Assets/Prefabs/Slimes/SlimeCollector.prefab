@@ -147,9 +147,9 @@ MonoBehaviour:
   _maxHealth: 1
   _damage: 1
   _lifeSpan: 9999999
-  _launchForce: 25
+  _launchForce: 20
   _detectCollisionCooldown: 0.5
-  _decayRadius: 4
+  _decayRadius: 1.75
   _cloneCooldown: 0.15
   _canPlayCollisionParticlesCooldown: 1
   _canDecayCooldown: 1
