@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
             //If not the first time playing
             RetrievePlayerConfigsSaved();
         }
+        Slime.currentGlobalClonesCount = 0;
     }
     private static void RetrievePlayerConfigsSaved()
     {

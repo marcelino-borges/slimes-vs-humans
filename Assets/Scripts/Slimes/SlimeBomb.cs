@@ -68,15 +68,17 @@ public class SlimeBomb : Slime
         }
     }
 
-    public override void Die()
+    public override void Die(bool playSfx = true, bool playParticles = true)
     {
         if (_isDead) return;
 
         _isDead = true;
         GameManager.instance.VibrateAndShake();
         _health = 0;
-        PlayExplosionParticles();
-        SoundManager.instance.PlaySound2D(_deathSfx);
+        if (playParticles)
+            PlayExplosionParticles();
+        if (playSfx)
+            SoundManager.instance.PlaySound2D(_deathSfx);
         Destroy(gameObject);
     }
 

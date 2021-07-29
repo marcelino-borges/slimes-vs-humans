@@ -147,7 +147,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         LevelManager.instance.OnVictoryEvent.AddListener(OnVictoryInactivatePhysics);
 
         if (_dieAfterLifeSpanTime)
-            Destroy(gameObject, _lifeSpan);
+            Die(false, false);
     }
 
     protected virtual void FixedUpdate()
@@ -194,7 +194,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         this.velocity = velocity;
     }
 
-    public virtual void Die()
+    public virtual void Die(bool playSfx = true, bool playParticles = true)
     {
         if (_isDead) return;
 
@@ -204,10 +204,8 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         //if (_slimeDecayType != SlimeType.NONE)
         //    Decay();
 
-        if (isClone && currentGlobalClonesCount > 0)
-            currentGlobalClonesCount--;
-
-        PlayExplosionParticles();
+        if (playParticles)
+            PlayExplosionParticles();
         GameManager.instance.VibrateAndShake();
         SoundManager.instance.PlaySound2D(_deathSfx);
         OnDieEvent.Invoke();
@@ -221,8 +219,6 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     public void Disable()
     {
-        if (isClone && currentGlobalClonesCount > 0)
-            currentGlobalClonesCount--;
         gameObject.SetActive(false);
     }
 
@@ -233,15 +229,14 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     protected virtual IEnumerator CloneItselfCo(int quantity)
     {
-        print("1");
-        if (!isSterile && LevelManager.instance.IsGameActive())
+        print("1) isSterile = " + isSterile);
+        if (!isSterile && _currentCloneCount < _maxCloneCountOnHumans && LevelManager.instance.IsGameActive())
         {
             print("2");
             for (int i = 1; i <= quantity; i++)
             {
                 print("3");
-                if (_currentCloneCount < _maxCloneCountOnHumans && 
-                    currentGlobalClonesCount < maxGlobalClonesCount && 
+                if (currentGlobalClonesCount < maxGlobalClonesCount && 
                     LevelManager.instance.IsGameActive())
                 {
                     print("5");
@@ -449,11 +444,17 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     private void OnDisable()
     {
         StopAllCoroutines();
+
+        if (isClone && currentGlobalClonesCount > 0)
+            currentGlobalClonesCount--;
     }
 
     private void OnDestroy()
     {
         StopAllCoroutines();
+
+        if (isClone && currentGlobalClonesCount > 0)
+            currentGlobalClonesCount--;
 
         SetSterileMaterial(_originalBodyMaterial);
     }

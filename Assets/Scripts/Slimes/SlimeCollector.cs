@@ -81,12 +81,17 @@ public class SlimeCollector : Slime
         //Sync with the co-routine called in SetOnGroundMode()
         yield return new WaitForSeconds(10f);
         if (LevelManager.instance.isGameOver || LevelManager.instance.isLevelWon)
+        {
+            if (isClone && currentGlobalClonesCount > 0)
+                currentGlobalClonesCount--;
+
             Destroy(gameObject);
+        }
         else
             Die(false);
     }
 
-    public void Die(bool playSfx = true)
+    public override void Die(bool playSfx = true, bool playParticles = true)
     {
         if (_isDead) return;
 
@@ -95,32 +100,17 @@ public class SlimeCollector : Slime
 
         //if (_slimeDecayType != SlimeType.NONE)
         //    Decay();
-
-        PlayExplosionParticles();
+        if(playParticles)
+            PlayExplosionParticles();
         if(playSfx)
             SoundManager.instance.PlaySound2D(_deathSfx);
         OnDieEvent.Invoke();
         transform.SetParent(TerrainRotation.instance.gameObject.transform);
 
-        if (isClone && currentGlobalClonesCount > 0)
-            currentGlobalClonesCount--;
-
         if (!isFromPool)
             Destroy(gameObject);
         else
             Disable();
-    }
-
-    private void OnDisable()
-    {
-        StopAllCoroutines();
-    }
-
-    private void OnDestroy()
-    {
-        StopAllCoroutines();
-
-        SetSterileMaterial(_originalBodyMaterial);
     }
 
     protected override void OnCollisionEnter(Collision collision)
