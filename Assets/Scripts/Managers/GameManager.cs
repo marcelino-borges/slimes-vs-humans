@@ -13,6 +13,12 @@ public class GameManager : MonoBehaviour
     public float vibrationCooldownTime = .7f;
     public ShakePreset shakePreset;
 
+    public static string OBSTACLE_TAG = "Obstacle";
+    public static string BUILDING_TAG = "Building";
+    public static string SLIME_TAG = "Slime";
+    public static string HUMAN_TAG = "Human";
+    public static string TERRAIN_TAG = "Terrain";
+
     //FOR THE PROTOTYPE ONLY
     [ReadOnly]
     public int nextLevelIndex = 0;
@@ -54,6 +60,7 @@ public class GameManager : MonoBehaviour
             //If not the first time playing
             RetrievePlayerConfigsSaved();
         }
+        Slime.currentGlobalClonesCount = 0;
     }
     private static void RetrievePlayerConfigsSaved()
     {
@@ -106,11 +113,12 @@ public class GameManager : MonoBehaviour
         levels.Shuffle();
     }
 
-    public void VibrateAndShake()
+    public void VibrateAndShake(bool vibrate = true)
     {
         if (!isVibrating)
         {
-            Handheld.Vibrate();
+            if(vibrate)
+                Handheld.Vibrate();
             ShakeCamera();
             StartCoroutine(CountVibrateCooldown(vibrationCooldownTime));
         }

@@ -61,6 +61,7 @@ public class SlimeTactical : Slime
         if (LevelManager.instance.OnGameOverEvent != null)
             LevelManager.instance.OnGameOverEvent.Invoke();
 
+        GameManager.instance.VibrateAndShake();
         Die();
     }
 }

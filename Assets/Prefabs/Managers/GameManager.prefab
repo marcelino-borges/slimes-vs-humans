@@ -65,6 +65,9 @@ MonoBehaviour:
   - Level005
   - Level006
   - Level007
+  - Level008
+  - Level009
+  - Level010
 --- !u!114 &8993831827673549961
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -215,16 +215,18 @@ public class LevelManager : MonoBehaviour
 
     private int CalculateStarsWon()
     {
-        int stars = 3;
-
         float percentInfected = 100 * humansInfected / totalHumansInLevel;
+
+        int stars;
 
         if (percentInfected < 90 && percentInfected > 50)
             stars = 2;
         else if (percentInfected <= 50 && percentInfected > 25)
             stars = 1;
-        else
+        else if (percentInfected <= 25)
             stars = 0;
+        else
+            stars = 3;
 
         return stars;
     }
@@ -257,13 +259,12 @@ public class LevelManager : MonoBehaviour
     public void IncrementHumansInfected()
     {
         humansInfected++;
+        HUD.instance.SetCurrentHumansInfected(humansInfected);
 
         if (humansInfected >= totalHumansInLevel)
         {
             SetVictory();
         }
-
-        HUD.instance.SetCurrentHumansInfected(humansInfected);
     }
 
     public void IncrementSlimeLaunched()

@@ -36,6 +36,8 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     [SerializeField]
     protected float _lifeSpan = 9999999f;
     [SerializeField]
+    protected bool _dieAfterLifeSpanTime = false;
+    [SerializeField]
     [Tooltip("Not applicable to Slime Bomb")]
     protected float _launchForce = 100f;
     [Tooltip("Cooldown to forbid a bunch of collision detection in a single hit")]
@@ -143,6 +145,9 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         _audioSource.volume = SoundManager.instance.CurrentVolume;
         Physics.reuseCollisionCallbacks = true;
         LevelManager.instance.OnVictoryEvent.AddListener(OnVictoryInactivatePhysics);
+
+        if (_dieAfterLifeSpanTime)
+            Die(false, false);
     }
 
     protected virtual void FixedUpdate()
@@ -189,32 +194,31 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         this.velocity = velocity;
     }
 
-    public virtual void Die()
+    public virtual void Die(bool playSfx = true, bool playParticles = true)
     {
         if (_isDead) return;
 
         _isDead = true;
         _health = 0;
-        
+
         //if (_slimeDecayType != SlimeType.NONE)
         //    Decay();
 
-        PlayExplosionParticles();
-        SoundManager.instance.PlaySound2D(_deathSfx);
+        if (playParticles)
+            PlayExplosionParticles();
         GameManager.instance.VibrateAndShake();
+        SoundManager.instance.PlaySound2D(_deathSfx);
         OnDieEvent.Invoke();
         transform.SetParent(TerrainRotation.instance.gameObject.transform);
 
         if (!isFromPool)
             Destroy(gameObject);
         else
-            gameObject.SetActive(false);
+            Disable();
     }
 
     public void Disable()
     {
-        if (isClone && currentGlobalClonesCount > 0)
-            currentGlobalClonesCount--;
         gameObject.SetActive(false);
     }
 
@@ -225,12 +229,17 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     protected virtual IEnumerator CloneItselfCo(int quantity)
     {
+        print("1) isSterile = " + isSterile);
         if (!isSterile && _currentCloneCount < _maxCloneCountOnHumans && LevelManager.instance.IsGameActive())
         {
+            print("2");
             for (int i = 1; i <= quantity; i++)
             {
-                if (currentGlobalClonesCount < maxGlobalClonesCount && LevelManager.instance.IsGameActive())
+                print("3");
+                if (currentGlobalClonesCount < maxGlobalClonesCount && 
+                    LevelManager.instance.IsGameActive())
                 {
+                    print("5");
                     currentGlobalClonesCount++;
                     _currentCloneCount++;
                     Vector3 position = GetPositionInRadius();
@@ -265,9 +274,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected void SetSterileMaterial(Material material)
     {
         if (_bodyMesh != null && material != null)
-        {
             _bodyMesh.material = material;
-        }
     }
 
     protected Vector3 GetPositionInRadius()
@@ -322,15 +329,13 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     protected virtual void TestCollisionAgainstBuildings(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Building"))
-        {
+        if (collision.gameObject.CompareTag(GameManager.BUILDING_TAG))
             GameManager.instance.VibrateAndShake();
-        }
     }
 
     protected virtual void TestCollisionAgainstHumans(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Human"))
+        if (collision.gameObject.CompareTag(GameManager.HUMAN_TAG))
         {
             Human human = collision.gameObject.GetComponent<Human>();
             if (human != null)
@@ -345,7 +350,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     protected virtual void TestCollisionAgainstObstacles(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if (collision.gameObject.CompareTag(GameManager.OBSTACLE_TAG))
         {
             Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
 
@@ -356,18 +361,14 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     protected virtual void TestCollisionAgainstSlimes(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Slime"))
-        {
+        if (collision.gameObject.CompareTag(GameManager.SLIME_TAG))
             CloneItSelf(_maxCloneCountOnSlime);
-        }
     }
 
     protected virtual void TestCollisionAgainstTerrain(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Terrain"))
-        {
+        if (collision.gameObject.CompareTag(GameManager.TERRAIN_TAG))
             transform.SetParent(TerrainRotation.instance.gameObject.transform);
-        }
     }
 
     protected bool CanDetectCollision()
@@ -386,20 +387,18 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         }
         isGroundMode = true;
 
+        //Sync with the co-routine called in DieCo() in SlimeCollector.cs
         StartCoroutine(CheckAndInactivatePhysics(7f));
     }
 
     private IEnumerator CheckAndInactivatePhysics(float time)
     {
         yield return new WaitForSeconds(time);
+
         if(isGroundMode && transform.position.y < 2f)
-        {
             InactivatePhysics();
-            
-        } else
-        {
+        else
             StartCoroutine(CheckAndInactivatePhysics(5f));
-        }
     }
 
     private void InactivatePhysics()
@@ -439,9 +438,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected void OnCollisionExit(Collision collision)
     {
         if (collision != null)
-        {
             isGroundMode = false;
-        }
     }
 
     private void OnDisable()

@@ -25,6 +25,7 @@ public class SlimeCollector : Slime
     protected IEnumerator DamageArea(float delay = 0)
     {
         yield return new WaitForSeconds(delay);
+        bool hasTouchedHuman = false;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, _decayRadius);
 
@@ -32,7 +33,7 @@ public class SlimeCollector : Slime
         {
             foreach (Collider col in colliders)
             {
-                if (col.gameObject.CompareTag("Human"))
+                if (col.gameObject.CompareTag(GameManager.HUMAN_TAG))
                 {
                     Human human = col.gameObject.GetComponent<Human>();
 
@@ -44,11 +45,14 @@ public class SlimeCollector : Slime
                 }
             }
         }
+
+        if(hasTouchedHuman)
+            GameManager.instance.VibrateAndShake();
     }
 
     protected override void TestCollisionAgainstHumans(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Human"))
+        if (collision.gameObject.CompareTag(GameManager.HUMAN_TAG))
         {
             Human human = collision.gameObject.GetComponent<Human>();
             if (human != null)
@@ -60,8 +64,53 @@ public class SlimeCollector : Slime
                     LevelManager.instance.OnGameOverEvent.Invoke();
                 if(human.CanBeInfected)
                     CloneItSelf(_maxCloneCountOnHumans);
+
+                GameManager.instance.VibrateAndShake(false);
             }
         }
+    }
+
+    protected override void SetOnGroundMode()
+    {
+        base.SetOnGroundMode();
+        StartCoroutine(DieCo());
+    }
+
+    private IEnumerator DieCo()
+    {
+        //Sync with the co-routine called in SetOnGroundMode()
+        yield return new WaitForSeconds(10f);
+        if (LevelManager.instance.isGameOver || LevelManager.instance.isLevelWon)
+        {
+            if (isClone && currentGlobalClonesCount > 0)
+                currentGlobalClonesCount--;
+
+            Destroy(gameObject);
+        }
+        else
+            Die(false);
+    }
+
+    public override void Die(bool playSfx = true, bool playParticles = true)
+    {
+        if (_isDead) return;
+
+        _isDead = true;
+        _health = 0;
+
+        //if (_slimeDecayType != SlimeType.NONE)
+        //    Decay();
+        if(playParticles)
+            PlayExplosionParticles();
+        if(playSfx)
+            SoundManager.instance.PlaySound2D(_deathSfx);
+        OnDieEvent.Invoke();
+        transform.SetParent(TerrainRotation.instance.gameObject.transform);
+
+        if (!isFromPool)
+            Destroy(gameObject);
+        else
+            Disable();
     }
 
     protected override void OnCollisionEnter(Collision collision)
