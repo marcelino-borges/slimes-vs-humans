@@ -112,11 +112,12 @@ public class GameManager : MonoBehaviour
         levels.Shuffle();
     }
 
-    public void VibrateAndShake()
+    public void VibrateAndShake(bool vibrate = true)
     {
         if (!isVibrating)
         {
-            Handheld.Vibrate();
+            if(vibrate)
+                Handheld.Vibrate();
             ShakeCamera();
             StartCoroutine(CountVibrateCooldown(vibrationCooldownTime));
         }

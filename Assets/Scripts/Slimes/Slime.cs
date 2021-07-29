@@ -200,9 +200,12 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
         _isDead = true;
         _health = 0;
-        
+
         //if (_slimeDecayType != SlimeType.NONE)
         //    Decay();
+
+        if (isClone && currentGlobalClonesCount > 0)
+            currentGlobalClonesCount--;
 
         PlayExplosionParticles();
         GameManager.instance.VibrateAndShake();
@@ -213,7 +216,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         if (!isFromPool)
             Destroy(gameObject);
         else
-            gameObject.SetActive(false);
+            Disable();
     }
 
     public void Disable()
@@ -230,12 +233,18 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     protected virtual IEnumerator CloneItselfCo(int quantity)
     {
-        if (!isSterile && _currentCloneCount < _maxCloneCountOnHumans && LevelManager.instance.IsGameActive())
+        print("1");
+        if (!isSterile && LevelManager.instance.IsGameActive())
         {
+            print("2");
             for (int i = 1; i <= quantity; i++)
             {
-                if (currentGlobalClonesCount < maxGlobalClonesCount && LevelManager.instance.IsGameActive())
+                print("3");
+                if (_currentCloneCount < _maxCloneCountOnHumans && 
+                    currentGlobalClonesCount < maxGlobalClonesCount && 
+                    LevelManager.instance.IsGameActive())
                 {
+                    print("5");
                     currentGlobalClonesCount++;
                     _currentCloneCount++;
                     Vector3 position = GetPositionInRadius();
@@ -440,17 +449,11 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     private void OnDisable()
     {
         StopAllCoroutines();
-
-        if (isClone && currentGlobalClonesCount > 0)
-            currentGlobalClonesCount--;
     }
 
     private void OnDestroy()
     {
         StopAllCoroutines();
-
-        if (isClone && currentGlobalClonesCount > 0)
-            currentGlobalClonesCount--;
 
         SetSterileMaterial(_originalBodyMaterial);
     }

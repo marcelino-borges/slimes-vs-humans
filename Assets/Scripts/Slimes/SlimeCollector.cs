@@ -25,6 +25,7 @@ public class SlimeCollector : Slime
     protected IEnumerator DamageArea(float delay = 0)
     {
         yield return new WaitForSeconds(delay);
+        bool hasTouchedHuman = false;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, _decayRadius);
 
@@ -44,6 +45,9 @@ public class SlimeCollector : Slime
                 }
             }
         }
+
+        if(hasTouchedHuman)
+            GameManager.instance.VibrateAndShake();
     }
 
     protected override void TestCollisionAgainstHumans(Collision collision)
@@ -60,6 +64,8 @@ public class SlimeCollector : Slime
                     LevelManager.instance.OnGameOverEvent.Invoke();
                 if(human.CanBeInfected)
                     CloneItSelf(_maxCloneCountOnHumans);
+
+                GameManager.instance.VibrateAndShake(false);
             }
         }
     }
@@ -77,7 +83,44 @@ public class SlimeCollector : Slime
         if (LevelManager.instance.isGameOver || LevelManager.instance.isLevelWon)
             Destroy(gameObject);
         else
-            Die();
+            Die(false);
+    }
+
+    public void Die(bool playSfx = true)
+    {
+        if (_isDead) return;
+
+        _isDead = true;
+        _health = 0;
+
+        //if (_slimeDecayType != SlimeType.NONE)
+        //    Decay();
+
+        PlayExplosionParticles();
+        if(playSfx)
+            SoundManager.instance.PlaySound2D(_deathSfx);
+        OnDieEvent.Invoke();
+        transform.SetParent(TerrainRotation.instance.gameObject.transform);
+
+        if (isClone && currentGlobalClonesCount > 0)
+            currentGlobalClonesCount--;
+
+        if (!isFromPool)
+            Destroy(gameObject);
+        else
+            Disable();
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+    private void OnDestroy()
+    {
+        StopAllCoroutines();
+
+        SetSterileMaterial(_originalBodyMaterial);
     }
 
     protected override void OnCollisionEnter(Collision collision)
