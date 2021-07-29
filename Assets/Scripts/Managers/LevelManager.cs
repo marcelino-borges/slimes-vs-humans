@@ -257,13 +257,12 @@ public class LevelManager : MonoBehaviour
     public void IncrementHumansInfected()
     {
         humansInfected++;
+        HUD.instance.SetCurrentHumansInfected(humansInfected);
 
         if (humansInfected >= totalHumansInLevel)
         {
             SetVictory();
         }
-
-        HUD.instance.SetCurrentHumansInfected(humansInfected);
     }
 
     public void IncrementSlimeLaunched()

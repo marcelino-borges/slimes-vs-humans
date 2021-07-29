@@ -13,6 +13,12 @@ public class GameManager : MonoBehaviour
     public float vibrationCooldownTime = .7f;
     public ShakePreset shakePreset;
 
+    public static string OBSTACLE_TAG = "Obstacle";
+    public static string BUILDING_TAG = "Building";
+    public static string SLIME_TAG = "Slime";
+    public static string HUMAN_TAG = "Human";
+    public static string TERRAIN_TAG = "Terrain";
+
     //FOR THE PROTOTYPE ONLY
     [ReadOnly]
     public int nextLevelIndex = 0;

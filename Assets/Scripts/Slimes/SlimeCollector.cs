@@ -32,7 +32,7 @@ public class SlimeCollector : Slime
         {
             foreach (Collider col in colliders)
             {
-                if (col.gameObject.CompareTag("Human"))
+                if (col.gameObject.CompareTag(GameManager.HUMAN_TAG))
                 {
                     Human human = col.gameObject.GetComponent<Human>();
 
@@ -48,7 +48,7 @@ public class SlimeCollector : Slime
 
     protected override void TestCollisionAgainstHumans(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Human"))
+        if (collision.gameObject.CompareTag(GameManager.HUMAN_TAG))
         {
             Human human = collision.gameObject.GetComponent<Human>();
             if (human != null)
@@ -62,6 +62,22 @@ public class SlimeCollector : Slime
                     CloneItSelf(_maxCloneCountOnHumans);
             }
         }
+    }
+
+    protected override void SetOnGroundMode()
+    {
+        base.SetOnGroundMode();
+        StartCoroutine(DieCo());
+    }
+
+    private IEnumerator DieCo()
+    {
+        //Sync with the co-routine called in SetOnGroundMode()
+        yield return new WaitForSeconds(10f);
+        if (LevelManager.instance.isGameOver || LevelManager.instance.isLevelWon)
+            Destroy(gameObject);
+        else
+            Die();
     }
 
     protected override void OnCollisionEnter(Collision collision)

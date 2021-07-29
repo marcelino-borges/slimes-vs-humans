@@ -33,14 +33,12 @@ public class SlimeBomb : Slime
         {
             foreach (Collider col in colliders)
             {
-                if(col.gameObject.CompareTag("Building"))
+                if(col.gameObject.CompareTag(GameManager.BUILDING_TAG))
                 {
                     Building building = col.gameObject.transform.parent.gameObject.GetComponent<Building>(); //Gets Building script in parent GameObject
 
                     if (building != null)
-                    {
                         building.Explode();
-                    }
                 }
             }
         }
@@ -49,21 +47,20 @@ public class SlimeBomb : Slime
 
     protected override void TestCollisionAgainstBuildings(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Building"))
+        if (collision.gameObject.CompareTag(GameManager.BUILDING_TAG))
         {
             Building building = collision.gameObject.transform.parent.gameObject.GetComponent<Building>(); //Gets Building script in parent GameObject
 
-            if (building != null)
-            {
+            if (building != null)            
                 building.Explode();
-            }
+
             Die();
         }
     }
 
     protected override void TestCollisionAgainstObstacles(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Obstacle"))
+        if (collision.gameObject.CompareTag(GameManager.OBSTACLE_TAG))
         {
             Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
             obstacle.Explode();

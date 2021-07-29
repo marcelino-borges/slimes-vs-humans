@@ -21,6 +21,8 @@ public class HUD : MonoBehaviour
     private GameObject pausePanel;
     [SerializeField]
     private GameObject damagePanel;
+    [SerializeField]
+    private Image humansInfectedBar;
     [Space(20)]
     [Header("SLIMES")]
     [SerializeField]
@@ -173,6 +175,8 @@ public class HUD : MonoBehaviour
 
     public void SetCurrentHumansInfected(int number)
     {
+        float barValue = ((float)LevelManager.instance.humansInfected).Remap(0, LevelManager.instance.totalHumansInLevel, 0, 1);
+        humansInfectedBar.fillAmount = barValue;
         humansHit.text = number < 10 ? "0" + number : number.ToString();
     }
 
