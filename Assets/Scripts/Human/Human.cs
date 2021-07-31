@@ -119,6 +119,7 @@ public class Human : MonoBehaviour, IPoolableObject
         _isInfected = true;
         
         LevelManager.instance.IncrementHumansInfected();
+        GameManager.instance.VibrateAndShake();
 
         StartCoroutine(HumantToSlimeCR()); // ***To slime effect
     }
@@ -186,7 +187,7 @@ public class Human : MonoBehaviour, IPoolableObject
     {
         if (collision != null)
         {
-            if (collision.gameObject.CompareTag("Terrain"))
+            if (collision.gameObject.CompareTag(GameManager.TERRAIN_TAG))
                 rb.useGravity = false;
         }
     }
@@ -195,7 +196,7 @@ public class Human : MonoBehaviour, IPoolableObject
     {
         if (collision != null)
         {
-            if (collision.gameObject.CompareTag("Terrain"))
+            if (collision.gameObject.CompareTag(GameManager.TERRAIN_TAG))
                 rb.useGravity = true;
         }
     }

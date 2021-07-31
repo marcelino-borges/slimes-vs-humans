@@ -10,7 +10,6 @@ using Debug = UnityEngine.Debug;
 [RequireComponent(typeof(AudioSource))]
 public abstract class Slime : MonoBehaviour, IPoolableObject
 {
-    private bool _canDecay = true;
     private Vector3 _positionOnLaunch = Vector3.zero;
     private Vector3 _targetPosition = Vector3.zero;
     private float time = 0;
@@ -19,6 +18,8 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected SlimeType _slimeCloneType = SlimeType.NONE;
     protected AudioSource _audioSource;
     protected bool _canDetectCollision = true;
+    [ReadOnly]
+    [SerializeField]
     protected bool _isDead = false;
     protected bool _movingInTrajectory = false;
     protected bool _canPlayCollisionParticles = false;
@@ -51,6 +52,8 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected float _canPlayCollisionParticlesCooldown = 1f;
     [SerializeField]
     protected float _canDecayCooldown = 1f;
+    [SerializeField]
+    protected float _timeBeforeInactivatingPhysics = 1f;
     [Tooltip("Leave empty if you don't want the slime to decay when dying")]
     [SerializeField]
     protected SlimeType _slimeDecayType = SlimeType.NONE;
@@ -106,9 +109,6 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     [ReadOnly]
     public bool isSterile = false;
 
-    public static int currentGlobalClonesCount = 0;
-    public static int maxGlobalClonesCount = 200;
-
     public int Damage { get => _damage; }
     public SlimeType SlimeDecayToSpawn { get => _slimeDecayType; }
     public float DecayRadius { get => _decayRadius; set => _decayRadius = value; }
@@ -120,6 +120,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         isClone = true;
         _poolObjectOnDeath = true;
         SetOnGroundMode();
+        LevelManager.instance.IncrementSlimesCount();
     }
 
     public void SetIsFromPool(bool value)
@@ -229,18 +230,14 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     protected virtual IEnumerator CloneItselfCo(int quantity)
     {
-        print("1) isSterile = " + isSterile);
         if (!isSterile && _currentCloneCount < _maxCloneCountOnHumans && LevelManager.instance.IsGameActive())
         {
-            print("2");
             for (int i = 1; i <= quantity; i++)
             {
-                print("3");
-                if (currentGlobalClonesCount < maxGlobalClonesCount && 
+                if (LevelManager.instance.currentSlimesClonedCount < LevelManager.instance.maxClonedSlimesInLevel && 
                     LevelManager.instance.IsGameActive())
                 {
-                    print("5");
-                    currentGlobalClonesCount++;
+                    print("cloned");
                     _currentCloneCount++;
                     Vector3 position = GetPositionInRadius();
                     ObjectPooler.instance.Spawn(_slimeCloneType, position, Quaternion.identity);
@@ -329,7 +326,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     protected virtual void TestCollisionAgainstBuildings(Collision collision)
     {
-        if (collision.gameObject.CompareTag(GameManager.BUILDING_TAG))
+        if (collision.gameObject.CompareTag(GameManager.BUILDING_TAG) && !isGroundMode)
             GameManager.instance.VibrateAndShake();
     }
 
@@ -388,7 +385,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         isGroundMode = true;
 
         //Sync with the co-routine called in DieCo() in SlimeCollector.cs
-        StartCoroutine(CheckAndInactivatePhysics(7f));
+        StartCoroutine(CheckAndInactivatePhysics(_timeBeforeInactivatingPhysics));
     }
 
     private IEnumerator CheckAndInactivatePhysics(float time)
@@ -396,19 +393,14 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         yield return new WaitForSeconds(time);
 
         if(isGroundMode && transform.position.y < 2f)
-            InactivatePhysics();
+            StartCoroutine(InactivatePhysicsCo());
         else
-            StartCoroutine(CheckAndInactivatePhysics(5f));
-    }
-
-    private void InactivatePhysics()
-    {
-        StartCoroutine(InactivatePhysicsCo());
+            StartCoroutine(CheckAndInactivatePhysics(_timeBeforeInactivatingPhysics));
     }
 
     private void OnVictoryInactivatePhysics()
     {
-        StartCoroutine(InactivatePhysicsCo(5f));
+        StartCoroutine(InactivatePhysicsCo(2f));
     }
 
     private IEnumerator InactivatePhysicsCo(float time = 0)
@@ -444,17 +436,11 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     private void OnDisable()
     {
         StopAllCoroutines();
-
-        if (isClone && currentGlobalClonesCount > 0)
-            currentGlobalClonesCount--;
     }
 
     private void OnDestroy()
     {
         StopAllCoroutines();
-
-        if (isClone && currentGlobalClonesCount > 0)
-            currentGlobalClonesCount--;
 
         SetSterileMaterial(_originalBodyMaterial);
     }

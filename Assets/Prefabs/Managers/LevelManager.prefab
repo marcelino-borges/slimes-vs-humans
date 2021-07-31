@@ -50,6 +50,7 @@ MonoBehaviour:
   maxSlimesOfLevel: 20
   humansInfected: 0
   totalHumansInLevel: 0
+  currentSlimesClonedCount: 0
   gameOverPanel: {fileID: 0}
   victoryMenu: {fileID: 0}
   tipCanvas: {fileID: 0}

@@ -1,9 +1,13 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class SlimeCollector : Slime
 {
+    [Header("COLLECTOR PROPERTIES")]
+    [Space(20)]
+    public float timeToDieAfterInGroundMode = 10f;
+
     protected override void Awake()
     {
         base.Awake();
@@ -25,7 +29,6 @@ public class SlimeCollector : Slime
     protected IEnumerator DamageArea(float delay = 0)
     {
         yield return new WaitForSeconds(delay);
-        bool hasTouchedHuman = false;
 
         Collider[] colliders = Physics.OverlapSphere(transform.position, _decayRadius);
 
@@ -45,9 +48,6 @@ public class SlimeCollector : Slime
                 }
             }
         }
-
-        if(hasTouchedHuman)
-            GameManager.instance.VibrateAndShake();
     }
 
     protected override void TestCollisionAgainstHumans(Collision collision)
@@ -64,8 +64,6 @@ public class SlimeCollector : Slime
                     LevelManager.instance.OnGameOverEvent.Invoke();
                 if(human.CanBeInfected)
                     CloneItSelf(_maxCloneCountOnHumans);
-
-                GameManager.instance.VibrateAndShake(false);
             }
         }
     }
@@ -79,11 +77,10 @@ public class SlimeCollector : Slime
     private IEnumerator DieCo()
     {
         //Sync with the co-routine called in SetOnGroundMode()
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(timeToDieAfterInGroundMode);
         if (LevelManager.instance.isGameOver || LevelManager.instance.isLevelWon)
         {
-            if (isClone && currentGlobalClonesCount > 0)
-                currentGlobalClonesCount--;
+            LevelManager.instance.DecrementSlimesCount();
 
             Destroy(gameObject);
         }
@@ -93,24 +90,36 @@ public class SlimeCollector : Slime
 
     public override void Die(bool playSfx = true, bool playParticles = true)
     {
-        if (_isDead) return;
+        StackFrame frameToCheck = new StackFrame(1, true);
+        if (_isDead)
+        {
+            print("is dead");
+            return;
+        }
 
         _isDead = true;
         _health = 0;
 
         //if (_slimeDecayType != SlimeType.NONE)
         //    Decay();
-        if(playParticles)
+
+        if (playParticles)
             PlayExplosionParticles();
         if(playSfx)
             SoundManager.instance.PlaySound2D(_deathSfx);
         OnDieEvent.Invoke();
         transform.SetParent(TerrainRotation.instance.gameObject.transform);
 
+        Utils.PrintStackTrace(gameObject.name + " called Die() slimes count. Called by method: ", frameToCheck);
+
         if (!isFromPool)
             Destroy(gameObject);
         else
+        {
+            LevelManager.instance.DecrementSlimesCount();
+
             Disable();
+        }
     }
 
     protected override void OnCollisionEnter(Collision collision)
@@ -123,7 +132,6 @@ public class SlimeCollector : Slime
                 {
                     PlayCollisionParticles();
                     //SoundManager.instance.PlaySound2D(Utils.GetRandomArrayElement(_collisionSfx));
-                    GameManager.instance.VibrateAndShake();
                     StartCoroutine(DamageArea());
                     SetOnGroundMode();
                 }

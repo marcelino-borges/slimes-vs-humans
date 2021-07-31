@@ -22,7 +22,7 @@ public class SplatEffect : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Slime") && !canSplat)
+        if (collision.gameObject.CompareTag(GameManager.SLIME_TAG) && !canSplat)
         {
             Slime slime = collision.gameObject.GetComponent<Slime>();
 
@@ -30,7 +30,7 @@ public class SplatEffect : MonoBehaviour
             slimeContactPoint = collision.contacts[0];
 
             // Instantiate random splat object
-            if (gameObject.CompareTag("Terrain"))
+            if (gameObject.CompareTag(GameManager.TERRAIN_TAG))
             {
                 selectedSplash = Instantiate(splatsDecal[Random.Range(0, splatsDecal.Count)], collision.contacts[0].point, Quaternion.LookRotation(Vector3.right, slimeContactPoint.normal));
             }

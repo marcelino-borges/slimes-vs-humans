@@ -25,6 +25,8 @@ public class LevelManager : MonoBehaviour
     public int humansInfected = 0;
     [ReadOnly]
     public int totalHumansInLevel = 0;
+    [ReadOnly]
+    public int currentSlimesClonedCount = 0;
 
     [Space(10)]
     [Header("- REFERENCES TO ASSIGN")]
@@ -78,7 +80,6 @@ public class LevelManager : MonoBehaviour
         }
 #endif
         maxSlimesOfLevel = quantitySlimeCollector + quantitySlimeTactical + quantitySlimeBomb;
-        Slime.maxGlobalClonesCount = maxClonedSlimesInLevel;
     }
 
     void Start()
@@ -97,6 +98,17 @@ public class LevelManager : MonoBehaviour
         // Analytics Start Level
         GameAnalyticsManager.instance.LogStartLevelEvent();
         SelectInitialCard();
+        currentSlimesClonedCount = 0;
+    }
+
+    public void IncrementSlimesCount()
+    {
+        currentSlimesClonedCount++;
+    }
+
+    public void DecrementSlimesCount()
+    {
+        currentSlimesClonedCount--;
     }
 
     private void InitializeHUD()

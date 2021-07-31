@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class SlimeTactical : Slime
 {
+    private const float timeToDieAfterStopingMovement = 4f;
+
     protected override void Awake()
     {
         base.Awake();
@@ -19,6 +21,18 @@ public class SlimeTactical : Slime
 
         if (LevelManager.instance.quantitySlimeTactical <= 0 && LevelManager.instance.quantitySlimeCollector <= 0)
             LevelManager.instance.CreateGameOverEvent();
+    }
+
+    protected override void SetOnGroundMode()
+    {
+        _movingInTrajectory = false;
+        if (rb != null)
+        {
+            rb.useGravity = true;
+            rb.isKinematic = false;
+            rb.AddForce(velocity * 50f);
+        }
+        isGroundMode = true;
     }
 
     protected override void OnCollisionEnter(Collision collision)
@@ -56,7 +70,7 @@ public class SlimeTactical : Slime
 
     private IEnumerator DieCo()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(timeToDieAfterStopingMovement);
 
         if (LevelManager.instance.OnGameOverEvent != null)
             LevelManager.instance.OnGameOverEvent.Invoke();

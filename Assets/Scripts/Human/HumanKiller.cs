@@ -6,7 +6,7 @@ public class HumanKiller : MonoBehaviour
     {
         if(other != null)
         {
-            if (other.gameObject.CompareTag("Human"))
+            if (other.gameObject.CompareTag(GameManager.HUMAN_TAG))
             {
                 Destroy(other.gameObject);
             }
