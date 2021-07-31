@@ -67,6 +67,24 @@ public class Utils : MonoBehaviour
     {
         return array != null && array.Length > 0;
     }
+
+    public static void PrintStackTrace(string prevMsg, System.Diagnostics.StackFrame frame)
+    {
+        System.Diagnostics.StackFrame frameToCheck;
+        if (frame == null)
+            frameToCheck = new System.Diagnostics.StackFrame(1, true);
+        else
+            frameToCheck = frame;
+
+        Debug.Log(
+            prevMsg +
+            frameToCheck.GetMethod().Name + 
+            " from file " +
+            frameToCheck.GetFileName() + 
+            ":" +
+            frameToCheck.GetFileLineNumber()
+        );
+    }
 }
 
 public static class ExtensionMethods

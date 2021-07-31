@@ -40,6 +40,8 @@ public class Cannon : MonoBehaviour
         crossMarkInLevel.transform.position = crossMarkInitialPosition;
         SetLaunchForce(_currentLaunchForce);
         ResetCrossMarkPosition();
+
+
     }
 
     protected void Update()
@@ -47,13 +49,17 @@ public class Cannon : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Backspace))
         {
-            print("_currentGlobalClonesCount = " + Slime.currentGlobalClonesCount);
+            print("LevelManage slimes count: " + LevelManager.instance.currentSlimesClonedCount);
+            
         }
 #endif
         _hasTouched = false;
 
 #if UNITY_EDITOR
-        if (Input.GetMouseButton(0) && EventSystem.current.currentSelectedGameObject == null)
+        if (Input.GetMouseButton(0) && 
+            EventSystem.current.currentSelectedGameObject == null &&
+            !LevelManager.instance.isGameOver && 
+            !LevelManager.instance.isLevelWon)
         {
             //&& EventSystem.current.currentSelectedGameObject == null      --->     No UI element clicked
             _hasTouched = true;
@@ -75,7 +81,7 @@ public class Cannon : MonoBehaviour
 
             if (Physics.Raycast(yOffsetFromCrossMark, crossMarkInLevel.position - yOffsetFromCrossMark, out RaycastHit hit))
             {
-                if (!hit.collider.gameObject.CompareTag("Water"))
+                if (!hit.collider.gameObject.CompareTag(GameManager.WATER_TAG))
                 {
                     _isTargetValid = true;
                     Vector3 pos = new Vector3(crossMarkInLevel.position.x, hit.point.y + .2f, crossMarkInLevel.position.z);

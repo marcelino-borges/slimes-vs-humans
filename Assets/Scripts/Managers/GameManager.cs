@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public static string SLIME_TAG = "Slime";
     public static string HUMAN_TAG = "Human";
     public static string TERRAIN_TAG = "Terrain";
+    public static string WATER_TAG = "Water";
 
     //FOR THE PROTOTYPE ONLY
     [ReadOnly]
@@ -60,7 +61,6 @@ public class GameManager : MonoBehaviour
             //If not the first time playing
             RetrievePlayerConfigsSaved();
         }
-        Slime.currentGlobalClonesCount = 0;
     }
     private static void RetrievePlayerConfigsSaved()
     {

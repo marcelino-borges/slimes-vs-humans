@@ -4,7 +4,7 @@ public class Water : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other != null && other.gameObject.CompareTag("Slime"))
+        if (other != null && other.gameObject.CompareTag(GameManager.SLIME_TAG))
         {
             Destroy(other.gameObject);
         }
@@ -13,11 +13,11 @@ public class Water : MonoBehaviour
     {
         if (collision != null)
         {
-            if(collision.gameObject.CompareTag("Slime"))
-                Destroy(collision.gameObject);
+            if (collision.gameObject.CompareTag(GameManager.SLIME_TAG))
+                collision.gameObject.GetComponent<Slime>().Die(false);
 
-            if (collision.gameObject.CompareTag("Human"))
-                LevelManager.instance.SetGameOver();
+            if (collision.gameObject.CompareTag(GameManager.HUMAN_TAG))
+                LevelManager.instance.SetVictory();
         }
     }
 }

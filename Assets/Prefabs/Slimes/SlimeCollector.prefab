@@ -103,9 +103,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3276466963934246984}
   - component: {fileID: -2700178461373425614}
-  - component: {fileID: 4665625166310349135}
   - component: {fileID: 858185352681866115}
   - component: {fileID: 5596606843588932153}
+  - component: {fileID: 3930583252989208979}
+  - component: {fileID: 8091604940456894032}
   m_Layer: 10
   m_Name: SlimeCollector
   m_TagString: Slime
@@ -143,16 +144,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 438c76daec51e42428d6e73c42c334e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isDead: 0
   _health: 0
   _maxHealth: 1
   _damage: 1
   _lifeSpan: 9999999
+  _dieAfterLifeSpanTime: 0
   _launchForce: 20
   _detectCollisionCooldown: 0.5
   _decayRadius: 1.75
   _cloneCooldown: 0.15
   _canPlayCollisionParticlesCooldown: 1
   _canDecayCooldown: 1
+  _timeBeforeInactivatingPhysics: 1
   _slimeDecayType: 0
   _maxCloneCountOnHumans: 4
   _maxCloneCountOnSlime: 1
@@ -181,19 +185,7 @@ MonoBehaviour:
   isClone: 0
   isFromPool: 0
   isSterile: 0
---- !u!135 &4665625166310349135
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2752695480552661746}
-  m_Material: {fileID: 13400000, guid: 4ec406020c6d4b642b1afb3e7c1bae88, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0.4, z: 0}
+  timeToDieAfterInGroundMode: 10
 --- !u!54 &858185352681866115
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -306,6 +298,34 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!136 &3930583252989208979
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2752695480552661746}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.65
+  m_Height: 1.33
+  m_Direction: 2
+  m_Center: {x: -0.2, y: 0.65, z: 0}
+--- !u!136 &8091604940456894032
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2752695480552661746}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.65
+  m_Height: 1.33
+  m_Direction: 2
+  m_Center: {x: 0.2, y: 0.65, z: 0}
 --- !u!1 &3387153740294757532
 GameObject:
   m_ObjectHideFlags: 0

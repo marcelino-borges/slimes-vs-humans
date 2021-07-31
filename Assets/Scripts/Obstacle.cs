@@ -19,7 +19,7 @@ public class Obstacle : MonoBehaviour
     {
         if (other != null)
         {
-            if (other.gameObject.CompareTag("Slime") && killSlime)
+            if (other.gameObject.CompareTag(GameManager.SLIME_TAG) && killSlime)
             {
                 Slime slime = other.gameObject.GetComponent<Slime>();
 
