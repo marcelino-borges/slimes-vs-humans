@@ -59,7 +59,7 @@ MonoBehaviour:
   delayToShowVictoryPanel: 2
   delayToShowGameOverPanel: 0.5
   timeToCheckGameOver: 2
-  maxClonedSlimesInLevel: 250
+  maxClonedSlimesInLevel: 200
   terrainRotationSpeed: 0
   quantitySlimeCollector: 0
   quantitySlimeTactical: 0

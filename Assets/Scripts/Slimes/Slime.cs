@@ -237,7 +237,6 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
                 if (LevelManager.instance.currentSlimesClonedCount < LevelManager.instance.maxClonedSlimesInLevel && 
                     LevelManager.instance.IsGameActive())
                 {
-                    print("cloned");
                     _currentCloneCount++;
                     Vector3 position = GetPositionInRadius();
                     ObjectPooler.instance.Spawn(_slimeCloneType, position, Quaternion.identity);
@@ -295,7 +294,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
         _canDetectCollision = true;
     }
 
-    protected void PlayExplosionParticles()
+    protected virtual void PlayExplosionParticles()
     {
         PlayParticles(_explosionParticlesPrefab);
     }

@@ -88,12 +88,19 @@ public class SlimeCollector : Slime
             Die(false);
     }
 
+    protected override void PlayExplosionParticles()
+    {
+        if (_explosionParticlesPrefab != null)
+        {
+            _explosionParticlesPrefab.transform.SetParent(null);
+            _explosionParticlesPrefab.GetComponent<ParticleSystem>().Play();
+        }
+    }
+
     public override void Die(bool playSfx = true, bool playParticles = true)
     {
-        StackFrame frameToCheck = new StackFrame(1, true);
         if (_isDead)
         {
-            print("is dead");
             return;
         }
 
@@ -110,7 +117,8 @@ public class SlimeCollector : Slime
         OnDieEvent.Invoke();
         transform.SetParent(TerrainRotation.instance.gameObject.transform);
 
-        Utils.PrintStackTrace(gameObject.name + " called Die() slimes count. Called by method: ", frameToCheck);
+        //StackFrame frameToCheck = new StackFrame(1, true);
+        //Utils.PrintStackTrace(gameObject.name + " called Die() slimes count. Called by method: ", frameToCheck);
 
         if (!isFromPool)
             Destroy(gameObject);
