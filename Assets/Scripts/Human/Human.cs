@@ -99,7 +99,7 @@ public class Human : MonoBehaviour, IPoolableObject
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            StartCoroutine(HumantToSlimeCR());
+            //StartCoroutine(HumantToSlimeCR());
         }
     }
 
@@ -121,7 +121,7 @@ public class Human : MonoBehaviour, IPoolableObject
         LevelManager.instance.IncrementHumansInfected();
         GameManager.instance.VibrateAndShake();
 
-        StartCoroutine(HumantToSlimeCR()); // ***To slime effect
+        //StartCoroutine(HumantToSlimeCR()); // ***To slime effect
     }
 
     private void SpawnGroupOfHumans(Slime slime)
@@ -203,16 +203,16 @@ public class Human : MonoBehaviour, IPoolableObject
 
     private IEnumerator HumantToSlimeCR()
     {
-        humanColl.enabled = false;
-        turnSlimeVFX.Play();
-        _mesh.enabled = false;
+        yield return new WaitForSeconds(0f);
+        //humanColl.enabled = false;
+        //turnSlimeVFX.Play();
+        //_mesh.enabled = false;
 
-        yield return new WaitForSeconds(0.5f);
-        ObjectPooler.instance.Spawn(SlimeType.COLLECTOR, transform.position, Quaternion.identity);
+        //yield return new WaitForSeconds(0.5f);
+        //ObjectPooler.instance.Spawn(SlimeType.COLLECTOR, transform.position, Quaternion.identity);
 
-        yield return new WaitForSeconds(1.5f);
-        turnSlimeVFX.enabled = false;
-        ObjectPooler.instance.Spawn(SlimeType.COLLECTOR, transform.position, Quaternion.identity);
-        Destroy(this);
+        //yield return new WaitForSeconds(1.5f);
+        //turnSlimeVFX.enabled = false;
+        //Destroy(this);
     }
 }
