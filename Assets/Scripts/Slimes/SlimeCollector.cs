@@ -84,8 +84,8 @@ public class SlimeCollector : Slime
 
             Destroy(gameObject);
         }
-        else
-            Die(false);
+        //else
+        //    Die(false, false);
     }
 
     protected override void PlayExplosionParticles()
