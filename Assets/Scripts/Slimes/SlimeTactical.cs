@@ -64,7 +64,8 @@ public class SlimeTactical : Slime
     private IEnumerator StopMovementsCo()
     {
         yield return new WaitForSeconds(1.5f);
-        rb.isKinematic = true;
+        if(rb != null)
+            rb.isKinematic = true;
         StartCoroutine(DieCo());
     }
 

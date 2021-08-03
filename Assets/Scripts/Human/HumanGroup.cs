@@ -13,7 +13,7 @@ public class HumanGroup : MonoBehaviour, IPoolableObject
         {
             Human human = child.GetComponent<Human>();
 
-            if (human != null)
+            if (human != null && human.gameObject.activeInHierarchy)
                 humans.Add(human);
         }
     }

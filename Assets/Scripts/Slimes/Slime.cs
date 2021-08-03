@@ -399,7 +399,8 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     private void OnVictoryInactivatePhysics()
     {
-        StartCoroutine(InactivatePhysicsCo(2f));
+        if(gameObject.activeInHierarchy)
+            StartCoroutine(InactivatePhysicsCo(2f));
     }
 
     private IEnumerator InactivatePhysicsCo(float time = 0)

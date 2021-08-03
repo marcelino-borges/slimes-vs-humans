@@ -58,7 +58,6 @@ public class Building : MonoBehaviour
     {
         _audioSource.volume = SoundManager.instance.CurrentVolume;
         InstantiateBuilding();
-        SpawnHumansOnRooftop();
     }
 
     private void Update()
@@ -77,6 +76,7 @@ public class Building : MonoBehaviour
                 _counterTimeBeforeReleasingHumans = 0f;
                 countingDownToReleaseHumans = false;
 
+                SpawnHumansOnRooftop();
                 ReleaseHumans();
             }
         }
@@ -177,16 +177,21 @@ public class Building : MonoBehaviour
     {
         if (_humansOnRooftop != null && _humansOnRooftop.Count > 0)
         {
-            foreach (Human human in _humansOnRooftop)
+            for (int i = 0; i < _humansOnRooftop.Count; i++)
             {
-                human.rb.isKinematic = false;
-                human.gameObject.transform.SetParent(transform.parent);
-                human.gameObject.transform.position = new Vector3(
-                    transform.position.x + Random.Range(-1, 2),
+                _humansOnRooftop[i].rb.isKinematic = false;
+                _humansOnRooftop[i].gameObject.transform.SetParent(transform.parent);
+                //_humansOnRooftop[i].gameObject.transform.position = new Vector3(
+                //    transform.position.x + Random.Range(-1, 2),
+                //    transform.position.y,
+                //    transform.position.z + Random.Range(-1, 2)
+                //);
+                _humansOnRooftop[i].gameObject.transform.position = new Vector3(
+                    humanPositions[i].position.x,
                     transform.position.y,
-                    transform.position.z + Random.Range(-1, 2)
+                    humanPositions[i].position.z
                 );
-                human.CanBeInfected = true;
+                _humansOnRooftop[i].CanBeInfected = true;
             }
         }
     }

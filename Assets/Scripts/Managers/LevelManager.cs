@@ -206,8 +206,6 @@ public class LevelManager : MonoBehaviour
 
     public void SetGameOver()
     {
-        //if (isLevelWon || isGameOver) return;
-
         if (isLevelWon || isGameOver) return;
 
         StopCoroutine(WaitAndCheckGameOver());
@@ -220,9 +218,6 @@ public class LevelManager : MonoBehaviour
         isGameOver = true;
         yield return new WaitForSeconds(delayToShowGameOverPanel);
         SetVictory();
-        //ShowUI(gameOverPanel);
-        // Analytics - Level failed
-        //GameAnalyticsManager.instance.LogFailLevelEvent();
     }
 
     private int CalculateStarsWon()
@@ -231,7 +226,7 @@ public class LevelManager : MonoBehaviour
 
         int stars;
 
-        if (percentInfected < 90 && percentInfected > 50)
+        if (percentInfected < 99 && percentInfected > 50)
             stars = 2;
         else if (percentInfected <= 50 && percentInfected > 25)
             stars = 1;
