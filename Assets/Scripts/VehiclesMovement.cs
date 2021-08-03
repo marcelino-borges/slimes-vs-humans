@@ -21,7 +21,7 @@ public class VehiclesMovement : MonoBehaviour
     {
         if (velocity != 0)
         {
-            transform.localPosition = Vector3.Lerp(originalPosition, originalPosition + vectorDestiny, Mathf.PingPong(Time.time, 1));
+            transform.localPosition = Vector3.Lerp(originalPosition, originalPosition + vectorDestiny, Mathf.PingPong(Time.time * velocity, 1));
         }
     }
 }
