@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
-  currentVolume: 1
+  maxVolume: 1
   buttonClickSfx: {fileID: 8300000, guid: 61015079076504e4bb1ee4b6153a8b2b, type: 3}
+  isMuted: 0
 --- !u!82 &2475357919609943473
 AudioSource:
   m_ObjectHideFlags: 0
@@ -58,7 +59,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

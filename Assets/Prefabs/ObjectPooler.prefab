@@ -51,11 +51,11 @@ MonoBehaviour:
   - tag: tactical
     objectToPool: {fileID: 7423187214024699732, guid: 4aba297906ebdeb4da8b76a15fb6ef7d,
       type: 3}
-    amountToPool: 50
+    amountToPool: 15
   - tag: bomb
     objectToPool: {fileID: 5004212905919617841, guid: 059e41a88a4fcd541a7e1c2bda990968,
       type: 3}
-    amountToPool: 50
+    amountToPool: 15
   - tag: human-trio
     objectToPool: {fileID: 7027655509047395318, guid: 47cca5a8d4d65fd43a325d52fc0f299e,
       type: 3}
