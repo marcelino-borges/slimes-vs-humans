@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 
-[RequireComponent(typeof(AudioSource))]
+//[RequireComponent(typeof(AudioSource))]
 public abstract class Slime : MonoBehaviour, IPoolableObject
 {
     private Vector3 _positionOnLaunch = Vector3.zero;
@@ -16,7 +16,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
 
     protected float _cloneSfxCooldown = .25f;
     protected SlimeType _slimeCloneType = SlimeType.NONE;
-    protected AudioSource _audioSource;
+    //protected AudioSource _audioSource;
     protected bool _canDetectCollision = true;
     [ReadOnly]
     [SerializeField]
@@ -132,7 +132,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        _audioSource = GetComponent<AudioSource>();
+        //_audioSource = GetComponent<AudioSource>();
 
         if (OnDieEvent == null)
             OnDieEvent = new UnityEvent();
@@ -143,7 +143,7 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     protected virtual void Start()
     {
         //Destroy(gameObject, _lifeSpan);
-        _audioSource.volume = SoundManager.instance.CurrentVolume;
+        //_audioSource.volume = SoundManager.instance.CurrentVolume;
         Physics.reuseCollisionCallbacks = true;
         LevelManager.instance.OnVictoryEvent.AddListener(OnVictoryInactivatePhysics);
 
