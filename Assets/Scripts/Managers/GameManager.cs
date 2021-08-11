@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     public static string HUMAN_TAG = "Human";
     public static string TERRAIN_TAG = "Terrain";
     public static string WATER_TAG = "Water";
+    public static bool showTutorials = true;
 
     //FOR THE PROTOTYPE ONLY
     [ReadOnly]
@@ -111,6 +112,7 @@ public class GameManager : MonoBehaviour
     public void ShuffleLevelsArray()
     {
         levels.Shuffle();
+        showTutorials = false;
     }
 
     public void VibrateAndShake(bool vibrate = true)

@@ -82,7 +82,7 @@ MonoBehaviour:
   slimeInstantiated: {fileID: 0}
   launchPoint: {fileID: 812194946121882152}
   shakePreset: {fileID: 11400000, guid: 74d16472849c6374db2c71cddbe17811, type: 2}
-  aimingSensitivity: 2
+  aimingSensitivity: 1.5
 --- !u!114 &3155827354844552107
 MonoBehaviour:
   m_ObjectHideFlags: 0

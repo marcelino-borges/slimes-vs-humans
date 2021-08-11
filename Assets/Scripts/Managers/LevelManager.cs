@@ -86,7 +86,7 @@ public class LevelManager : MonoBehaviour
     {
         InitializeHUD();
 
-        if (tipCanvas != null)
+        if (tipCanvas != null && GameManager.showTutorials)
         {
             TerrainRotation.instance.Stop();
             tipCanvas.SetActive(true);
@@ -234,7 +234,7 @@ public class LevelManager : MonoBehaviour
             stars = 0;
         else
             stars = 3;
-
+        
         return stars;
     }
 

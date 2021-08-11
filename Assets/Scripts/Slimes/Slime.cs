@@ -390,8 +390,9 @@ public abstract class Slime : MonoBehaviour, IPoolableObject
     private IEnumerator CheckAndInactivatePhysics(float time)
     {
         yield return new WaitForSeconds(time);
+        Sterilize();
 
-        if(isGroundMode && transform.position.y < 2f)
+        if (isGroundMode && transform.position.y < 2f)
             StartCoroutine(InactivatePhysicsCo());
         else
             StartCoroutine(CheckAndInactivatePhysics(_timeBeforeInactivatingPhysics));
